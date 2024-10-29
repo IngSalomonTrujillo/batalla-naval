@@ -9,8 +9,669 @@
      <meta name="keywords" content="Batalla Naval, juego, taller"/>
      <meta name="robots" content="noindex, nofollow" />
      <link rel="icon" href="https://static3.depositphotos.com/1007664/237/v/450/depositphotos_2376836-stock-illustration-battle-ship.jpg" type="imag/png " sizes="16x16 32x32 64x64">
-     <link rel="stylesheet" href="style/style.css">
-     <link rel="stylesheet" href="style/print-style.css">
      <!--<script src="scripts/script.js" type="text/javascript"></script>-->
     <title>BatallaNaval | Juego con cuatro</title>
 </head>
+
+<body>
+    <div class="main-container wrapper">
+      <center> 
+      <header>
+          <h1>Batalla Naval</h1>
+          <h2>¡Se un ganador!</h2>
+          <nav>
+            <div style="text-align: right;">
+                <a href="C:/repo-taller/batalla-naval/usuario.html"><button>USUARIO</button></a>
+                <a href="C:/repo-taller/batalla-naval/reglas.html"><button>REGLAS</button></a>
+                <a href="C:/repo-taller/batalla-naval/index.html"><button>INICIO</button></a>
+            </div>
+          </nav>
+      </header>
+      <hr color="blue">
+      <main>
+        <div class="cronometro">
+            <h3>TIEMPO</h3><!--esto es el tiempo de juego-->
+        </div>
+        <div class="codigo">
+            <h4><button>Generar Código</button></h4>
+            <label for="codigo">Código:</label><br>
+            <input type="text" id="codigo" name="codigo" required><br><br>
+        </div>
+        <div class="tableropropio">
+            <table border="1" cellpadding="10" cellspacing="1">
+                <caption> Tablero a defender</caption>
+                <theader>
+                    <tr>
+                        <td></td>
+                        <td id="A0">A</td>
+                        <td id="B0">B</td>
+                        <td id="C0">C</td>
+                        <td id="D0">D</td>
+                        <td id="E0">E</td>
+                        <td id="F0">F</td>
+                        <td id="G0">G</td>
+                        <td id="H0">H</td>
+                        <td id="I0">I</td>
+                        <td id="J0">J</td>
+                    </tr>
+                </theader>
+                <tbody>
+                    <tr>
+                        <td id="1">1</td>
+                        <td id="A1"></td>
+                        <td id="B1"></td>
+                        <td id="C1"></td>
+                        <td id="D1"></td>
+                        <td id="E1"></td>
+                        <td id="F1"></td>
+                        <td id="G1"></td>
+                        <td id="H1"></td>
+                        <td id="I1"></td>
+                        <td id="J1"></td>
+                    </tr>
+                    <tr>
+                        <td id="2">2</td>
+                        <td id="A2"></td>
+                        <td id="B2"></td>
+                        <td id="C2"></td>
+                        <td id="D2"></td>
+                        <td id="E2"></td>
+                        <td id="F2"></td>
+                        <td id="G2"></td>
+                        <td id="H2"></td>
+                        <td id="I2"></td>
+                        <td id="J2"></td>
+                    </tr>
+                    <tr>
+                        <td id="3">3</td>
+                        <td id="A3"></td>
+                        <td id="B3"></td>
+                        <td id="C3"></td>
+                        <td id="D3"></td>
+                        <td id="E3"></td>
+                        <td id="F3"></td>
+                        <td id="G3"></td>
+                        <td id="H3"></td>
+                        <td id="I3"></td>
+                        <td id="J3"></td>
+                    </tr>
+                    <tr>
+                        <td id="4">4</td>
+                        <td id="A4"></td>
+                        <td id="B4"></td>
+                        <td id="C4"></td>
+                        <td id="D4"></td>
+                        <td id="E4"></td>
+                        <td id="F4"></td>
+                        <td id="G4"></td>
+                        <td id="H4"></td>
+                        <td id="I4"></td>
+                        <td id="J4"></td>
+                    </tr>
+                    <tr>
+                        <td id="5">5</td>
+                        <td id="A5"></td>
+                        <td id="B5"></td>
+                        <td id="C5"></td>
+                        <td id="D5"></td>
+                        <td id="E5"></td>
+                        <td id="F5"></td>
+                        <td id="G5"></td>
+                        <td id="H5"></td>
+                        <td id="I5"></td>
+                        <td id="J5"></td>
+                    </tr>
+                    <tr>
+                        <td id="6">6</td>
+                        <td id="A6"></td>
+                        <td id="B6"></td>
+                        <td id="C6"></td>
+                        <td id="D6"></td>
+                        <td id="E6"></td>
+                        <td id="F6"></td>
+                        <td id="G6"></td>
+                        <td id="H6"></td>
+                        <td id="I6"></td>
+                        <td id="J6"></td>
+                    </tr>
+                    <tr>
+                        <td id="7">7</td>
+                        <td id="A7"></td>
+                        <td id="B7"></td>
+                        <td id="C7"></td>
+                        <td id="D7"></td>
+                        <td id="E7"></td>
+                        <td id="F7"></td>
+                        <td id="G7"></td>
+                        <td id="H7"></td>
+                        <td id="I7"></td>
+                        <td id="J7"></td>
+                    </tr>
+                    <tr>
+                        <td id="8">8</td>
+                        <td id="A8"></td>
+                        <td id="B8"></td>
+                        <td id="C8"></td>
+                        <td id="D8"></td>
+                        <td id="E8"></td>
+                        <td id="F8"></td>
+                        <td id="G8"></td>
+                        <td id="H8"></td>
+                        <td id="I8"></td>
+                        <td id="J8"></td>
+                    </tr>
+                    <tr>
+                        <td id="9">9</td>
+                        <td id="A9"></td>
+                        <td id="B9"></td>
+                        <td id="C9"></td>
+                        <td id="D9"></td>
+                        <td id="E9"></td>
+                        <td id="F9"></td>
+                        <td id="G9"></td>
+                        <td id="H9"></td>
+                        <td id="I9"></td>
+                        <td id="J9"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td id="10">10</td>
+                        <td id="A10"></td>
+                        <td id="B10"></td>
+                        <td id="C10"></td>
+                        <td id="D10"></td>
+                        <td id="E10"></td>
+                        <td id="F10"></td>
+                        <td id="G10"></td>
+                        <td id="H10"></td>
+                        <td id="I10"></td>
+                        <td id="J10"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="tablerocontrariouno">
+            <table border="1" cellpadding="10" cellspacing="1">
+                <caption> Tablero a atacar 1</caption>
+                <theader>
+                    <tr>
+                        <td></td>
+                        <td id="A0">A</td>
+                        <td id="B0">B</td>
+                        <td id="C0">C</td>
+                        <td id="D0">D</td>
+                        <td id="E0">E</td>
+                        <td id="F0">F</td>
+                        <td id="G0">G</td>
+                        <td id="H0">H</td>
+                        <td id="I0">I</td>
+                        <td id="J0">J</td>
+                    </tr>
+                </theader>
+                <tbody>
+                    <tr>
+                        <td id="1">1</td>
+                        <td id="A1"></td>
+                        <td id="B1"></td>
+                        <td id="C1"></td>
+                        <td id="D1"></td>
+                        <td id="E1"></td>
+                        <td id="F1"></td>
+                        <td id="G1"></td>
+                        <td id="H1"></td>
+                        <td id="I1"></td>
+                        <td id="J1"></td>
+                    </tr>
+                    <tr>
+                        <td id="2">2</td>
+                        <td id="A2"></td>
+                        <td id="B2"></td>
+                        <td id="C2"></td>
+                        <td id="D2"></td>
+                        <td id="E2"></td>
+                        <td id="F2"></td>
+                        <td id="G2"></td>
+                        <td id="H2"></td>
+                        <td id="I2"></td>
+                        <td id="J2"></td>
+                    </tr>
+                    <tr>
+                        <td id="3">3</td>
+                        <td id="A3"></td>
+                        <td id="B3"></td>
+                        <td id="C3"></td>
+                        <td id="D3"></td>
+                        <td id="E3"></td>
+                        <td id="F3"></td>
+                        <td id="G3"></td>
+                        <td id="H3"></td>
+                        <td id="I3"></td>
+                        <td id="J3"></td>
+                    </tr>
+                    <tr>
+                        <td id="4">4</td>
+                        <td id="A4"></td>
+                        <td id="B4"></td>
+                        <td id="C4"></td>
+                        <td id="D4"></td>
+                        <td id="E4"></td>
+                        <td id="F4"></td>
+                        <td id="G4"></td>
+                        <td id="H4"></td>
+                        <td id="I4"></td>
+                        <td id="J4"></td>
+                    </tr>
+                    <tr>
+                        <td id="5">5</td>
+                        <td id="A5"></td>
+                        <td id="B5"></td>
+                        <td id="C5"></td>
+                        <td id="D5"></td>
+                        <td id="E5"></td>
+                        <td id="F5"></td>
+                        <td id="G5"></td>
+                        <td id="H5"></td>
+                        <td id="I5"></td>
+                        <td id="J5"></td>
+                    </tr>
+                    <tr>
+                        <td id="6">6</td>
+                        <td id="A6"></td>
+                        <td id="B6"></td>
+                        <td id="C6"></td>
+                        <td id="D6"></td>
+                        <td id="E6"></td>
+                        <td id="F6"></td>
+                        <td id="G6"></td>
+                        <td id="H6"></td>
+                        <td id="I6"></td>
+                        <td id="J6"></td>
+                    </tr>
+                    <tr>
+                        <td id="7">7</td>
+                        <td id="A7"></td>
+                        <td id="B7"></td>
+                        <td id="C7"></td>
+                        <td id="D7"></td>
+                        <td id="E7"></td>
+                        <td id="F7"></td>
+                        <td id="G7"></td>
+                        <td id="H7"></td>
+                        <td id="I7"></td>
+                        <td id="J7"></td>
+                    </tr>
+                    <tr>
+                        <td id="8">8</td>
+                        <td id="A8"></td>
+                        <td id="B8"></td>
+                        <td id="C8"></td>
+                        <td id="D8"></td>
+                        <td id="E8"></td>
+                        <td id="F8"></td>
+                        <td id="G8"></td>
+                        <td id="H8"></td>
+                        <td id="I8"></td>
+                        <td id="J8"></td>
+                    </tr>
+                    <tr>
+                        <td id="9">9</td>
+                        <td id="A9"></td>
+                        <td id="B9"></td>
+                        <td id="C9"></td>
+                        <td id="D9"></td>
+                        <td id="E9"></td>
+                        <td id="F9"></td>
+                        <td id="G9"></td>
+                        <td id="H9"></td>
+                        <td id="I9"></td>
+                        <td id="J9"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td id="10">10</td>
+                        <td id="A10"></td>
+                        <td id="B10"></td>
+                        <td id="C10"></td>
+                        <td id="D10"></td>
+                        <td id="E10"></td>
+                        <td id="F10"></td>
+                        <td id="G10"></td>
+                        <td id="H10"></td>
+                        <td id="I10"></td>
+                        <td id="J10"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="tablerocontrariodos">
+            <table border="1" cellpadding="10" cellspacing="1">
+                <caption> Tablero a atacar 2</caption>
+                <theader>
+                    <tr>
+                        <td></td>
+                        <td id="A0">A</td>
+                        <td id="B0">B</td>
+                        <td id="C0">C</td>
+                        <td id="D0">D</td>
+                        <td id="E0">E</td>
+                        <td id="F0">F</td>
+                        <td id="G0">G</td>
+                        <td id="H0">H</td>
+                        <td id="I0">I</td>
+                        <td id="J0">J</td>
+                    </tr>
+                </theader>
+                <tbody>
+                    <tr>
+                        <td id="1">1</td>
+                        <td id="A1"></td>
+                        <td id="B1"></td>
+                        <td id="C1"></td>
+                        <td id="D1"></td>
+                        <td id="E1"></td>
+                        <td id="F1"></td>
+                        <td id="G1"></td>
+                        <td id="H1"></td>
+                        <td id="I1"></td>
+                        <td id="J1"></td>
+                    </tr>
+                    <tr>
+                        <td id="2">2</td>
+                        <td id="A2"></td>
+                        <td id="B2"></td>
+                        <td id="C2"></td>
+                        <td id="D2"></td>
+                        <td id="E2"></td>
+                        <td id="F2"></td>
+                        <td id="G2"></td>
+                        <td id="H2"></td>
+                        <td id="I2"></td>
+                        <td id="J2"></td>
+                    </tr>
+                    <tr>
+                        <td id="3">3</td>
+                        <td id="A3"></td>
+                        <td id="B3"></td>
+                        <td id="C3"></td>
+                        <td id="D3"></td>
+                        <td id="E3"></td>
+                        <td id="F3"></td>
+                        <td id="G3"></td>
+                        <td id="H3"></td>
+                        <td id="I3"></td>
+                        <td id="J3"></td>
+                    </tr>
+                    <tr>
+                        <td id="4">4</td>
+                        <td id="A4"></td>
+                        <td id="B4"></td>
+                        <td id="C4"></td>
+                        <td id="D4"></td>
+                        <td id="E4"></td>
+                        <td id="F4"></td>
+                        <td id="G4"></td>
+                        <td id="H4"></td>
+                        <td id="I4"></td>
+                        <td id="J4"></td>
+                    </tr>
+                    <tr>
+                        <td id="5">5</td>
+                        <td id="A5"></td>
+                        <td id="B5"></td>
+                        <td id="C5"></td>
+                        <td id="D5"></td>
+                        <td id="E5"></td>
+                        <td id="F5"></td>
+                        <td id="G5"></td>
+                        <td id="H5"></td>
+                        <td id="I5"></td>
+                        <td id="J5"></td>
+                    </tr>
+                    <tr>
+                        <td id="6">6</td>
+                        <td id="A6"></td>
+                        <td id="B6"></td>
+                        <td id="C6"></td>
+                        <td id="D6"></td>
+                        <td id="E6"></td>
+                        <td id="F6"></td>
+                        <td id="G6"></td>
+                        <td id="H6"></td>
+                        <td id="I6"></td>
+                        <td id="J6"></td>
+                    </tr>
+                    <tr>
+                        <td id="7">7</td>
+                        <td id="A7"></td>
+                        <td id="B7"></td>
+                        <td id="C7"></td>
+                        <td id="D7"></td>
+                        <td id="E7"></td>
+                        <td id="F7"></td>
+                        <td id="G7"></td>
+                        <td id="H7"></td>
+                        <td id="I7"></td>
+                        <td id="J7"></td>
+                    </tr>
+                    <tr>
+                        <td id="8">8</td>
+                        <td id="A8"></td>
+                        <td id="B8"></td>
+                        <td id="C8"></td>
+                        <td id="D8"></td>
+                        <td id="E8"></td>
+                        <td id="F8"></td>
+                        <td id="G8"></td>
+                        <td id="H8"></td>
+                        <td id="I8"></td>
+                        <td id="J8"></td>
+                    </tr>
+                    <tr>
+                        <td id="9">9</td>
+                        <td id="A9"></td>
+                        <td id="B9"></td>
+                        <td id="C9"></td>
+                        <td id="D9"></td>
+                        <td id="E9"></td>
+                        <td id="F9"></td>
+                        <td id="G9"></td>
+                        <td id="H9"></td>
+                        <td id="I9"></td>
+                        <td id="J9"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td id="10">10</td>
+                        <td id="A10"></td>
+                        <td id="B10"></td>
+                        <td id="C10"></td>
+                        <td id="D10"></td>
+                        <td id="E10"></td>
+                        <td id="F10"></td>
+                        <td id="G10"></td>
+                        <td id="H10"></td>
+                        <td id="I10"></td>
+                        <td id="J10"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="tablerocontrariotres">
+            <table border="1" cellpadding="10" cellspacing="1">
+                <caption> Tablero a atacar 3</caption>
+                <theader>
+                    <tr>
+                        <td></td>
+                        <td id="A0">A</td>
+                        <td id="B0">B</td>
+                        <td id="C0">C</td>
+                        <td id="D0">D</td>
+                        <td id="E0">E</td>
+                        <td id="F0">F</td>
+                        <td id="G0">G</td>
+                        <td id="H0">H</td>
+                        <td id="I0">I</td>
+                        <td id="J0">J</td>
+                    </tr>
+                </theader>
+                <tbody>
+                    <tr>
+                        <td id="1">1</td>
+                        <td id="A1"></td>
+                        <td id="B1"></td>
+                        <td id="C1"></td>
+                        <td id="D1"></td>
+                        <td id="E1"></td>
+                        <td id="F1"></td>
+                        <td id="G1"></td>
+                        <td id="H1"></td>
+                        <td id="I1"></td>
+                        <td id="J1"></td>
+                    </tr>
+                    <tr>
+                        <td id="2">2</td>
+                        <td id="A2"></td>
+                        <td id="B2"></td>
+                        <td id="C2"></td>
+                        <td id="D2"></td>
+                        <td id="E2"></td>
+                        <td id="F2"></td>
+                        <td id="G2"></td>
+                        <td id="H2"></td>
+                        <td id="I2"></td>
+                        <td id="J2"></td>
+                    </tr>
+                    <tr>
+                        <td id="3">3</td>
+                        <td id="A3"></td>
+                        <td id="B3"></td>
+                        <td id="C3"></td>
+                        <td id="D3"></td>
+                        <td id="E3"></td>
+                        <td id="F3"></td>
+                        <td id="G3"></td>
+                        <td id="H3"></td>
+                        <td id="I3"></td>
+                        <td id="J3"></td>
+                    </tr>
+                    <tr>
+                        <td id="4">4</td>
+                        <td id="A4"></td>
+                        <td id="B4"></td>
+                        <td id="C4"></td>
+                        <td id="D4"></td>
+                        <td id="E4"></td>
+                        <td id="F4"></td>
+                        <td id="G4"></td>
+                        <td id="H4"></td>
+                        <td id="I4"></td>
+                        <td id="J4"></td>
+                    </tr>
+                    <tr>
+                        <td id="5">5</td>
+                        <td id="A5"></td>
+                        <td id="B5"></td>
+                        <td id="C5"></td>
+                        <td id="D5"></td>
+                        <td id="E5"></td>
+                        <td id="F5"></td>
+                        <td id="G5"></td>
+                        <td id="H5"></td>
+                        <td id="I5"></td>
+                        <td id="J5"></td>
+                    </tr>
+                    <tr>
+                        <td id="6">6</td>
+                        <td id="A6"></td>
+                        <td id="B6"></td>
+                        <td id="C6"></td>
+                        <td id="D6"></td>
+                        <td id="E6"></td>
+                        <td id="F6"></td>
+                        <td id="G6"></td>
+                        <td id="H6"></td>
+                        <td id="I6"></td>
+                        <td id="J6"></td>
+                    </tr>
+                    <tr>
+                        <td id="7">7</td>
+                        <td id="A7"></td>
+                        <td id="B7"></td>
+                        <td id="C7"></td>
+                        <td id="D7"></td>
+                        <td id="E7"></td>
+                        <td id="F7"></td>
+                        <td id="G7"></td>
+                        <td id="H7"></td>
+                        <td id="I7"></td>
+                        <td id="J7"></td>
+                    </tr>
+                    <tr>
+                        <td id="8">8</td>
+                        <td id="A8"></td>
+                        <td id="B8"></td>
+                        <td id="C8"></td>
+                        <td id="D8"></td>
+                        <td id="E8"></td>
+                        <td id="F8"></td>
+                        <td id="G8"></td>
+                        <td id="H8"></td>
+                        <td id="I8"></td>
+                        <td id="J8"></td>
+                    </tr>
+                    <tr>
+                        <td id="9">9</td>
+                        <td id="A9"></td>
+                        <td id="B9"></td>
+                        <td id="C9"></td>
+                        <td id="D9"></td>
+                        <td id="E9"></td>
+                        <td id="F9"></td>
+                        <td id="G9"></td>
+                        <td id="H9"></td>
+                        <td id="I9"></td>
+                        <td id="J9"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td id="10">10</td>
+                        <td id="A10"></td>
+                        <td id="B10"></td>
+                        <td id="C10"></td>
+                        <td id="D10"></td>
+                        <td id="E10"></td>
+                        <td id="F10"></td>
+                        <td id="G10"></td>
+                        <td id="H10"></td>
+                        <td id="I10"></td>
+                        <td id="J10"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+        <div>
+            <h3><a href=""></a>power ups disponibles</h3> <!--aqui va un popup mostarndo las opciones-->
+            <h3><a href="C:/repo-taller/batalla-naval/powerups.html"><button>POWER UPS</button></a></h3>
+        </div>
+
+        <button>Jugar</button>
+
+      </main>
+     </center> 
+     <hr color="red">
+  
+     <footer>
+      <h3>by: Ing.Salomon Trujillo | Program Web | Ucab</h3>
+    </footer>
+    </div>
+  </body>
+  </html>

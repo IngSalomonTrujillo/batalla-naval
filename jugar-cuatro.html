@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+    <meta charset="UTF-8"/>
+    <!--<meta name="language" content="es-VE"/>-->
+    <meta name="viewport" content="width=device-width, initial-scala1.0" />
+    <meta name="author" content="Salomon Trujillo" />
+    <meta name="description" content="Este es el juego Batalla Naval"/>
+    <meta name="keywords" content="Batalla Naval, juego, taller"/>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="https://static3.depositphotos.com/1007664/237/v/450/depositphotos_2376836-stock-illustration-battle-ship.jpg" type="imag/png " sizes="16x16 32x32 64x64">
+    <!--<script src="scripts/script.js" type="text/javascript"></script>-->
+    <title>BatallaNaval | Juego con cuatro</title>
+</head>
+<body>
+    <div class="principal-jugar-cuatro">
+        <header>
+            <hgroup>
+                <h1>Batalla Naval</h1>
+                <h2>¡Se un ganador!</h2>
+            </hgroup> 
+            <nav class="opciones-navegación"> 
+                <a href="C:/repo-taller/batalla-naval/usuario.html">REGISTRO</a>
+                <a href="C:/repo-taller/batalla-naval/reglas.html">REGLAS</a>
+            </nav>
+        </header>
+        <hr>
+        <main>
+            <div class="informacion-partida">
+                <h3>TIEMPO: 00:00</h3>
+                <h3>PUNTOS 000</h3>
+                <a href="#">RENDIRSE</a>
+            </div>
+            <div class="codigo">
+                <a href="#">Generar Código</a>
+                <label for="codigo">Código:</label><br>
+                <input type="text" id="codigo" name="codigo" required><br><br>
+            </div>
+            <div class="tablero-propio" id="tablero-propio-solo-3">
+                <div class="posición" id="p7a1">a1</div>
+                <div class="posición" id="p7a2">a2</div>
+                <div class="posición" id="p7a3">a3</div>
+                <div class="posición" id="p7a4">a4</div>
+                <div class="posición" id="p7a5">a5</div>
+                <div class="posición" id="p7a6">a6</div>
+                <div class="posición" id="p7a7">a7</div>
+                <div class="posición" id="p7a8">a8</div>
+                <div class="posición" id="p7a9">a9</div>
+                <div class="posición" id="p7a0">a0</div>
+            
+            
+                <div class="posición" id="p7b1">b1</div>
+                <div class="posición" id="p7b2">b2</div>
+                <div class="posición" id="p7b3">b3</div>
+                <div class="posición" id="p7b4">b4</div>
+                <div class="posición" id="p7b5">b5</div>
+                <div class="posición" id="p7b6">b6</div>
+                <div class="posición" id="p7b7">b7</div>
+                <div class="posición" id="p7b8">b8</div>
+                <div class="posición" id="p7b9">b9</div>
+                <div class="posición" id="p7b0">b0</div>
+            
+            
+                <div class="posición" id="p7c1">c1</div>
+                <div class="posición" id="p7c2">c2</div>
+                <div class="posición" id="p7c3">c3</div>
+                <div class="posición" id="p7c4">c4</div>
+                <div class="posición" id="p7c5">c5</div>
+                <div class="posición" id="p7c6">c6</div>
+                <div class="posición" id="p7c7">c7</div>
+                <div class="posición" id="p7c8">c8</div>
+                <div class="posición" id="p7c9">c9</div>
+                <div class="posición" id="p7c0">c0</div>
+            
+            
+                <div class="posición" id="p7d1">d1</div>
+                <div class="posición" id="p7d2">d2</div>
+                <div class="posición" id="p7d3">d3</div>
+                <div class="posición" id="p7d4">d4</div>
+                <div class="posición" id="p7d5">d5</div>
+                <div class="posición" id="p7d6">d6</div>
+                <div class="posición" id="p7d7">d7</div>
+                <div class="posición" id="p7d8">d8</div>
+                <div class="posición" id="p7d9">d9</div>
+                <div class="posición" id="p7d0">d0</div>
+            
+            
+                <div class="posición" id="p7e1">e1</div>
+                <div class="posición" id="p7e2">e2</div>
+                <div class="posición" id="p7e3">e3</div>
+                <div class="posición" id="p7e4">e4</div>
+                <div class="posición" id="p7e5">e5</div>
+                <div class="posición" id="p7e6">e6</div>
+                <div class="posición" id="p7e7">e7</div>
+                <div class="posición" id="p7e8">e8</div>
+                <div class="posición" id="p7e9">e9</div>
+                <div class="posición" id="p7e0">e0</div>
+            
+            
+                <div class="posición" id="p7f1">f1</div>
+                <div class="posición" id="p7f2">f2</div>
+                <div class="posición" id="p7f3">f3</div>
+                <div class="posición" id="p7f4">f4</div>
+                <div class="posición" id="p7f5">f5</div>
+                <div class="posición" id="p7f6">f6</div>
+                <div class="posición" id="p7f7">f7</div>
+                <div class="posición" id="p7f8">f8</div>
+                <div class="posición" id="p7f9">f9</div>
+                <div class="posición" id="p7f0">f0</div>
+            
+            
+                <div class="posición" id="p7g1">g1</div>
+                <div class="posición" id="p7g2">g2</div>
+                <div class="posición" id="p7g3">g3</div>
+                <div class="posición" id="p7g4">g4</div>
+                <div class="posición" id="p7g5">g5</div>
+                <div class="posición" id="p7g6">g6</div>
+                <div class="posición" id="p7g7">g7</div>
+                <div class="posición" id="p7g8">g8</div>
+                <div class="posición" id="p7g9">g9</div>
+                <div class="posición" id="p7g0">g0</div>
+            
+            
+                <div class="posición" id="p7h1">h1</div>
+                <div class="posición" id="p7h2">h2</div>
+                <div class="posición" id="p7h3">h3</div>
+                <div class="posición" id="p7h4">h4</div>
+                <div class="posición" id="p7h5">h5</div>
+                <div class="posición" id="p7h6">h6</div>
+                <div class="posición" id="p7h7">h7</div>
+                <div class="posición" id="p7h8">h8</div>
+                <div class="posición" id="p7h9">h9</div>
+                <div class="posición" id="p7h0">h0</div>
+            
+            
+                <div class="posición" id="p7i1">i1</div>
+                <div class="posición" id="p7i2">i2</div>
+                <div class="posición" id="p7i3">i3</div>
+                <div class="posición" id="p7i4">i4</div>
+                <div class="posición" id="p7i5">i5</div>
+                <div class="posición" id="p7i6">i6</div>
+                <div class="posición" id="p7i7">i7</div>
+                <div class="posición" id="p7i8">i8</div>
+                <div class="posición" id="p7i9">i9</div>
+                <div class="posición" id="p7i0">i0</div>
+            
+            
+                <div class="posición" id="p7j1">j1</div>
+                <div class="posición" id="p7j2">j2</div>
+                <div class="posición" id="p7j3">j3</div>
+                <div class="posición" id="p7j4">j4</div>
+                <div class="posición" id="p7j5">j5</div>
+                <div class="posición" id="p7j6">j6</div>
+                <div class="posición" id="p7j7">j7</div>
+                <div class="posición" id="p7j8">j8</div>
+                <div class="posición" id="p7j9">j9</div>
+                <div class="posición" id="p7j0">j0</div>
+            </div>
+            <hr>
+            <div class="tablero-enemigo" id="tablero-enemigo-solo-4">
+                <div class="posición" id="p8a1">a1</div>
+                <div class="posición" id="p8a2">a2</div>
+                <div class="posición" id="p8a3">a3</div>
+                <div class="posición" id="p8a4">a4</div>
+                <div class="posición" id="p8a5">a5</div>
+                <div class="posición" id="p8a6">a6</div>
+                <div class="posición" id="p8a7">a7</div>
+                <div class="posición" id="p8a8">a8</div>
+                <div class="posición" id="p8a9">a9</div>
+                <div class="posición" id="p8a0">a0</div>
+            
+            
+                <div class="posición" id="p8b1">b1</div>
+                <div class="posición" id="p8b2">b2</div>
+                <div class="posición" id="p8b3">b3</div>
+                <div class="posición" id="p8b4">b4</div>
+                <div class="posición" id="p8b5">b5</div>
+                <div class="posición" id="p8b6">b6</div>
+                <div class="posición" id="p8b7">b7</div>
+                <div class="posición" id="p8b8">b8</div>
+                <div class="posición" id="p8b9">b9</div>
+                <div class="posición" id="p8b0">b0</div>
+            
+            
+                <div class="posición" id="p8c1">c1</div>
+                <div class="posición" id="p8c2">c2</div>
+                <div class="posición" id="p8c3">c3</div>
+                <div class="posición" id="p8c4">c4</div>
+                <div class="posición" id="p8c5">c5</div>
+                <div class="posición" id="p8c6">c6</div>
+                <div class="posición" id="p8c7">c7</div>
+                <div class="posición" id="p8c8">c8</div>
+                <div class="posición" id="p8c9">c9</div>
+                <div class="posición" id="p8c0">c0</div>
+            
+            
+                <div class="posición" id="p8d1">d1</div>
+                <div class="posición" id="p8d2">d2</div>
+                <div class="posición" id="p8d3">d3</div>
+                <div class="posición" id="p8d4">d4</div>
+                <div class="posición" id="p8d5">d5</div>
+                <div class="posición" id="p8d6">d6</div>
+                <div class="posición" id="p8d7">d7</div>
+                <div class="posición" id="p8d8">d8</div>
+                <div class="posición" id="p8d9">d9</div>
+                <div class="posición" id="p8d0">d0</div>
+            
+            
+                <div class="posición" id="p8e1">e1</div>
+                <div class="posición" id="p8e2">e2</div>
+                <div class="posición" id="p8e3">e3</div>
+                <div class="posición" id="p8e4">e4</div>
+                <div class="posición" id="p8e5">e5</div>
+                <div class="posición" id="p8e6">e6</div>
+                <div class="posición" id="p8e7">e7</div>
+                <div class="posición" id="p8e8">e8</div>
+                <div class="posición" id="p8e9">e9</div>
+                <div class="posición" id="p8e0">e0</div>
+            
+            
+                <div class="posición" id="p8f1">f1</div>
+                <div class="posición" id="p8f2">f2</div>
+                <div class="posición" id="p8f3">f3</div>
+                <div class="posición" id="p8f4">f4</div>
+                <div class="posición" id="p8f5">f5</div>
+                <div class="posición" id="p8f6">f6</div>
+                <div class="posición" id="p8f7">f7</div>
+                <div class="posición" id="p8f8">f8</div>
+                <div class="posición" id="p8f9">f9</div>
+                <div class="posición" id="p8f0">f0</div>
+            
+            
+                <div class="posición" id="p8g1">g1</div>
+                <div class="posición" id="p8g2">g2</div>
+                <div class="posición" id="p8g3">g3</div>
+                <div class="posición" id="p8g4">g4</div>
+                <div class="posición" id="p8g5">g5</div>
+                <div class="posición" id="p8g6">g6</div>
+                <div class="posición" id="p8g7">g7</div>
+                <div class="posición" id="p8g8">g8</div>
+                <div class="posición" id="p8g9">g9</div>
+                <div class="posición" id="p8g0">g0</div>
+            
+            
+                <div class="posición" id="p8h1">h1</div>
+                <div class="posición" id="p8h2">h2</div>
+                <div class="posición" id="p8h3">h3</div>
+                <div class="posición" id="p8h4">h4</div>
+                <div class="posición" id="p8h5">h5</div>
+                <div class="posición" id="p8h6">h6</div>
+                <div class="posición" id="p8h7">h7</div>
+                <div class="posición" id="p8h8">h8</div>
+                <div class="posición" id="p8h9">h9</div>
+                <div class="posición" id="p8h0">h0</div>
+            
+            
+                <div class="posición" id="p8i1">i1</div>
+                <div class="posición" id="p8i2">i2</div>
+                <div class="posición" id="p8i3">i3</div>
+                <div class="posición" id="p8i4">i4</div>
+                <div class="posición" id="p8i5">i5</div>
+                <div class="posición" id="p8i6">i6</div>
+                <div class="posición" id="p8i7">i7</div>
+                <div class="posición" id="p8i8">i8</div>
+                <div class="posición" id="p8i9">i9</div>
+                <div class="posición" id="p8i0">i0</div>
+            
+            
+                <div class="posición" id="p8j1">j1</div>
+                <div class="posición" id="p8j2">j2</div>
+                <div class="posición" id="p8j3">j3</div>
+                <div class="posición" id="p8j4">j4</div>
+                <div class="posición" id="p8j5">j5</div>
+                <div class="posición" id="p8j6">j6</div>
+                <div class="posición" id="p8j7">j7</div>
+                <div class="posición" id="p8j8">j8</div>
+                <div class="posición" id="p8j9">j9</div>
+                <div class="posición" id="p8j0">j0</div>
+            </div>
+            <hr>
+            <div class="tablero-enemigo" id="tablero-enemigo-solo-5">
+                <div class="posición" id="p9a1">a1</div>
+                <div class="posición" id="p9a2">a2</div>
+                <div class="posición" id="p9a3">a3</div>
+                <div class="posición" id="p9a4">a4</div>
+                <div class="posición" id="p9a5">a5</div>
+                <div class="posición" id="p9a6">a6</div>
+                <div class="posición" id="p9a7">a7</div>
+                <div class="posición" id="p9a8">a8</div>
+                <div class="posición" id="p9a9">a9</div>
+                <div class="posición" id="p9a0">a0</div>
+            
+            
+                <div class="posición" id="p9b1">b1</div>
+                <div class="posición" id="p9b2">b2</div>
+                <div class="posición" id="p9b3">b3</div>
+                <div class="posición" id="p9b4">b4</div>
+                <div class="posición" id="p9b5">b5</div>
+                <div class="posición" id="p9b6">b6</div>
+                <div class="posición" id="p9b7">b7</div>
+                <div class="posición" id="p9b8">b8</div>
+                <div class="posición" id="p9b9">b9</div>
+                <div class="posición" id="p9b0">b0</div>
+            
+            
+                <div class="posición" id="p9c1">c1</div>
+                <div class="posición" id="p9c2">c2</div>
+                <div class="posición" id="p9c3">c3</div>
+                <div class="posición" id="p9c4">c4</div>
+                <div class="posición" id="p9c5">c5</div>
+                <div class="posición" id="p9c6">c6</div>
+                <div class="posición" id="p9c7">c7</div>
+                <div class="posición" id="p9c8">c8</div>
+                <div class="posición" id="p9c9">c9</div>
+                <div class="posición" id="p9c0">c0</div>
+            
+            
+                <div class="posición" id="p9d1">d1</div>
+                <div class="posición" id="p9d2">d2</div>
+                <div class="posición" id="p9d3">d3</div>
+                <div class="posición" id="p9d4">d4</div>
+                <div class="posición" id="p9d5">d5</div>
+                <div class="posición" id="p9d6">d6</div>
+                <div class="posición" id="p9d7">d7</div>
+                <div class="posición" id="p9d8">d8</div>
+                <div class="posición" id="p9d9">d9</div>
+                <div class="posición" id="p9d0">d0</div>
+            
+            
+                <div class="posición" id="p9e1">e1</div>
+                <div class="posición" id="p9e2">e2</div>
+                <div class="posición" id="p9e3">e3</div>
+                <div class="posición" id="p9e4">e4</div>
+                <div class="posición" id="p9e5">e5</div>
+                <div class="posición" id="p9e6">e6</div>
+                <div class="posición" id="p9e7">e7</div>
+                <div class="posición" id="p9e8">e8</div>
+                <div class="posición" id="p9e9">e9</div>
+                <div class="posición" id="p9e0">e0</div>
+            
+            
+                <div class="posición" id="p9f1">f1</div>
+                <div class="posición" id="p9f2">f2</div>
+                <div class="posición" id="p9f3">f3</div>
+                <div class="posición" id="p9f4">f4</div>
+                <div class="posición" id="p9f5">f5</div>
+                <div class="posición" id="p9f6">f6</div>
+                <div class="posición" id="p9f7">f7</div>
+                <div class="posición" id="p9f8">f8</div>
+                <div class="posición" id="p9f9">f9</div>
+                <div class="posición" id="p9f0">f0</div>
+            
+            
+                <div class="posición" id="p9g1">g1</div>
+                <div class="posición" id="p9g2">g2</div>
+                <div class="posición" id="p9g3">g3</div>
+                <div class="posición" id="p9g4">g4</div>
+                <div class="posición" id="p9g5">g5</div>
+                <div class="posición" id="p9g6">g6</div>
+                <div class="posición" id="p9g7">g7</div>
+                <div class="posición" id="p9g8">g8</div>
+                <div class="posición" id="p9g9">g9</div>
+                <div class="posición" id="p9g0">g0</div>
+            
+            
+                <div class="posición" id="p9h1">h1</div>
+                <div class="posición" id="p9h2">h2</div>
+                <div class="posición" id="p9h3">h3</div>
+                <div class="posición" id="p9h4">h4</div>
+                <div class="posición" id="p9h5">h5</div>
+                <div class="posición" id="p9h6">h6</div>
+                <div class="posición" id="p9h7">h7</div>
+                <div class="posición" id="p9h8">h8</div>
+                <div class="posición" id="p9h9">h9</div>
+                <div class="posición" id="p9h0">h0</div>
+            
+            
+                <div class="posición" id="p9i1">i1</div>
+                <div class="posición" id="p9i2">i2</div>
+                <div class="posición" id="p9i3">i3</div>
+                <div class="posición" id="p9i4">i4</div>
+                <div class="posición" id="p9i5">i5</div>
+                <div class="posición" id="p9i6">i6</div>
+                <div class="posición" id="p9i7">i7</div>
+                <div class="posición" id="p9i8">i8</div>
+                <div class="posición" id="p9i9">i9</div>
+                <div class="posición" id="p9i0">i0</div>
+            
+            
+                <div class="posición" id="p9j1">j1</div>
+                <div class="posición" id="p9j2">j2</div>
+                <div class="posición" id="p9j3">j3</div>
+                <div class="posición" id="p9j4">j4</div>
+                <div class="posición" id="p9j5">j5</div>
+                <div class="posición" id="p9j6">j6</div>
+                <div class="posición" id="p9j7">j7</div>
+                <div class="posición" id="p9j8">j8</div>
+                <div class="posición" id="p9j9">j9</div>
+                <div class="posición" id="p9j0">j0</div>
+            </div>
+
+            <hr>
+            <div class="tablero-enemigo" id="tablero-enemigo-solo-6">
+                <div class="posición" id="p10a1">a1</div>
+                <div class="posición" id="p10a2">a2</div>
+                <div class="posición" id="p10a3">a3</div>
+                <div class="posición" id="p10a4">a4</div>
+                <div class="posición" id="p10a5">a5</div>
+                <div class="posición" id="p10a6">a6</div>
+                <div class="posición" id="p10a7">a7</div>
+                <div class="posición" id="p10a8">a8</div>
+                <div class="posición" id="p10a9">a9</div>
+                <div class="posición" id="p10a0">a0</div>
+            
+            
+                <div class="posición" id="p10b1">b1</div>
+                <div class="posición" id="p10b2">b2</div>
+                <div class="posición" id="p10b3">b3</div>
+                <div class="posición" id="p10b4">b4</div>
+                <div class="posición" id="p10b5">b5</div>
+                <div class="posición" id="p10b6">b6</div>
+                <div class="posición" id="p10b7">b7</div>
+                <div class="posición" id="p10b8">b8</div>
+                <div class="posición" id="p10b9">b9</div>
+                <div class="posición" id="p10b0">b0</div>
+            
+            
+                <div class="posición" id="p10c1">c1</div>
+                <div class="posición" id="p10c2">c2</div>
+                <div class="posición" id="p10c3">c3</div>
+                <div class="posición" id="p10c4">c4</div>
+                <div class="posición" id="p10c5">c5</div>
+                <div class="posición" id="p10c6">c6</div>
+                <div class="posición" id="p10c7">c7</div>
+                <div class="posición" id="p10c8">c8</div>
+                <div class="posición" id="p10c9">c9</div>
+                <div class="posición" id="p10c0">c0</div>
+            
+            
+                <div class="posición" id="p10d1">d1</div>
+                <div class="posición" id="p10d2">d2</div>
+                <div class="posición" id="p10d3">d3</div>
+                <div class="posición" id="p10d4">d4</div>
+                <div class="posición" id="p10d5">d5</div>
+                <div class="posición" id="p10d6">d6</div>
+                <div class="posición" id="p10d7">d7</div>
+                <div class="posición" id="p10d8">d8</div>
+                <div class="posición" id="p10d9">d9</div>
+                <div class="posición" id="p10d0">d0</div>
+            
+            
+                <div class="posición" id="p10e1">e1</div>
+                <div class="posición" id="p10e2">e2</div>
+                <div class="posición" id="p10e3">e3</div>
+                <div class="posición" id="p10e4">e4</div>
+                <div class="posición" id="p10e5">e5</div>
+                <div class="posición" id="p10e6">e6</div>
+                <div class="posición" id="p10e7">e7</div>
+                <div class="posición" id="p10e8">e8</div>
+                <div class="posición" id="p10e9">e9</div>
+                <div class="posición" id="p10e0">e0</div>
+            
+            
+                <div class="posición" id="p10f1">f1</div>
+                <div class="posición" id="p10f2">f2</div>
+                <div class="posición" id="p10f3">f3</div>
+                <div class="posición" id="p10f4">f4</div>
+                <div class="posición" id="p10f5">f5</div>
+                <div class="posición" id="p10f6">f6</div>
+                <div class="posición" id="p10f7">f7</div>
+                <div class="posición" id="p10f8">f8</div>
+                <div class="posición" id="p10f9">f9</div>
+                <div class="posición" id="p10f0">f0</div>
+            
+            
+                <div class="posición" id="p10g1">g1</div>
+                <div class="posición" id="p10g2">g2</div>
+                <div class="posición" id="p10g3">g3</div>
+                <div class="posición" id="p10g4">g4</div>
+                <div class="posición" id="p10g5">g5</div>
+                <div class="posición" id="p10g6">g6</div>
+                <div class="posición" id="p10g7">g7</div>
+                <div class="posición" id="p10g8">g8</div>
+                <div class="posición" id="p10g9">g9</div>
+                <div class="posición" id="p10g0">g0</div>
+            
+            
+                <div class="posición" id="p10h1">h1</div>
+                <div class="posición" id="p10h2">h2</div>
+                <div class="posición" id="p10h3">h3</div>
+                <div class="posición" id="p10h4">h4</div>
+                <div class="posición" id="p10h5">h5</div>
+                <div class="posición" id="p10h6">h6</div>
+                <div class="posición" id="p10h7">h7</div>
+                <div class="posición" id="p10h8">h8</div>
+                <div class="posición" id="p10h9">h9</div>
+                <div class="posición" id="p10h0">h0</div>
+            
+            
+                <div class="posición" id="p10i1">i1</div>
+                <div class="posición" id="p10i2">i2</div>
+                <div class="posición" id="p10i3">i3</div>
+                <div class="posición" id="p10i4">i4</div>
+                <div class="posición" id="p10i5">i5</div>
+                <div class="posición" id="p10i6">i6</div>
+                <div class="posición" id="p10i7">i7</div>
+                <div class="posición" id="p10i8">i8</div>
+                <div class="posición" id="p10i9">i9</div>
+                <div class="posición" id="p10i0">i0</div>
+            
+            
+                <div class="posición" id="p10j1">j1</div>
+                <div class="posición" id="p10j2">j2</div>
+                <div class="posición" id="p10j3">j3</div>
+                <div class="posición" id="p10j4">j4</div>
+                <div class="posición" id="p10j5">j5</div>
+                <div class="posición" id="p10j6">j6</div>
+                <div class="posición" id="p10j7">j7</div>
+                <div class="posición" id="p10j8">j8</div>
+                <div class="posición" id="p10j9">j9</div>
+                <div class="posición" id="p10j0">j0</div>
+            </div>
+            <div class="power-ups">
+                <a href="#">power ups disponibles</a>
+                <a href="C:/repo-taller/batalla-naval/power-ups.html">POWER UPS</a><!--aqui va un popup mostarndo la información de powerups-->
+            </div>
+            <div id="botón-jugar">
+                <a href="#">Jugar</a>
+            </div>
+        </main>
+        <hr>
+        <footer>
+            <h3>by: Ing.Salomón Trujillo | Program Web | Ucab</h3>
+        </footer>
+    </div>
+</body>
+</html>

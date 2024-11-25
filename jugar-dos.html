@@ -9,6 +9,7 @@
     <meta name="keywords" content="Batalla Naval, juego, taller"/>
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="https://static3.depositphotos.com/1007664/237/v/450/depositphotos_2376836-stock-illustration-battle-ship.jpg" type="imag/png " sizes="16x16 32x32 64x64">
+    <link rel="stylesheet" href="estilos/style.css">
     <title>BatallaNaval | Juego con dos</title>
 </head>
 
@@ -24,7 +25,6 @@
                 <a href="C:/repo-taller/batalla-naval/reglas.html">REGLAS</a>
             </nav>
         </header>
-        <hr>
         <main>
             <div class="informacion-partida">
                 <h3>TIEMPO: 00:00</h3>
@@ -37,19 +37,20 @@
                 <input type="text" id="codigo" name="codigo" required><br><br>
             </div>
             <div class="tablero-propio" id="tablero-propio-solo-1">
-                <div class="posición" id="p3a1">a1</div>
-                <div class="posición" id="p3a2">a2</div>
-                <div class="posición" id="p3a3">a3</div>
-                <div class="posición" id="p3a4">a4</div>
-                <div class="posición" id="p3a5">a5</div>
-                <div class="posición" id="p3a6">a6</div>
-                <div class="posición" id="p3a7">a7</div>
-                <div class="posición" id="p3a8">a8</div>
-                <div class="posición" id="p3a9">a9</div>
-                <div class="posición" id="p3a0">a0</div>
+
+                    <div class="posición header"></div>
+                    <div class="posición header">A</div>
+                    <div class="posición header">B</div>
+                    <div class="posición header">C</div>
+                    <div class="posición header">D</div>
+                    <div class="posición header">E</div>
+                    <div class="posición header">F</div>
+                    <div class="posición header">G</div>
+                    <div class="posición header">H</div>
+                    <div class="posición header">I</div>
+                    <div class="posición header">J</div>
             
-            
-            
+                    <div class="posición header">1</div>
                 <div class="posición" id="p3b1">b1</div>
                 <div class="posición" id="p3b2">b2</div>
                 <div class="posición" id="p3b3">b3</div>
@@ -62,7 +63,7 @@
                 <div class="posición" id="p3b0">b0</div>
             
             
-            
+                <div class="posición header">2</div>
                 <div class="posición" id="p3c1">c1</div>
                 <div class="posición" id="p3c2">c2</div>
                 <div class="posición" id="p3c3">c3</div>
@@ -75,7 +76,7 @@
                 <div class="posición" id="p3c0">c0</div>
             
             
-            
+                <div class="posición header">3</div>
                 <div class="posición" id="p3d1">d1</div>
                 <div class="posición" id="p3d2">d2</div>
                 <div class="posición" id="p3d3">d3</div>
@@ -88,7 +89,7 @@
                 <div class="posición" id="p3d0">d0</div>
             
             
-            
+                <div class="posición header">4</div>
                 <div class="posición" id="p3e1">e1</div>
                 <div class="posición" id="p3e2">e2</div>
                 <div class="posición" id="p3e3">e3</div>
@@ -101,7 +102,7 @@
                 <div class="posición" id="p3e0">e0</div>
             
             
-            
+                <div class="posición header">5</div>
                 <div class="posición" id="p3f1">f1</div>
                 <div class="posición" id="p3f2">f2</div>
                 <div class="posición" id="p3f3">f3</div>
@@ -114,7 +115,7 @@
                 <div class="posición" id="p3f0">f0</div>
             
             
-            
+                <div class="posición header">6</div>
                 <div class="posición" id="p3g1">g1</div>
                 <div class="posición" id="p3g2">g2</div>
                 <div class="posición" id="p3g3">g3</div>
@@ -127,7 +128,7 @@
                 <div class="posición" id="p3g0">g0</div>
             
             
-            
+                <div class="posición header">7</div>
                 <div class="posición" id="p3h1">h1</div>
                 <div class="posición" id="p3h2">h2</div>
                 <div class="posición" id="p3h3">h3</div>
@@ -140,7 +141,7 @@
                 <div class="posición" id="p3h0">h0</div>
             
             
-            
+                <div class="posición header">8</div>
                 <div class="posición" id="p3i1">i1</div>
                 <div class="posición" id="p3i2">i2</div>
                 <div class="posición" id="p3i3">i3</div>
@@ -153,7 +154,7 @@
                 <div class="posición" id="p3i0">i0</div>
             
             
-            
+                <div class="posición header">9</div>
                 <div class="posición" id="p3j1">j1</div>
                 <div class="posición" id="p3j2">j2</div>
                 <div class="posición" id="p3j3">j3</div>
@@ -166,7 +167,7 @@
                 <div class="posición" id="p3j0">j0</div>
             
             
-            
+                <div class="posición header">10</div>
                 <div class="posición" id="p3k1">k1</div>
                 <div class="posición" id="p3k2">k2</div>
                 <div class="posición" id="p3k3">k3</div>
@@ -179,20 +180,20 @@
                 <div class="posición" id="p3k0">k0</div>
             
             </div>
-            <hr>
             <div class="tablero-enemigo" id="tablero-enemigo-solo-1">
-                <div class="posición" id="p4a1">a1</div>
-                <div class="posición" id="p4a2">a2</div>
-                <div class="posición" id="p4a3">a3</div>
-                <div class="posición" id="p4a4">a4</div>
-                <div class="posición" id="p4a5">a5</div>
-                <div class="posición" id="p4a6">a6</div>
-                <div class="posición" id="p4a7">a7</div>
-                <div class="posición" id="p4a8">a8</div>
-                <div class="posición" id="p4a9">a9</div>
-                <div class="posición" id="p4a0">a0</div>
+                <div class="posición header"></div>
+                    <div class="posición header">A</div>
+                    <div class="posición header">B</div>
+                    <div class="posición header">C</div>
+                    <div class="posición header">D</div>
+                    <div class="posición header">E</div>
+                    <div class="posición header">F</div>
+                    <div class="posición header">G</div>
+                    <div class="posición header">H</div>
+                    <div class="posición header">I</div>
+                    <div class="posición header">J</div>
             
-            
+                    <div class="posición header">1</div>
                 <div class="posición" id="p4b1">b1</div>
                 <div class="posición" id="p4b2">b2</div>
                 <div class="posición" id="p4b3">b3</div>
@@ -204,7 +205,7 @@
                 <div class="posición" id="p4b9">b9</div>
                 <div class="posición" id="p4b0">b0</div>
             
-            
+                <div class="posición header">2</div>
                 <div class="posición" id="p4c1">c1</div>
                 <div class="posición" id="p4c2">c2</div>
                 <div class="posición" id="p4c3">c3</div>
@@ -216,7 +217,7 @@
                 <div class="posición" id="p4c9">c9</div>
                 <div class="posición" id="p4c0">c0</div>
             
-            
+                <div class="posición header">3</div>
                 <div class="posición" id="p4d1">d1</div>
                 <div class="posición" id="p4d2">d2</div>
                 <div class="posición" id="p4d3">d3</div>
@@ -228,7 +229,7 @@
                 <div class="posición" id="p4d9">d9</div>
                 <div class="posición" id="p4d0">d0</div>
             
-            
+                <div class="posición header">4</div>
                 <div class="posición" id="p4e1">e1</div>
                 <div class="posición" id="p4e2">e2</div>
                 <div class="posición" id="p4e3">e3</div>
@@ -240,7 +241,7 @@
                 <div class="posición" id="p4e9">e9</div>
                 <div class="posición" id="p4e0">e0</div>
             
-            
+                <div class="posición header">5</div>
                 <div class="posición" id="p4f1">f1</div>
                 <div class="posición" id="p4f2">f2</div>
                 <div class="posición" id="p4f3">f3</div>
@@ -252,7 +253,7 @@
                 <div class="posición" id="p4f9">f9</div>
                 <div class="posición" id="p4f0">f0</div>
             
-            
+                <div class="posición header">6</div>
                 <div class="posición" id="p4g1">g1</div>
                 <div class="posición" id="p4g2">g2</div>
                 <div class="posición" id="p4g3">g3</div>
@@ -264,7 +265,7 @@
                 <div class="posición" id="p4g9">g9</div>
                 <div class="posición" id="p4g0">g0</div>
             
-            
+                <div class="posición header">7</div>
                 <div class="posición" id="p4h1">h1</div>
                 <div class="posición" id="p4h2">h2</div>
                 <div class="posición" id="p4h3">h3</div>
@@ -276,7 +277,7 @@
                 <div class="posición" id="p4h9">h9</div>
                 <div class="posición" id="p4h0">h0</div>
             
-            
+                <div class="posición header">8</div>
                 <div class="posición" id="p4i1">i1</div>
                 <div class="posición" id="p4i2">i2</div>
                 <div class="posición" id="p4i3">i3</div>
@@ -288,7 +289,7 @@
                 <div class="posición" id="p4i9">i9</div>
                 <div class="posición" id="p4i0">i0</div>
             
-            
+                <div class="posición header">9</div>
                 <div class="posición" id="p4j1">j1</div>
                 <div class="posición" id="p4j2">j2</div>
                 <div class="posición" id="p4j3">j3</div>
@@ -299,6 +300,18 @@
                 <div class="posición" id="p4j8">j8</div>
                 <div class="posición" id="p4j9">j9</div>
                 <div class="posición" id="p4j0">j0</div>
+
+                <div class="posición header">10</div>
+                <div class="posición" id="p4k1">k1</div>
+                <div class="posición" id="p4k2">k2</div>
+                <div class="posición" id="p4k3">k3</div>
+                <div class="posición" id="p4k4">k4</div>
+                <div class="posición" id="p4k5">k5</div>
+                <div class="posición" id="p4k6">k6</div>
+                <div class="posición" id="p4k7">k7</div>
+                <div class="posición" id="p4k8">k8</div>
+                <div class="posición" id="p4k9">k9</div>
+                <div class="posición" id="p4k0">k0</div>
             </div>
             <div class="power-ups">
                 <a href="#">power ups disponibles</a>
@@ -308,7 +321,6 @@
                 <a href="#">Jugar</a>
             </div>
         </main>
-        <hr>
         <footer>
             <h3>by: Ing.Salomón Trujillo | Program Web | Ucab</h3>
         </footer>

@@ -1,0 +1,243 @@
+/* styles.css */
+:root {
+    /*--font-family: Arial, Helvetica, sans-serif;*/
+    --board-columns: 10;
+    --board-rows: 10;
+    --board-width: 240px;
+    --board-height: auto;
+    --posición-width: 35px;
+    --posición-height: 35px;
+}
+
+body {
+    font-family: 'Rock Salt', cursive ,Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+hgroup {
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+}
+
+.opciones-navegación {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    background-color: #8B4513;
+    padding: 1rem;
+}
+
+.principal-index hgroup {
+    color: black;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.opciones-navegación {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 1.5rem;
+    justify-content: end;
+    margin: 0;
+    padding: 0;
+}
+
+.opciones-navegación a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.opciones-navegación a:hover {
+    color: #F4A460;
+}
+
+#opciones-juegos {
+    font-family: 'Rock Salt', cursive;
+    font-size: 2rem;
+    color: #8B4513; /* Color marrón para imitar la madera */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
+    padding: 20px;
+    margin-top: 50px;
+    margin-left: 100px;
+    border: 5px solid #8B4513;
+    border-radius: 10px;
+    margin-right: 100px;
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 5px;
+}
+
+#opciones-juegos a {
+    color: #F4A460;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+    border: 5px solid #8B4513;
+    border-radius: 2px;
+    text-align: center;
+    background-color: #8B4513;
+    
+}
+
+#opciones-juegos a:hover {
+    color: #ffffff;
+}
+
+main h2 {
+    text-align: center;
+}
+
+.reglas-de-juego {
+    font-family: 'Rock Salt', cursive;
+    font-size: 2rem;
+    color: #8B4513; /* Color marrón para imitar la madera */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
+    padding: 20px;
+    margin-top: 50px;
+    margin-left: 100px;
+    border: 5px solid #8B4513;
+    border-radius: 10px;
+}
+
+#power-ups {
+    font-family: 'Rock Salt', cursive;
+    font-size: 2rem;
+    color: #8B4513; /* Color marrón para imitar la madera */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
+    padding: 20px;
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+    border: 5px solid #8B4513;
+    border-radius: 10px;
+}
+
+.informacion-partida {
+    text-align: center;
+}
+
+.principal-jugar-solo a {
+    color: #F4A460;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+    border: 5px solid #8B4513;
+    border-radius: 2px;
+    text-align: center;
+    background-color: #8B4513;
+    
+}
+
+.principal-jugar-solo a:hover {
+    color: #ffffff;
+}
+
+.tablero-propio {
+    margin-top: 50px;
+    margin-left: 100px;
+    display: grid;
+    grid-template-columns: repeat(calc(var(--board-columns) + 1), 1fr);
+    grid-template-rows: repeat(calc(var(--board-rows) + 1), 1fr);
+    width: var(--board-width);
+    height: var(--board-height);
+    /*background: lightblue url('/images/sea.jpg');*/
+    border: 1px solid black;
+}
+
+.tablero-propio .posición.header {
+    color: #000;
+    background: lightgray;
+    font-weight: 700;
+}
+
+.tablero-propio .posición {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--posición-width);
+    height: var(--posición-height);
+    border: 1px solid #000;
+    /*color: white;                      ACOMODAR            */
+    font-weight: 700;
+}
+
+.tablero-enemigo {
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-bottom: 50px;
+    display: grid;
+    grid-template-columns: repeat(calc(var(--board-columns) + 1), 1fr);
+    grid-template-rows: repeat(calc(var(--board-rows) + 1), 1fr);
+    width: var(--board-width);
+    height: var(--board-height);
+    /*background: lightblue url('/images/sea.jpg');*/
+    border: 1px solid black; 
+}
+
+.tablero-enemigo .posición.header {
+    color: #000;
+    background: lightgray;
+    font-weight: 700;
+}
+
+.tablero-enemigo .posición {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--posición-width);
+    height: var(--posición-height);
+    border: 1px solid #000;
+    /*color: white;                      ACOMODAR            */
+    font-weight: 700;
+}
+
+.power-ups{
+    text-align: center;
+}
+
+#botón-jugar {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.principal-jugar-dos a{
+    color: #F4A460;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+    border: 5px solid #8B4513;
+    border-radius: 2px;
+    text-align: center;
+    background-color: #8B4513;
+}
+
+.principal-jugar-dos a:hover {
+    color: #ffffff;
+}
+
+.codigo {
+    text-align: right;  /*        ACOMODAR Y TERMINAR        */
+}
+
+.principal-jugar-tres a{
+    color: #F4A460;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+    border: 5px solid #8B4513;
+    border-radius: 2px;
+    text-align: center;
+    background-color: #8B4513;
+}
+
+.principal-jugar-tres a:hover {
+    color: #ffffff;
+}

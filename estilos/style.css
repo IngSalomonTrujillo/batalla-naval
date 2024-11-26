@@ -13,10 +13,21 @@ body {
     font-family: 'Rock Salt', cursive ,Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-image: url('/images/sea.jpg'); 
+    background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */ 
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
 }
 
 hgroup {
     text-align: center;
+    background-image: url('/images/table.jpg'); 
+    background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+    color: lightblue;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 footer {
@@ -32,7 +43,7 @@ footer {
 }
 
 .principal-index hgroup {
-    color: black;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
@@ -66,14 +77,16 @@ footer {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
     padding: 20px;
     margin-top: 50px;
-    margin-left: 100px;
+    margin-left: auto; /* Centra el contenedor */
+    margin-right: auto; /* Centra el contenedor */
     border: 5px solid #8B4513;
     border-radius: 10px;
-    margin-right: 100px;
     display: grid; 
     grid-template-columns: 1fr; 
     gap: 5px;
+    width: 25%; /* Ajusta el ancho del contenedor */
 }
+
 
 #opciones-juegos a {
     color: #F4A460;
@@ -103,6 +116,7 @@ main h2 {
     padding: 20px;
     margin-top: 50px;
     margin-left: 100px;
+    margin-right: 100px;
     border: 5px solid #8B4513;
     border-radius: 10px;
 }
@@ -149,7 +163,7 @@ main h2 {
     width: var(--board-width);
     height: var(--board-height);
     /*background: lightblue url('/images/sea.jpg');*/
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .tablero-propio .posición.header {
@@ -179,7 +193,7 @@ main h2 {
     width: var(--board-width);
     height: var(--board-height);
     /*background: lightblue url('/images/sea.jpg');*/
-    border: 1px solid black; 
+   /* border: 1px solid black; */
 }
 
 .tablero-enemigo .posición.header {
@@ -225,6 +239,7 @@ main h2 {
 
 .codigo {
     text-align: right;  /*        ACOMODAR Y TERMINAR        */
+    margin-right: 100px;
 }
 
 .principal-jugar-tres a{

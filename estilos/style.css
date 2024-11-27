@@ -13,25 +13,32 @@ body {
     font-family: 'Rock Salt', cursive ,Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('/images/sea.jpg'); 
+    background-image: url('../images/sea.jpg'); 
     background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */ 
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
 }
 
+hgroup h1{
+    margin-top: 0%;
+}
+
 hgroup {
     text-align: center;
-    background-image: url('/images/table.jpg'); 
+    background-image: url('../images/table.jpg'); 
     background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
-    color: lightblue;
+    height: 100%;
+    color: rgb(120, 75, 16);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
+    padding-bottom: 20px;
 }
 
 footer {
     text-align: center;
+    margin-top: 300px;
 }
 
 .opciones-navegación {
@@ -43,7 +50,7 @@ footer {
 }
 
 .principal-index hgroup {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    text-shadow: 2px 2px 4px rgb(252, 252, 252);
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;

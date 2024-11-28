@@ -263,3 +263,18 @@ main h2 {
 .principal-jugar-tres a:hover {
     color: #ffffff;
 }
+
+.principal-jugar-cuatro a{
+    color: #F4A460;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+    border: 5px solid #8B4513;
+    border-radius: 2px;
+    text-align: center;
+    background-color: #8B4513; 
+}
+
+.principal-jugar-cuatro a:hover {
+    color: #ffffff;
+}

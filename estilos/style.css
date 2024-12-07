@@ -7,7 +7,13 @@
     --board-height: auto;
     --posición-width: 35px;
     --posición-height: 35px;
+
 }
+
+/** a{
+color: #fff;
+}*/
+
 
 body {
     font-family: 'Rock Salt', cursive ,Arial, sans-serif;
@@ -28,7 +34,7 @@ hgroup {
     background-image: url('../images/table.jpg'); 
     background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
     height: 100%;
-    color: rgb(120, 75, 16);
+    color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
     text-decoration: none;
     font-size: 1.5rem;
@@ -50,7 +56,6 @@ footer {
 }
 
 .principal-index hgroup {
-    text-shadow: 2px 2px 4px rgb(252, 252, 252);
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
@@ -80,35 +85,35 @@ footer {
 #opciones-juegos {
     font-family: 'Rock Salt', cursive;
     font-size: 2rem;
-    color: #8B4513; /* Color marrón para imitar la madera */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
+    color: #8B4513; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
     padding: 20px;
     margin-top: 50px;
-    margin-left: auto; /* Centra el contenedor */
-    margin-right: auto; /* Centra el contenedor */
-    border: 5px solid #8B4513;
+    margin-left: auto; 
+    margin-right: auto; 
     border-radius: 10px;
     display: grid; 
     grid-template-columns: 1fr; 
     gap: 5px;
-    width: 25%; /* Ajusta el ancho del contenedor */
+    width: 40%; 
+    background-image: url('../images/table.jpg'); 
 }
 
 
 #opciones-juegos a {
-    color: #F4A460;
+    color: #fff;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 20px;
     transition: color 0.3s;
-    border: 5px solid #8B4513;
-    border-radius: 2px;
+    border-radius: 25px;
     text-align: center;
     background-color: #8B4513;
-    
+    margin-bottom: 10px;
+    padding: 15px;
 }
 
 #opciones-juegos a:hover {
-    color: #ffffff;
+    background-color: #F4A460;
 }
 
 main h2 {
@@ -117,8 +122,8 @@ main h2 {
 
 .reglas-de-juego {
     font-family: 'Rock Salt', cursive;
-    font-size: 2rem;
-    color: #8B4513; /* Color marrón para imitar la madera */
+    font-size: 1.5rem;
+    color: #fff; /* Color marrón para imitar la madera */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
     padding: 20px;
     margin-top: 50px;
@@ -126,6 +131,7 @@ main h2 {
     margin-right: 100px;
     border: 5px solid #8B4513;
     border-radius: 10px;
+    background-image: url('../images/table.jpg'); 
 }
 
 #power-ups {
@@ -146,31 +152,30 @@ main h2 {
 }
 
 .principal-jugar-solo a {
-    color: #F4A460;
+    color: #fff;
     text-decoration: none;
     font-size: 1rem;
     transition: color 0.3s;
-    border: 5px solid #8B4513;
-    border-radius: 2px;
+    border-radius: 25px;
     text-align: center;
     background-color: #8B4513;
-    
+    padding: 15px 30px;
 }
 
 .principal-jugar-solo a:hover {
-    color: #ffffff;
+    color: #F4A460;
 }
 
 .tablero-propio {
     margin-top: 50px;
-    margin-left: 100px;
+    gap: 0px;
     display: grid;
     grid-template-columns: repeat(calc(var(--board-columns) + 1), 1fr);
     grid-template-rows: repeat(calc(var(--board-rows) + 1), 1fr);
-    width: var(--board-width);
+    /*width: 50%;*/
     height: var(--board-height);
-    /*background: lightblue url('/images/sea.jpg');*/
-    /*border: 1px solid black;*/
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 .tablero-propio .posición.header {
@@ -192,15 +197,13 @@ main h2 {
 
 .tablero-enemigo {
     margin-top: 50px;
-    margin-left: 100px;
-    margin-bottom: 50px;
     display: grid;
     grid-template-columns: repeat(calc(var(--board-columns) + 1), 1fr);
     grid-template-rows: repeat(calc(var(--board-rows) + 1), 1fr);
-    width: var(--board-width);
+    /*width: 50%;*/
     height: var(--board-height);
-    /*background: lightblue url('/images/sea.jpg');*/
-   /* border: 1px solid black; */
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 .tablero-enemigo .posición.header {
@@ -220,6 +223,7 @@ main h2 {
     font-weight: 700;
 }
 
+
 .power-ups{
     text-align: center;
 }
@@ -235,9 +239,10 @@ main h2 {
     font-size: 1rem;
     transition: color 0.3s;
     border: 5px solid #8B4513;
-    border-radius: 2px;
+    border-radius: 25px;
     text-align: center;
     background-color: #8B4513;
+    padding: 15px 30px;
 }
 
 .principal-jugar-dos a:hover {
@@ -255,9 +260,10 @@ main h2 {
     font-size: 1rem;
     transition: color 0.3s;
     border: 5px solid #8B4513;
-    border-radius: 2px;
+    border-radius: 25px;
     text-align: center;
     background-color: #8B4513;
+    padding: 15px 30px;
 }
 
 .principal-jugar-tres a:hover {
@@ -270,11 +276,222 @@ main h2 {
     font-size: 1rem;
     transition: color 0.3s;
     border: 5px solid #8B4513;
-    border-radius: 2px;
+    border-radius: 25px;
     text-align: center;
     background-color: #8B4513; 
+    padding: 15px 30px;
 }
 
 .principal-jugar-cuatro a:hover {
     color: #ffffff;
+}
+
+#registro-usuario {
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 40px;
+    padding: 20px;
+    border: 5px solid #8B4513;
+    border-radius: 10px;
+    background-image: url('../images/table.jpg'); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#registro-usuario h2 {
+    text-align: center;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+#registro-usuario label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+#registro-usuario input[type="text"],
+#registro-usuario input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+#registro-usuario input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #8B4513;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+}
+
+#registro-usuario input[type="submit"]:hover {
+    background-color: lightblue;
+}
+
+#opciones-multijugador {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-image: url('../images/table.jpg');
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 40px;
+}
+
+#opciones-multijugador a {
+    display: block;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #8B4513;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+#opciones-multijugador a:hover {
+    background-color: #F4A460;
+}
+
+#mecanicas-multijugador {
+    font-family: 'Rock Salt', cursive;
+    font-size: 1.5rem;
+    color: #fff; /* Color marrón para imitar la madera */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
+    padding: 20px;
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+    border-radius: 10px;
+    background-image: url('../images/table.jpg'); 
+}
+
+#modo-torneo{
+    font-family: 'Rock Salt', cursive;
+    font-size: 1.5rem;
+    color: #fff; /* Color marrón para imitar la madera */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
+    padding: 20px;
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+    border-radius: 10px;
+    background-image: url('../images/table.jpg'); 
+}
+
+.top-10 {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-image: url('../images/table.jpg'); 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.top-10 h2 {
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+}
+
+.top-10 ol {
+    list-style-type: decimal;
+    padding-left: 0;
+}
+
+.top-10 li {
+    background-color: #8B4513;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    
+}
+
+.top-10 li:nth-child(1) {
+    background-color: gold;
+    color: black;
+}
+
+.top-10 li:nth-child(2) {
+    background-color: silver;
+    color: black;
+}
+
+.top-10 li:nth-child(3) {
+    background-color: #cd7f32; /* Bronze */
+    color: black;
+}
+
+#botón-jugar {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#botón-jugar a {
+    margin-top: 5px;
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #8B4513;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#botón-jugar a:hover {
+    background-color: #F4A460;
+    transform: scale(1.05);
+}
+
+.tableros{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: space-between;
+    align-items: stretch;
+    justify-content: center;
+    padding: 9%;
+}
+
+.cruiser {
+    background: url('../images/ship1.png') 0 0 no-repeat;
+    background-size: cover;
+    text-indent: 150%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.cruiser.tile-2 {
+  background-position: 0 calc(var(--posición-height) * -1);
+}
+
+.cruiser.tile-3 {
+  background-position: 0 calc(var(--posición-height) * -2.3);
+}
+
+.cruiser.tile-4 {
+  background-position: 0 calc(var(--posición-height) * -3.4);
+}
+
+.cruiser.horizontal {
+    transform: rotateZ(-90deg);
 }

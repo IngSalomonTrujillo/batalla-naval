@@ -10,11 +10,6 @@
 
 }
 
-/** a{
-color: #fff;
-}*/
-
-
 body {
     font-family: 'Rock Salt', cursive ,Arial, sans-serif;
     margin: 0;
@@ -228,10 +223,6 @@ main h2 {
     text-align: center;
 }
 
-#botón-jugar {
-    text-align: center;
-    margin-top: 50px;
-}
 
 .principal-jugar-dos a{
     color: #F4A460;
@@ -247,11 +238,6 @@ main h2 {
 
 .principal-jugar-dos a:hover {
     color: #ffffff;
-}
-
-.codigo {
-    text-align: right;  /*        ACOMODAR Y TERMINAR        */
-    margin-right: 100px;
 }
 
 .principal-jugar-tres a{
@@ -537,16 +523,6 @@ main h2 {
     transform: rotateZ(-90deg);
 }
 
-.generar-codigo {
-    display: flex;
-    align-items: center; /* Alinea verticalmente */
-    gap: 10px; /* Espacio entre los elementos */
-}
-
-.generar-codigo button,
-.generar-codigo input {
-    margin: 0; /* Remueve márgenes por defecto */
-}
 .generar-codigo button{
     margin: 20px 0;
     padding-bottom: 10px;
@@ -558,6 +534,11 @@ main h2 {
     text-decoration: none;
     border-radius: 25px;
     transition: background-color 0.3s ease;
+    margin-right: 100px;
+    border:#8B4513;
+    margin-left: 44%;
+    margin-top: 30px;
+    margin-bottom: 0;
 }
 
 .generar-codigo button:hover{
@@ -573,7 +554,30 @@ main h2 {
     text-decoration: none;
     border-radius: 25px;
     transition: background-color 0.3s ease;
+    margin-right: 100px;
+    border:#8B4513;
+    margin-left: 44%;
+    margin-top: 10px;
 }
 
+.conexion-ws button{
+    margin: 20px 0;
+    padding-bottom: 10px;
+    padding-top: 10px;  
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #8B4513;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+    text-align: right;  /*        ACOMODAR Y TERMINAR        */
+    margin-right: 100px;
+    border:#8B4513;
+    margin-left: 44%;
+    margin-top: 30px;
+}
 
-
+.conexion-ws button:hover{
+    background-color: #F4A460;
+}

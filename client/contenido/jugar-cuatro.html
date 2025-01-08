@@ -31,10 +31,11 @@
                 <h3>PUNTOS 000</h3>
                 <a href="#">RENDIRSE</a>
             </div>
-            <div class="codigo">
-                <a href="#">Generar Código</a>
-                <!--<label for="codigo">Código:</label>-->
-                <input type="text" id="codigo" name="codigo" placeholder="codigo" required>
+            <div class="generar-codigo"> 
+                <div class="crear-partida">
+                    <button id="create-game" class="server-operation" href="#">Generar Código</button>
+                    <input type="text" id="game-id" class="server-operation" placeholder="ID del juego" />
+                </div>
             </div>
             <div class="tableros">
             <div class="tablero-propio" id="tablero-propio-solo-3">
@@ -54,13 +55,95 @@
                 <a href="#">power ups disponibles</a>
                 <a href="power-ups.html">POWER UPS</a><!--aqui va un popup mostarndo la información de powerups-->
             </div>
-            <div id="botón-jugar">
-                <a href="#">Jugar</a>
+            <div class="conexion-ws">
+                <div id="iniciar-partida">
+                    <button id="start-game" class="server-operation" >Jugar</button>
+                </div>
+                <div class="salir-partida">
+                    <button id="leave-game" class="server-operation">RENDIRSE</button>
+                </div>
+                <div id="cerrar-conexion">
+                    <button id="close-connection" class="client-operation">Cerrar Conexion</button>
+                </div>
             </div>
         </main>
         <footer>
             <h3>by: Ing.Salomón Trujillo | Program Web | Ucab</h3>
         </footer>
     </div>
+
+    <script>
+
+        const WEBSOCKET_SCHEME = 'ws';
+        const WEBSOCKET_SERVER = 'batalla-naval.deno.dev';
+        const WEBSOCKET_PORT = 80;
+        const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
+  
+        const socket = new WebSocket(WEBSOCKET_URL);
+  
+        socket.addEventListener('open', () => {
+  
+          console.log(`%cConectado al servidor en ${WEBSOCKET_URL}`,  'color: #99ff00');
+        });
+  
+        socket.addEventListener('message', (event) => {
+  
+          const message = JSON.parse(event.data);
+  
+          console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
+        });
+  
+        socket.addEventListener('close', () => {
+          console.log('%cSe ha cerrado la conexión con el servidor WebSocket', 'color: #ee0000');
+  
+          const buttons = document.getElementsByClassName('server-operation');
+  
+          [...buttons].forEach((button) => {
+            button.disabled = true;
+          });
+  
+          const closeButton = document.getElementById('close-connection');
+          closeButton.parentNode.removeChild(closeButton);
+  
+        });
+  
+        //CREAR JUEGO
+        document.getElementById('create-game').addEventListener('click', () => {
+  
+          //const gameId = document.getElementById('game-id').value;
+  
+          socket.send(JSON.stringify({ type: 'create' }));
+         // document.getElementById('id-de-partida').textContent = `ID: ${gameId}`;
+        });
+  
+        //EMPEZAR JUEGO
+        document.getElementById('start-game').addEventListener('click', () => {
+  
+          const gameId = document.getElementById('game-id').value;
+  
+          socket.send(JSON.stringify({ type: 'start', gameId }));
+          console.log('Empezo el juego');
+  
+        });
+  
+        //SALIR DEL JUEGO
+        document.getElementById('leave-game').addEventListener('click', () => {
+          const gameId = document.getElementById('game-id').value;
+  
+          socket.send(JSON.stringify({ type: 'leave', gameId }));
+        });
+  
+        //CERRAR CONEXION
+        document.getElementById('close-connection').addEventListener('click', () => {
+  
+          const response = confirm('¿Estás seguro de que deseas cerrar la conexión con el servidor de WebSocket?\n\nSi la cierras, no podrás enviar ni recibir más mensajes y, de acuerdo a esta implementación, tendrás que recargar la página.');
+  
+          if (response) {
+            socket.close();
+          }
+        });
+  
+  
+      </script>
 </body>
 </html>

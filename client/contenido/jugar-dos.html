@@ -50,8 +50,8 @@
                 <a href="power-ups.html">POWER UPS</a><!--aqui va un popup mostarndo la información de powerups-->
             </div>      
 
-            <div class="conexion-ws">
 
+            <div class="conexion-ws">
                 <div id="iniciar-partida">
                     <button id="start-game" class="server-operation" >Jugar</button>
                 </div>
@@ -61,8 +61,6 @@
                 <div id="cerrar-conexion">
                     <button id="close-connection" class="client-operation">Cerrar Conexion</button>
                 </div>
-
-
             </div>
 
         </main>
@@ -82,7 +80,7 @@
       const socket = new WebSocket(WEBSOCKET_URL);
 
       socket.addEventListener('open', () => {
-   
+
         console.log(`%cConectado al servidor en ${WEBSOCKET_URL}`,  'color: #99ff00');
       });
 

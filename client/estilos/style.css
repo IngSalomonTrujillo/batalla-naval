@@ -364,6 +364,47 @@ main h2 {
     background-color: #F4A460;
 }
 
+#opciones-multijugador button {
+    display: block;
+    margin: 20px 0;
+    padding-bottom: 10px;
+    padding-top: 10px;  
+    padding-left: 125px;
+    padding-right: 125px;
+    background-color: #8B4513;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+#opciones-multijugador button:hover {
+    background-color: #F4A460;
+}
+
+#opciones-multijugador input {
+    display: block;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #8B4513;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.unirse-a-juego {
+    display: flex;
+    align-items: center; /* Alinea verticalmente */
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.unirse-a-juego button,
+.unirse-a-juego input {
+    margin: 0; /* Remueve márgenes por defecto */
+}
+
+
 #mecanicas-multijugador {
     font-family: 'Rock Salt', cursive;
     font-size: 1.5rem;
@@ -495,3 +536,44 @@ main h2 {
 .cruiser.horizontal {
     transform: rotateZ(-90deg);
 }
+
+.generar-codigo {
+    display: flex;
+    align-items: center; /* Alinea verticalmente */
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.generar-codigo button,
+.generar-codigo input {
+    margin: 0; /* Remueve márgenes por defecto */
+}
+.generar-codigo button{
+    margin: 20px 0;
+    padding-bottom: 10px;
+    padding-top: 10px;  
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #8B4513;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.generar-codigo button:hover{
+    background-color: #F4A460;
+}
+
+.generar-codigo input {
+    display: block;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #8B4513;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+
+

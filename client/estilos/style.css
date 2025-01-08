@@ -361,6 +361,7 @@ main h2 {
     color: white;
     text-decoration: none;
     border-radius: 25px;
+    border:#8B4513;
     transition: background-color 0.3s ease;
 }
 
@@ -377,6 +378,7 @@ main h2 {
     text-decoration: none;
     border-radius: 25px;
     transition: background-color 0.3s ease;
+    border:#8B4513;
 }
 
 .unirse-a-juego {

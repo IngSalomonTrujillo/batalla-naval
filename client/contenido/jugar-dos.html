@@ -15,59 +15,68 @@
 </head>
 
 <body>
-    <div class="principal-jugar-dos">
-        <header>
-            <hgroup>
-                <h1>Batalla Naval</h1>
-                <h2>¡Se un ganador!</h2>
-            </hgroup>
-            <nav class="opciones-navegación"> 
-                <a href="usuario.html">REGISTRO</a>
-                <a href="reglas.html">REGLAS</a>
-            </nav>
-        </header>
-        <main>
-            <div class="informacion-partida">
-                <h3>TIEMPO: 00:00</h3>
-                <h3>PUNTOS 000</h3>
-            </div>
+  <div class="principal-jugar-dos">
+    <header>
+        <hgroup>
+            <h1>Batalla Naval</h1>
+            <h2>¡Sé un ganador!</h2>
+        </hgroup>
+        <nav class="opciones-navegación">
+            <a href="usuario.html">REGISTRO</a>
+            <a href="reglas.html">REGLAS</a>
+        </nav>
+    </header>
 
-            <div class="generar-codigo"> 
-                <div class="crear-partida">
-                    <button id="create-game" class="server-operation" href="#">Generar Código</button>
-                    <input type="text" id="game-id" class="server-operation" placeholder="ID del juego" />
-                </div>
-            </div>
+    <main>
+        <div class="informacion-partida">
+            <h3>TIEMPO: 00:00</h3>
+            <h3>PUNTOS: 000</h3>
+        </div>
 
-            <div class="tableros">
-            <div class="tablero-propio" id="tablero-propio-solo-1">
-            </div>
-            <div class="tablero-enemigo" id="tablero-enemigo-solo-1">     
+        <div class="generar-codigo">
+            <div class="crear-partida">
+                <button id="create-game" class="server-operation">Generar Código</button>
+                <input type="text" id="game-id" class="server-operation" placeholder="ID del juego" />
             </div>
         </div>
-            <div class="power-ups">
-                <a href="#">power ups disponibles</a>
-                <a href="power-ups.html">POWER UPS</a><!--aqui va un popup mostarndo la información de powerups-->
-            </div>      
 
-
-            <div class="conexion-ws">
-                <div id="iniciar-partida">
-                    <button id="start-game" class="server-operation" >Jugar</button>
-                </div>
-                <div class="salir-partida">
-                    <button id="leave-game" class="server-operation">RENDIRSE</button>
-                </div>
-                <div id="cerrar-conexion">
-                    <button id="close-connection" class="client-operation">Cerrar Conexion</button>
-                </div>
+        <div class="contenedor-principal">
+            <!-- Contenedor para los barcos -->
+            <div class="contenedor-barcos">
+                <div class="barcos"></div> <!-- Contenedor donde se crearán los barcos arrastrables -->
             </div>
 
-        </main>
-        <footer>
-            <h3>by: Ing.Salomón Trujillo | Program Web | Ucab</h3>
-        </footer>
-    </div>
+            <!-- Contenedor para los tableros -->
+            <div class="tableros">
+                <div class="tablero-propio" id="tablero-propio-solo-1"></div>
+                <div class="tablero-enemigo" id="tablero-enemigo-solo-1"></div>
+            </div>
+        </div>
+
+        <div class="powerup">
+            <a href="#">Power-ups disponibles</a>
+            <a href="power-ups.html">POWER UPS</a>
+        </div>
+
+        <div class="conexion-ws">
+            <div id="iniciar-partida">
+                <button id="start-game" class="server-operation" type="button">Jugar</button>
+            </div>
+            <div class="salir-partida">
+                <button id="leave-game" class="server-operation" type="button">RENDIRSE</button>
+            </div>
+            <div id="cerrar-conexion">
+                <button id="close-connection" class="client-operation" type="button">Cerrar Conexión</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <h3>by: Ing. Salomón Trujillo | Program Web | Ucab</h3>
+    </footer>
+</div>
+
+
 
 
     <script>

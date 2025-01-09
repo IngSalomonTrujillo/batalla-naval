@@ -10,6 +10,162 @@
 
 }
 
+.powerup a {
+    color: #F4A460;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+    border: 5px solid #8B4513;
+    border-radius: 25px;
+    text-align: center;
+    background-color: #8B4513;
+    padding: 15px 30px;
+}
+.contenedor-principal {
+    display: flex;
+    justify-content: flex-start; /* Alinea los elementos hacia la izquierda */
+    align-items: flex-start;
+    gap: 10px; /* Espacio entre los barcos y los tableros */
+    flex-wrap: wrap; /* Asegura que los elementos no se desborden */
+    margin: 20px; /* Añadir espacio alrededor */
+}
+.espacio {
+    margin: 220px; /* Añadir espacio alrededor */
+}
+
+/* Estilos para el contenedor de los barcos */
+.contenedor-barcos {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinea los barcos a la izquierda */
+    align-items: flex-start; /* Alinea los barcos a la izquierda */
+    padding: 20px;
+    width: 250px; /* Ancho de los barcos */
+    margin-left: 100px; /* Mueve el contenedor de los barcos hacia la derecha */
+}
+
+/* Contenedor de los barcos */
+.barcos {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los barcos se acomoden en varias filas */
+    gap: 10px; /* Espacio entre los barcos */
+    justify-content: flex-start; /* Alinea los barcos a la izquierda */
+    margin-top: 20px; /* Añadir espacio arriba */
+}
+
+/* Estilo para cada barco */
+.barco {
+    width: 50px; /* Ajusta el tamaño de los barcos */
+    cursor: pointer;
+    user-select: none; /* Evita que el texto se seleccione */
+    transition: transform 0.3s ease;
+}
+
+/* Efecto al pasar el ratón sobre el barco */
+.barco:hover {
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño del barco */
+}
+
+/* Estilos para los tableros */
+.tableros {
+    display: flex;
+    justify-content: center; /* Centra los tableros */
+    gap: 20px; /* Espacio entre el tablero propio y el tablero enemigo */
+    align-items: flex-start;
+    margin-top: 20px; /* Añadir margen superior si es necesario */
+}
+
+/* Estilos comunes para tableros (propio y enemigo) */
+.tablero-propio, .tablero-enemigo {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr); /* 10 columnas + 1 para los encabezados */
+    grid-template-rows: repeat(11, 1fr);    /* 10 filas + 1 para los encabezados */
+    height: 500px; /* Ajusta la altura del tablero */
+    width: 500px;  /* Ajusta el ancho del tablero */
+    gap: 1px; /* Espacio entre las celdas */
+    border: 2px solid #000; /* Borde alrededor del tablero */
+    position: relative; /* Para manejar la colocación de los barcos */
+}
+
+/* Estilo para las celdas de encabezado */
+.tablero-propio .posición.header, .tablero-enemigo .posición.header {
+    color: #000;
+    background: lightgray;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem; /* Tamaño de fuente de los encabezados */
+}
+
+/* Estilos para las celdas del tablero */
+.tablero-propio .posición, .tablero-enemigo .posición {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000;
+    font-weight: bold;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Resaltar las celdas al pasar el mouse */
+.tablero-propio .posición:hover, .tablero-enemigo .posición:hover {
+    background-color: #f0f0f0;
+}
+
+/* Celdas ocupadas por los barcos */
+.tablero-propio .posición[data-ocupada="true"], .tablero-enemigo .posición[data-ocupada="true"] {
+    background-color: lightblue; /* Indicador visual de celdas ocupadas */
+}
+
+/* Estilo para las posiciones de letras y números en los encabezados */
+.tablero-propio .posición.header, .tablero-enemigo .posición.header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Tamaño de las celdas */
+.tablero-propio .posición, .tablero-enemigo .posición {
+    background-color: transparent;
+    font-size: 1rem; /* Tamaño de fuente para las celdas */
+}
+
+/* Estilos adicionales para la interfaz de usuario */
+
+
+.conexion-ws {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.server-operation, .client-operation {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.server-operation:hover, .client-operation:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+
 body {
     font-family: 'Rock Salt', cursive ,Arial, sans-serif;
     margin: 0;
@@ -129,18 +285,7 @@ main h2 {
     background-image: url('../images/table.jpg'); 
 }
 
-#power-ups {
-    font-family: 'Rock Salt', cursive;
-    font-size: 2rem;
-    color: #8B4513; /* Color marrón para imitar la madera */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
-    padding: 20px;
-    margin-top: 50px;
-    margin-left: 100px;
-    margin-right: 100px;
-    border: 5px solid #8B4513;
-    border-radius: 10px;
-}
+
 
 .informacion-partida {
     text-align: center;
@@ -161,80 +306,7 @@ main h2 {
     color: #F4A460;
 }
 
-.tablero-propio {
-    margin-top: 50px;
-    gap: 0px;
-    display: grid;
-    grid-template-columns: repeat(calc(var(--board-columns) + 1), 1fr);
-    grid-template-rows: repeat(calc(var(--board-rows) + 1), 1fr);
-    /*width: 50%;*/
-    height: var(--board-height);
-    margin-left: 2%;
-    margin-right: 2%;
-}
 
-.tablero-propio .posición.header {
-    color: #000;
-    background: lightgray;
-    font-weight: 700;
-}
-
-.tablero-propio .posición {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--posición-width);
-    height: var(--posición-height);
-    border: 1px solid #000;
-    /*color: white;                      ACOMODAR            */
-    font-weight: 700;
-}
-
-.tablero-enemigo {
-    margin-top: 50px;
-    display: grid;
-    grid-template-columns: repeat(calc(var(--board-columns) + 1), 1fr);
-    grid-template-rows: repeat(calc(var(--board-rows) + 1), 1fr);
-    /*width: 50%;*/
-    height: var(--board-height);
-    margin-left: 2%;
-    margin-right: 2%;
-}
-
-.tablero-enemigo .posición.header {
-    color: #000;
-    background: lightgray;
-    font-weight: 700;
-}
-
-.tablero-enemigo .posición {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--posición-width);
-    height: var(--posición-height);
-    border: 1px solid #000;
-    /*color: white;                      ACOMODAR            */
-    font-weight: 700;
-}
-
-
-.power-ups{
-    text-align: center;
-}
-
-
-.principal-jugar-dos a{
-    color: #F4A460;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.3s;
-    border: 5px solid #8B4513;
-    border-radius: 25px;
-    text-align: center;
-    background-color: #8B4513;
-    padding: 15px 30px;
-}
 
 .principal-jugar-dos a:hover {
     color: #ffffff;
@@ -491,15 +563,6 @@ main h2 {
     transform: scale(1.05);
 }
 
-.tableros{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-content: space-between;
-    align-items: stretch;
-    justify-content: center;
-    padding: 9%;
-}
 
 .cruiser {
     background: url('../images/ship1.png') 0 0 no-repeat;
@@ -583,3 +646,4 @@ main h2 {
 .conexion-ws button:hover{
     background-color: #F4A460;
 }
+

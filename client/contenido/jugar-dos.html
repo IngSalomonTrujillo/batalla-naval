@@ -29,7 +29,8 @@
 
     <main>
         <div class="informacion-partida">
-            <h3>TIEMPO: 00:00</h3>
+          <h2>Contador de Partida</h2>
+          <div id="partida">03:00</div>
             <h3>PUNTOS: 000</h3>
         </div>
 
@@ -39,6 +40,19 @@
                 <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego" />
             </div>
         </div>
+
+        <div class="jugadores">
+          <div class="jugador">
+              <h2>Jugador 1</h2>
+              <div id="jugador1">10</div>
+          </div>
+          <div class="jugador">
+              <h2>Jugador 2</h2>
+              <div id="jugador2">10</div>
+          </div>
+      </div>
+      <div id="turno">Turno de: Jugador 1</div>
+      <button onclick="iniciarContadores()">Iniciar</button>
 
         <div class="contenedor-principal">
             <!-- Contenedor para los barcos -->

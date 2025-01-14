@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: "ship5", href: "../images/ship5.png", width: 4 }
     ];
 
+    let barcosColocados = 0; // Contador de barcos colocados en el tablero
+
     // Crear los barcos arrastrables
     const barcoContainer = document.querySelector(".barcos");
     barcos.forEach(barco => {
@@ -27,8 +29,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         barcoContainer.appendChild(img);
 
+        // Eventos de dragstart para los barcos
         img.addEventListener("dragstart", (e) => {
+            if (barcosColocados >= 5) { // Si ya hay 5 barcos en el tablero, no permitir arrastrar más
+                e.preventDefault();
+                alert("Ya has colocado el máximo de 5 barcos.");
+                return;
+            }
             e.dataTransfer.setData("text", barco.id); // Establece el id del barco al arrastrar
+        });
+
+        // Evento para voltear el barco al hacer clic
+        img.addEventListener("click", function() {
+            const currentRotation = parseInt(img.getAttribute("data-rotation") || "0");
+            const newRotation = (currentRotation + 90) % 360;
+            img.style.transform = `rotate(${newRotation}deg)`;
+            img.setAttribute("data-rotation", newRotation); // Guardamos la rotación actual
         });
     });
 
@@ -58,71 +74,88 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Función para colocar un barco en el tablero
-    function colocarBarco(barco) {
-        const tablero = document.querySelector(".tablero-propio");
+    // Función para manejar el arrastre y el drop de la imagen
+    document.addEventListener('dragover', function(e) {
+        e.preventDefault(); // Necesario para permitir el drop
+    });
 
-        // Añadimos los eventos de dragover y drop a cada celda del tablero
-        tablero.querySelectorAll(".posición").forEach(celda => {
-            celda.addEventListener("dragover", (e) => {
-                e.preventDefault(); // Necesario para permitir el drop
+    document.addEventListener('drop', function(e) {
+        const tableroPropio = document.querySelector(".tablero-propio");
+
+        // Verificamos si el drop ocurrió dentro del tablero y sobre una celda válida
+        if (tableroPropio.contains(e.target) && e.target.classList.contains('posición')) {
+            if (barcosColocados >= 5) { // No permitir colocar más de 5 barcos
+                alert("Ya has colocado el máximo de 5 barcos.");
+                return;
+            }
+
+            const barcoId = e.dataTransfer.getData("text");
+            const barco = barcos.find(b => b.id === barcoId);
+            const posicionId = e.target.id;
+
+            const letra = posicionId.charAt(posicionId.length - 2);
+            const numero = parseInt(posicionId.charAt(posicionId.length - 3));
+
+            // No permitir colocar el barco en la primera fila (A) ni en la primera columna (1)
+            if (letra === "A" || numero === 1) {
+                alert("No puedes colocar el barco en la primera fila ni en la primera columna.");
+                return;
+            }
+
+            // Calcular si el barco cabe en la posición seleccionada
+            const startIdx = letras.indexOf(letra);
+            if (startIdx + barco.width > letras.length) {
+                alert("El barco no cabe en esta posición.");
+                return;
+            }
+
+            // Obtener el rectángulo del tablero
+            const tableroRect = tableroPropio.getBoundingClientRect(); // Rectángulo del tablero
+            const offsetX = e.clientX - tableroRect.left; // Posición horizontal dentro del tablero
+            const offsetY = e.clientY - tableroRect.top;  // Posición vertical dentro del tablero
+
+            // Crear una nueva imagen de barco
+            const imgClone = document.getElementById(barco.id).cloneNode(true);
+            imgClone.style.position = "absolute"; // Necesario para posicionarlo libremente sobre el tablero
+
+            // Aquí evitamos el redimensionamiento automático, manteniendo el tamaño del barco original
+            imgClone.style.left = `${offsetX - imgClone.width / 2}px`; // Ajustar la posición X
+            imgClone.style.top = `${offsetY - imgClone.height / 2}px`; // Ajustar la posición Y
+
+            // Colocar el barco sobre el tablero
+            tableroPropio.appendChild(imgClone);
+
+            // Hacer que la imagen colocada sea arrastrable
+            imgClone.draggable = false; // Deshabilitamos el arrastre después de colocar el barco
+
+            // Permitir eliminar el barco al hacer clic sobre él
+            imgClone.addEventListener("click", function() {
+                imgClone.remove();
+                barcosColocados--; // Restar un barco cuando se elimine
             });
 
-            celda.addEventListener("drop", (e) => {
-                e.preventDefault();
-                const barcoId = e.dataTransfer.getData("text");
-                const barco = barcos.find(b => b.id === barcoId);
-                const posicionId = e.target.id;
+            // Aumentar el contador de barcos colocados
+            barcosColocados++;
+        }
+    });
 
-                // Posición de la celda donde se suelta
-                const letra = posicionId.charAt(posicionId.length - 2);
-                const numero = parseInt(posicionId.charAt(posicionId.length - 3));
-
-                // Celdas ocupadas para la colocación
-                const celdasOcupadas = [];
-                for (let i = 0; i < barco.width; i++) {
-                    const nuevaLetra = String.fromCharCode(letra.charCodeAt(0) + i);
-                    celdasOcupadas.push(`#p${numero}${nuevaLetra}`);
-                }
-
-                // Verificamos si las celdas están libres
-                const validPlacement = celdasOcupadas.every(celdaId => !document.querySelector(celdaId).hasChildNodes());
-
-                if (validPlacement) {
-                    // Coloca el barco en las celdas
-                    celdasOcupadas.forEach(celdaId => {
-                        const celda = document.querySelector(celdaId);
-                        const imgClone = document.getElementById(barco.id).cloneNode(true);
-                        imgClone.style.width = "100%"; // Ajustamos el tamaño del barco
-                        celda.appendChild(imgClone);
-                    });
-                } else {
-                    alert("No se puede colocar el barco aquí, hay celdas ocupadas.");
-                }
-            });
-        });
-    }
-
-    // Función para colocar los barcos de dos en dos
+    // Llamada a la función para colocar los barcos de dos en dos
     function colocarBarcosDeDosEnDos() {
         let index = 0;
 
-        // Coloca barcos de dos en dos con un intervalo
         function colocarSiguienteBarco() {
             if (index < barcos.length) {
-                // Coloca dos barcos a la vez
                 for (let i = 0; i < 2 && index < barcos.length; i++) {
-                    colocarBarco(barcos[index]); // Coloca el barco en el tablero
+                    colocarBarco(barcos[index]);
                     index++;
                 }
-                setTimeout(colocarSiguienteBarco, 1500); // Espera 1.5 segundos para colocar el siguiente par
+                setTimeout(colocarSiguienteBarco, 1500);
             }
         }
 
         colocarSiguienteBarco();
     }
 
-    // Llamada a la función para colocar los barcos de dos en dos
     colocarBarcosDeDosEnDos();
 });
 

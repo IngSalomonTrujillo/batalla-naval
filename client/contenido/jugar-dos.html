@@ -76,6 +76,10 @@
             <div id="iniciarpartida">
                 <button id="iniciar-partida" class="server-operation" type="button">Jugar</button>
             </div>
+            <div class="atacar-enemigo">
+              <button id="atacar-enemigo" class="server-operation">Atacar</button>
+              <input type="text" id="move" class="server-operation" placeholder="Movimiento (p. ej. A1)" />
+            </div>
             <div class="salir-partida">
                 <button id="dejar-partida" class="server-operation" type="button">RENDIRSE</button>
             </div>
@@ -90,11 +94,7 @@
     </footer>
 </div>
 
-
-
-
 <script>
-
   const WEBSOCKET_SCHEME = 'ws';
   const WEBSOCKET_SERVER = 'batalla-naval.deno.dev';
   const WEBSOCKET_PORT = 80;
@@ -136,6 +136,15 @@
     console.log('Empezó el juego');
   });
 
+  //ATACAR
+  document.getElementById('atacar-enemigo').addEventListener('click', () => {
+  
+  const gameId = document.getElementById('id-partida').value;
+  const move = document.getElementById('move').value;
+
+  socket.send(JSON.stringify({ type: 'move', gameId, move }));
+  });
+
   //SALIR DEL JUEGO
   document.getElementById('dejar-partida').addEventListener('click', () => {
     const gameId = document.getElementById('id-partida').value;
@@ -150,7 +159,6 @@
       socket.close();
     }
   });
-
 </script>
 
 </body>

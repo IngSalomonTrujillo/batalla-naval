@@ -205,3 +205,25 @@ function iniciarContadorJugador() {
         }
     }, 1000);
 }
+
+//OCULTAR BOTON JUGAR Y ATACAR
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener los elementos del DOM
+    var playButton = document.getElementById('iniciar-partida');
+    var attackButton = document.getElementById('atacar-enemigo');
+    var moveInput = document.getElementById('move');
+
+    // Inicialmente ocultar el botón "Atacar" y el input de movimiento
+    attackButton.style.display = 'none';
+    moveInput.style.display = 'none';
+
+    // Agregar evento click al botón "Jugar"
+    playButton.addEventListener('click', function() {
+        // Ocultar el botón "Jugar"
+        playButton.style.display = 'none';
+        
+        // Mostrar el botón "Atacar" y el input de movimiento
+        attackButton.style.display = 'block';
+        moveInput.style.display = 'block';
+    });
+});

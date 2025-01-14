@@ -125,3 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Llamada a la función para colocar los barcos de dos en dos
     colocarBarcosDeDosEnDos();
 });
+
+function volverPagina() {
+    window.history.back(); 
+}

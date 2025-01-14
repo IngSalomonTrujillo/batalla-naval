@@ -10,6 +10,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="https://static3.depositphotos.com/1007664/237/v/450/depositphotos_2376836-stock-illustration-battle-ship.jpg" type="imag/png " sizes="16x16 32x32 64x64">
     <link rel="stylesheet" href="../estilos/style.css">
+    <script src="../scripts/script.js"></script>
     <title>BatallaNaval | multijugador</title>
 </head>
 <body>
@@ -23,6 +24,7 @@
                 <a href="index.html">INICIO</a>
                 <a href="usuario.html">REGISTRO</a>
                 <a href="reglas.html">REGLAS</a>
+                <a class="volver-btn" onclick="volverPagina()">VOLVER</a>
             </nav>
         </header>
         <main>
@@ -52,7 +54,7 @@
       const socket = new WebSocket(WEBSOCKET_URL);
 
       socket.addEventListener('open', () => {
-   
+
         console.log(`%cConectado al servidor en ${WEBSOCKET_URL}`,  'color: #99ff00');
       });
 

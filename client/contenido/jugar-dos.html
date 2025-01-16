@@ -131,19 +131,7 @@
         } 
   });
 
-  socket.addEventListener('close', () => {
-    console.log('%cSe ha cerrado la conexión con el servidor', 'color: #ee0000');
-
-    const buttons = document.getElementsByClassName('server-operation');
-
-    [...buttons].forEach((button) => {
-      button.disabled = true;
-    });
-
-    const closeButton = document.getElementById('close-connection');
-    closeButton.parentNode.removeChild(closeButton);
-  });
-
+  
   //CREAR JUEGO
   document.getElementById('crear-partida').addEventListener('click', () => {
     const PlayerNameElement = document.getElementById('jugador1-name');

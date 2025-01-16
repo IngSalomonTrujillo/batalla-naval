@@ -244,31 +244,13 @@ function volverPagina() {
 let jugadores = ['jugador1', 'jugador2'];
 let turnoActual = 0;
 
-function iniciarContadores() {
-    iniciarContadorPartida();
+function iniciarContador() {
     iniciarContadorJugador();
-}
-
-function iniciarContadorPartida() {
-    let partida = document.getElementById('partida');
-    let tiempo = 180; // 3 minutos en segundos
-
-    let intervalo = setInterval(() => {
-        let minutos = Math.floor(tiempo / 60);
-        let segundos = tiempo % 60;
-        partida.textContent = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-
-        if (tiempo <= 0) {
-            clearInterval(intervalo);
-        } else {
-            tiempo--;
-        }
-    }, 1000);
 }
 
 function iniciarContadorJugador() {
     let jugador = document.getElementById(jugadores[turnoActual]);
-    let tiempo = 10; // 60 segundos por jugador
+    let tiempo = 60; // 60 segundos por jugador
     document.getElementById('turno').textContent = `Turno de: Jugador ${turnoActual + 1}`;
 
     let intervalo = setInterval(() => {

@@ -284,7 +284,8 @@ function iniciarContadorJugador() {
     }, 1000);
 }
 
-//OCULTAR BOTON JUGAR Y ATACAR
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // Obtener los elementos del DOM
     var playButton = document.getElementById('iniciar-partida');
@@ -304,4 +305,28 @@ document.addEventListener('DOMContentLoaded', function() {
         attackButton.style.display = 'block';
         moveInput.style.display = 'block';
     });
+
+    // Agregar evento click al botón "Atacar"
+    attackButton.addEventListener('click', function() {
+        // Obtener la posición ingresada
+        var position = moveInput.value.toUpperCase();
+        
+        // Verificar si la posición tiene el formato correcto
+        if (!/^\d+[A-Z]$/.test(position)) {
+            alert('Formato de posición no válido');
+            return;
+        }
+        
+        // Obtener la casilla correspondiente
+        var cell = document.getElementById(`p${position}`);
+        
+        // Verificar si la casilla existe
+        if (cell) {
+            // Mostrar una "X" en la casilla
+            cell.textContent = 'X';
+        } else {
+            alert('Posición no válida');
+        }
+    });
+    
 });

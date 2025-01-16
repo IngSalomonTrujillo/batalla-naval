@@ -453,17 +453,6 @@ main h2 {
     border:#8B4513;
 }
 
-.unirse-a-juego {
-    display: flex;
-    align-items: center; /* Alinea verticalmente */
-    gap: 10px; /* Espacio entre los elementos */
-}
-
-.unirse-a-juego button,
-.unirse-a-juego input {
-    margin: 0; /* Remueve márgenes por defecto */
-}
-
 
 #mecanicas-multijugador {
     font-family: 'Rock Salt', cursive;
@@ -588,42 +577,56 @@ main h2 {
     transform: rotateZ(-90deg);
 }
 
-.generar-codigo button{
-    margin: 20px 0;
-    padding-bottom: 10px;
-    padding-top: 10px;  
-    padding-left: 50px;
-    padding-right: 50px;
+.contenedor-crear-unirse {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+    justify-content: space-between; /* Alinea las columnas hacia los bordes */
+    align-items: center; /* Alinea verticalmente los elementos al centro */
+    width: 100%;
+    margin-top: 30px;
+}
+
+.generar-codigo,
+.unirse-a-juego {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+button.server-operation {
+    margin: 10px 0;
+    padding: 10px 20px;
     background-color: #8B4513;
     color: white;
     text-decoration: none;
     border-radius: 25px;
     transition: background-color 0.3s ease;
-    margin-right: 100px;
-    border:#8B4513;
-    margin-left: 44%;
-    margin-top: 30px;
-    margin-bottom: 0;
+    border: 1px solid #8B4513;
 }
 
-.generar-codigo button:hover{
+button.server-operation:hover {
     background-color: #F4A460;
 }
 
-.generar-codigo input {
-    display: block;
+input.server-operation {
     margin: 10px 0;
-    padding: 15px;
+    padding: 10px;/* Asegura que el input ocupe todo el ancho del contenedor */
+    border-radius: 25px;
+    border: 1px solid #8B4513;
     background-color: #8B4513;
     color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    transition: background-color 0.3s ease;
-    margin-right: 100px;
-    border:#8B4513;
-    margin-left: 44%;
-    margin-top: 10px;
+    text-align: center;
 }
+
+.informacion-partida{
+
+    margin-top: 100px;
+}
+
+
+
+
 
 .conexion-ws button{
     margin: 20px 0;

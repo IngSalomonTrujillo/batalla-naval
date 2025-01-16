@@ -28,22 +28,22 @@
     </header>
 
     <main>
-        <div class="informacion-partida">
-          <h2>Contador de Partida</h2>
-          <div id="partida">03:00</div>
-            <h3>PUNTOS: 000</h3>
+
+      <div class="contenedor-crear-unirse"></div>
+        <div class="generar-codigo">
+            <button id="crear-partida" class="server-operation">Crear Partida </button>
+            <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego" disabled />
         </div>
 
-        <div class="generar-codigo">
+        <div class="unirse-a-juego">
+          <button id="join-game" class="server-operation">Unirse a un juego existente</button>
+          <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego"/>
+        </div>
+      </div> 
 
-            <div class="unirse-a-juego">
-              <button id="join-game" class="server-operation">Unirse a un juego existente</button>
-            </div>
-            <div class="crear-partida">
-                <button id="crear-partida" class="server-operation">Crear Partida </button>
-            </div>
-            <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego" disabled />
-
+        <div class="informacion-partida">
+          <h1>INFORMACION DE PARTIDA</h1>
+            <h3>PUNTOS: 000</h3>
         </div>
 
         <div class="jugadores">

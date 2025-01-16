@@ -102,7 +102,7 @@
 <script>
   const WEBSOCKET_SCHEME = 'ws';
   const WEBSOCKET_SERVER = 'localhost';
-  const WEBSOCKET_PORT = 9090;
+  const WEBSOCKET_PORT = 8080;
   const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
 
   const socket = new WebSocket(WEBSOCKET_URL);
@@ -115,24 +115,12 @@
     const message = JSON.parse(event.data);
     console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
     if (message.type === 'gameCreated') {
-       const gameIdInput = document.getElementById('id-partida');
+      const gameIdInput = document.getElementById('id-partida');
        gameIdInput.value = message.gameId; // Muestra el ID del juego en el input
         }
   });
 
-  socket.addEventListener('close', () => {
-    console.log('%cSe ha cerrado la conexión con el servidor', 'color: #ee0000');
-
-    const buttons = document.getElementsByClassName('server-operation');
-
-    [...buttons].forEach((button) => {
-      button.disabled = true;
-    });
-
-    const closeButton = document.getElementById('close-connection');
-    closeButton.parentNode.removeChild(closeButton);
-  });
-
+  
   //CREAR JUEGO
   document.getElementById('crear-partida').addEventListener('click', () => {
     socket.send(JSON.stringify({ type: 'create' }));

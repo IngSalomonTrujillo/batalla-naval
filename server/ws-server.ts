@@ -63,7 +63,7 @@ function sendMessage(socket: WebSocket, message: Message) {
 }
 
 const SERVER_HOST = '127.0.0.1';
-const SERVER_PORT = 9090;
+const SERVER_PORT = 8080;
 
 /**
  * Crea un servidor HTTP en el puerto 8080 y escucha las conexiones WebSocket.

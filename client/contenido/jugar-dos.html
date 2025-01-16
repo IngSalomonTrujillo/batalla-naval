@@ -38,6 +38,8 @@
         <div class="unirse-a-juego">
           <button id="join-game" class="server-operation">Unirse a un juego existente</button>
           <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego"/>
+          <h3>Nombre:</h3>
+          <input type="text" id="jugador1-name" class="server-operation" placeholder="Ingrese su nombre"/>
         </div>
       </div> 
 
@@ -47,13 +49,13 @@
         </div>
 
         <div class="jugadores">
-          <div class="jugador">
-              <h2>Jugador 1</h2>
-              <div id="jugador1">10</div>
+          <div class="Jugador1">
+             <h2 id="name-J1"></h2>
+          <div id="jugador1-timer">10</div>
           </div>
-          <div class="jugador">
-              <h2>Jugador 2</h2>
-              <div id="jugador2">10</div>
+          <div class="Jugador2">
+              <h2 id="name-J2"></h2>
+              <div id="jugador2"timer>10</div>
           </div>
       </div>
       <div id="turno">Turno de: Jugador 1</div>
@@ -102,7 +104,7 @@
 <script>
   const WEBSOCKET_SCHEME = 'ws';
   const WEBSOCKET_SERVER = 'localhost';
-  const WEBSOCKET_PORT = 9090;
+  const WEBSOCKET_PORT = 9092;
   const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
 
   const socket = new WebSocket(WEBSOCKET_URL);
@@ -114,10 +116,19 @@
   socket.addEventListener('message', (event) => {
     const message = JSON.parse(event.data);
     console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
-    if (message.type === 'gameCreated') {
-       const gameIdInput = document.getElementById('id-partida');
-       gameIdInput.value = message.gameId; // Muestra el ID del juego en el input
-        }
+    if (message.type === 'gameCreated') { 
+      const gameIdInput = document.getElementById('id-partida');
+      const playerNameElement = document.getElementById('name-J1'); 
+
+      gameIdInput.value = message.gameId;  
+      playerNameElement.innerText = `Jugador 1: ${message.playerName}`; 
+        } 
+
+    if (message.type === 'playerJoined') { 
+
+      const playerNameElement = document.getElementById('name-J2'); 
+      playerNameElement.innerText = `Jugador 2: ${message.playerName}`; 
+        } 
   });
 
   socket.addEventListener('close', () => {
@@ -135,14 +146,32 @@
 
   //CREAR JUEGO
   document.getElementById('crear-partida').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'create' }));
+    const PlayerNameElement = document.getElementById('jugador1-name');
+    const playerName = PlayerNameElement.value;
+    const size = 2;
+
+    if (playerName.trim()) {
+        const message = { type: 'create', playerName , size}
+        console.log('Enviando mensaje con', message);
+        socket.send(JSON.stringify(message));
+    } else { 
+        alert("Por favor ingresa tu nombre antes de crear un juego."); 
+    }
+
   });
 
       //UNIRSE A JUEGO
       document.getElementById('join-game').addEventListener('click', () => {
+        const playerName = document.getElementById('jugador1-name').value;
         const gameId = document.getElementById('id-partida').value;
+        const size = 2;
 
-        socket.send(JSON.stringify({ type: 'join', gameId }));
+        if (playerName && gameId) { 
+          socket.send(JSON.stringify({ type: 'join', gameId, playerName , size}));
+         }
+          else { 
+            alert("Por favor ingresa tu nombre y el ID del juego antes de unirte."); 
+          }
       });
 
   //EMPEZAR JUEGO

@@ -13,11 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let barcosColocados = 0; // Contador de barcos colocados en el tablero
     let posicionesOcupadas = []; // Array para almacenar las posiciones ocupadas
-    let barcosEnemigos = [
-        { posiciones: ["A10"] },
-        { posiciones: ["B2", "B3", "B4"] },
-        { posiciones: ["C5", "C6", "C7", "C8"] }
-    ]; // Arreglo para almacenar los barcos enemigos
+    let barcosEnemigos = []; // Arreglo para almacenar los barcos enemigos
     const barcoContainer = document.querySelector(".barcos");
 
     // Crear los barcos arrastrables

@@ -26,12 +26,12 @@ const games: Record<string, Game> = {};
 /**
  * Tipos de mensajes que se reciben a través de la conexión WebSocket.
  */
-type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'leave' ;
+type InboundMessage = 'create' | 'join' | 'start' | 'move' |'hit' | 'leave' ;
 
 /**
  * Tipos de mensajes que se envían a través de la conexión WebSocket.
  */
-type OutboundMessage = 'gameCreated' | 'playerJoined' | 'gameStarted' | 'move' | 'playerLeft' | 'leftGame' | 'error';
+type OutboundMessage = 'gameCreated' | 'playerJoined' | 'gameStarted' | 'move' | 'playerLeft' | 'leftGame' | 'defeatship' | 'error';
 
 /**
  * Interfaz de mensaje que se envía y se recibe a través de la conexión WebSocket.
@@ -46,6 +46,7 @@ interface Message {
     playerName?: string;
     playerCount?: number;
     size?: number;
+    hit?: boolean;
 }
 
 /**
@@ -357,6 +358,13 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
     sendMessage(socket, { type: 'move', gameId, move, playerName });
     game.turn = (game.turn + 1) % game.players.length;
 }
+
+
+//
+
+
+
+
 
 /**
  * Maneja el evento de abandono de un jugador (tipo de mensaje recibido desde el cliente: leave).

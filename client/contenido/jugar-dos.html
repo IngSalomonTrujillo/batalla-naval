@@ -105,6 +105,9 @@ const WEBSOCKET_PORT = 9092;
 const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
 let modojuego = true; 
 let minombre = document.getElementById('jugador1-name');
+let disparo = false;
+let auxMove = false;
+let auxHit = false;
 
 const socket = new WebSocket(WEBSOCKET_URL);
 
@@ -115,6 +118,8 @@ socket.addEventListener('open', () => {
 socket.addEventListener('message', (event) => {
   const message = JSON.parse(event.data);
   console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
+
+
 
   if (message.type === 'gameCreated') { 
     const gameIdInput = document.getElementById('id-partida');
@@ -134,15 +139,24 @@ socket.addEventListener('message', (event) => {
     let minombre = document.getElementById('jugador1-name').value;
     let nombreEnemigo= message.playerName;
     const myPlayerName = modojuego ? playerName1 : playerName1;
-    console.log(message.playerName)
+    
 
     // Si el mensaje es de un jugador diferente al actual, actualiza el tablero correspondiente
 
 if(message.playerName !== minombre){
-  actualizarTableroJugador(message.move, 'tablero-propio', false);
+  auxMove = true;
 } 
-
   }
+
+ if(message.type === 'estadoHit') {
+   auxHit = true;
+   disparo = message.hit;
+ }
+
+ if(auxHit === true && auxMove === true){
+       actualizarTableroJugador(message.move, 'tablero-propio', disparo);
+ }
+
 });
 
 document.getElementById('crear-partida').addEventListener('click', () => {

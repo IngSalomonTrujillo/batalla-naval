@@ -235,8 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
-
 function volverPagina() {
     window.history.back(); 
 }
@@ -244,7 +242,7 @@ function volverPagina() {
 let jugadores = ['jugador1', 'jugador2'];
 let turnoActual = 0;
 
-function iniciarContador() {
+function iniciarContadores() {
     iniciarContadorJugador();
 }
 
@@ -265,7 +263,6 @@ function iniciarContadorJugador() {
         }
     }, 1000);
 }
-
 
 
 document.addEventListener('DOMContentLoaded', function() {

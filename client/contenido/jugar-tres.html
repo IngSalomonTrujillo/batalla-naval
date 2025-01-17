@@ -1,3 +1,4 @@
+Jugar 3
 <!DOCTYPE html>
 <html lang="es-VE">
 <head>
@@ -20,21 +21,49 @@
                 <h1>Batalla Naval</h1>
                 <h2>¡Se un ganador!</h2>
             </hgroup>
-            <nav class="opciones-navegación">
+            <nav class="opciones-navegación"> 
+                <a href="usuario.html">REGISTRO</a>
                 <a href="reglas.html">REGLAS</a>
             </nav>
         </header>
         <main>
+
+          <div class="generar-codigo"> 
+            <div class="crear-partida">
+                <button id="crear-partida" class="server-operation" href="#">Generar Código</button>
+                <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego" />
+            </div>
+        </div>
+
+        <div class="unirse-a-juego">
+          <button id="join-game" class="server-operation">Unirse a un juego existente</button>
+          <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego"/>
+          <h3>Nombre:</h3>
+          <input type="text" id="jugador1-name" class="server-operation" placeholder="Ingrese su nombre"/>
+        </div>
+      </div> 
+
+
             <div class="informacion-partida">
                 <h3>TIEMPO: 00:00</h3>
                 <h3>PUNTOS 000</h3>
             </div>
-            <div class="generar-codigo"> 
-                <div class="crear-partida">
-                    <button id="crear-partida" class="server-operation" href="#">Generar Código</button>
-                    <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego" />
-                </div>
-            </div>
+
+            <div class="jugadores">
+              <div class="Jugador1">
+                <h2 id="name-J1"></h2>
+              <div id="jugador1-timer">60</div>
+              </div>
+              <div class="Jugador2">
+                  <h2 id="name-J2"></h2>
+                  <div id="jugador2-timer"timer>60</div>
+              </div>
+
+              <div class="Jugador3">
+                <h2 id="name-J3"></h2>
+                <div id="jugador3-timer"timer>60</div>
+              </div>
+
             <div class="contenedor-principal">
               <!-- Contenedor para los barcos -->
               <div class="contenedor-barcos">
@@ -51,7 +80,7 @@
                 
             </div>
         </div>
-            <div class="power-ups">
+            <div class="powerup">
                 <a href="#">power ups disponibles</a>
                 <a href="power-ups.html">POWER UPS</a><!--aqui va un popup mostarndo la información de powerups-->
             </div>
@@ -72,12 +101,14 @@
             <h3>by: Ing.Salomón Trujillo | Program Web | Ucab</h3>
         </footer>
     </div>
-    <script>
 
+
+    <script>
       const WEBSOCKET_SCHEME = 'ws';
-      const WEBSOCKET_SERVER = 'batalla-naval.deno.dev';
-      const WEBSOCKET_PORT = 80;
+      const WEBSOCKET_SERVER = 'localhost';
+      const WEBSOCKET_PORT = 9092;
       const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
+      let contador = 0;
     
       const socket = new WebSocket(WEBSOCKET_URL);
     
@@ -88,31 +119,75 @@
       socket.addEventListener('message', (event) => {
         const message = JSON.parse(event.data);
         console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
+
+        if (message.type === 'error' && message.innerText === 'El juego no admite más jugadores...'){
+          alert("La Partida a la que te intentas unir esta llena")
+        }
+
+        if (message.type === 'gameCreated') { 
+          const gameIdInput = document.getElementById('id-partida');
+          const playerNameElement = document.getElementById('name-J1'); 
+    
+          gameIdInput.value = message.gameId;  
+          playerNameElement.innerText = `Jugador 1: ${message.playerName}`; 
+            } 
+    
+        if (message.type === 'playerJoined' ) { 
+          const playerNameElement2 = document.getElementById('name-J2'); 
+          const playerNameElement3 = document.getElementById('name-J3'); 
+          contador++;
+
+              if(contador === 1){ playerNameElement2.innerText = `Jugador 2: ${message.playerName}`; }
+              if(contador === 4){ playerNameElement3.innerText = `Jugador 3: ${message.playerName}`; }
+          
+            } 
       });
     
-      socket.addEventListener('close', () => {
-        console.log('%cSe ha cerrado la conexión con el servidor', 'color: #ee0000');
-    
-        const buttons = document.getElementsByClassName('server-operation');
-    
-        [...buttons].forEach((button) => {
-          button.disabled = true;
-        });
-    
-        const closeButton = document.getElementById('close-connection');
-        closeButton.parentNode.removeChild(closeButton);
-      });
-    
+      
       //CREAR JUEGO
       document.getElementById('crear-partida').addEventListener('click', () => {
-        socket.send(JSON.stringify({ type: 'create' }));
+        const PlayerNameElement = document.getElementById('jugador1-name');
+        const playerName = PlayerNameElement.value;
+        const size = 3;
+    
+        if (playerName.trim()) {
+            const message = { type: 'create', playerName , size}
+            console.log('Enviando mensaje con', message);
+            socket.send(JSON.stringify(message));
+        } else { 
+            alert("Por favor ingresa tu nombre antes de crear un juego."); 
+        }
+    
       });
+    
+          //UNIRSE A JUEGO
+          document.getElementById('join-game').addEventListener('click', () => {
+            const playerName = document.getElementById('jugador1-name').value;
+            const gameId = document.getElementById('id-partida').value;
+            const size = 3;
+    
+            if (playerName && gameId) { 
+              socket.send(JSON.stringify({ type: 'join', gameId, playerName , size}));
+            }
+              else { 
+                alert("Por favor ingresa tu nombre y el ID del juego antes de unirte."); 
+              }
+          });
     
       //EMPEZAR JUEGO
       document.getElementById('iniciar-partida').addEventListener('click', () => {
         const gameId = document.getElementById('id-partida').value;
         socket.send(JSON.stringify({ type: 'start', gameId }));
         console.log('Empezó el juego');
+      });
+    
+      //ATACAR
+      document.getElementById('atacar-enemigo').addEventListener('click', () => {
+      
+      const gameId = document.getElementById('id-partida').value;
+      const move = document.getElementById('move').value;
+    
+      socket.send(JSON.stringify({ type: 'move', gameId, move }));
       });
     
       //SALIR DEL JUEGO
@@ -129,7 +204,6 @@
           socket.close();
         }
       });
-    
     </script>
     
 </body>

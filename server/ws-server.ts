@@ -5,9 +5,15 @@
  */
 interface Game {
     id: string;
-    players: WebSocket[];
+    players: Player[];
     started: boolean;
     turn: number;
+    size:number;
+}
+
+interface Player {
+        socket: WebSocket;
+        playerName: string;
 }
 
 /**
@@ -20,7 +26,7 @@ const games: Record<string, Game> = {};
 /**
  * Tipos de mensajes que se reciben a través de la conexión WebSocket.
  */
-type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'leave';
+type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'leave' ;
 
 /**
  * Tipos de mensajes que se envían a través de la conexión WebSocket.
@@ -37,7 +43,9 @@ interface Message {
     gameId?: string;
     move?: string;
     message?: string;
+    playerName?: string;
     playerCount?: number;
+    size?: number;
 }
 
 /**
@@ -63,7 +71,7 @@ function sendMessage(socket: WebSocket, message: Message) {
 }
 
 const SERVER_HOST = '127.0.0.1';
-const SERVER_PORT = 8080;
+const SERVER_PORT = 9092;
 
 /**
  * Crea un servidor HTTP en el puerto 8080 y escucha las conexiones WebSocket.
@@ -87,6 +95,8 @@ Deno.serve({ hostname: SERVER_HOST, port: SERVER_PORT }, (req) => {
 
     const { socket, response } = Deno.upgradeWebSocket(req);
 
+    console.log('Nuevo cliente conectado.');
+
     // Manejadores de eventos de WebSocket. Cada evento se activa cuando se recibe un mensaje del cliente.
     socket.addEventListener('open', () => {
         console.log('¡Se ha conectado un nuevo cliente!');
@@ -94,7 +104,9 @@ Deno.serve({ hostname: SERVER_HOST, port: SERVER_PORT }, (req) => {
 
     // Los mensajes se analizan y se envían a la función correspondiente para su procesamiento.
     socket.addEventListener('message', (event) => {
+        console.log('Mensaje recibido desde el servidor:', event.data);
         const message = JSON.parse(event.data);
+        console.log('Mensaje recibido:', message);
         handleMessage(socket, message);
     });
 
@@ -114,18 +126,36 @@ Deno.serve({ hostname: SERVER_HOST, port: SERVER_PORT }, (req) => {
  * @param {Message} message - El mensaje recibido del cliente.
  */
 function handleMessage(socket: WebSocket, message: Message) {
+
+    console.log('handleMessage - Tipo de mensaje:', message.type); 
+    console.log('Mensaje completo:', message);
     // Básicamente, se intercambia un "único mensaje" que contiene un "tipo" y una carga útil adicional. Dependiendo del
     // tipo de mensaje, se realiza una acción específica. Por eso usamos un "switch":
     switch (message.type) {
         case 'create':
             // Si el mensaje es de tipo "create", se maneja la creación de un nuevo juego. Solo se necesita la conexión
             // WebSocket del jugador para crear un nuevo juego.
-            handleCreateGame(socket);
+            
+            if (typeof message.playerName === 'string' && message.playerName.trim() !== '' && message.size) { 
+                console.log('Creando juego para el jugador:', message.playerName);
+                 handleCreateGame(socket, message.playerName, message.size);
+                 } else { 
+                    console.error('El nombre del jugador está vacío en el servidor.');
+
+                    sendMessage(socket, { type: 'error', message: 'El nombre del jugador no puede estar vacío y la partida debe tener una cantidad.' }); 
+                }
+
             break;
         case 'join':
             // Para manejar la unión a un juego existente, se necesita la conexión WebSocket del jugador y el ID del
             // juego al cual el jugador se desea unir.
-            handleJoinGame(socket, message.gameId);
+            console.log('Jugador uniéndose al juego:', message.playerName);
+            if (message.playerName) { 
+                handleJoinGame(socket, message.gameId, message.playerName, message.size);
+             } 
+             else {
+                 sendMessage(socket, { type: 'error', message: 'El nombre del jugador no puede estar vacío.' }); 
+                }
             break;
         case 'start':
             // Para manejar el inicio de un juego, se necesita la conexión WebSocket del jugador y el ID del juego a
@@ -153,12 +183,20 @@ function handleMessage(socket: WebSocket, message: Message) {
  *
  * @param {WebSocket} socket - El socket del cliente que ha creado el juego.
  */
-function handleCreateGame(socket: WebSocket) {
+function handleCreateGame(socket: WebSocket, playerName: string, size: number) {
+    // Verificar si el nombre del jugador no está vacío
+    if (!playerName || playerName.trim() === '') {
+        sendMessage(socket, { type: 'error', message: 'El nombre del jugador no puede estar vacío entro aqui.' });
+        return;
+    }
+
+    console.log('Crear juego con ID para el jugador:', playerName);
     const gameId = generateGameId();
 
-    games[gameId] = { id: gameId, players: [socket], started: false, turn: 0 };
-    sendMessage(socket, { type: 'gameCreated', gameId });
+    games[gameId] = { id: gameId, players: [{ socket, playerName }], started: false, turn: 0, size };
+    sendMessage(socket, { type: 'gameCreated', gameId, playerName, size });
 }
+
 
 /**
  * Maneja el evento de unión a un juego (tipo de mensaje recibido desde el cliente: join). Agrega al cliente que se une
@@ -179,7 +217,7 @@ function handleCreateGame(socket: WebSocket) {
  * @param {WebSocket} socket - El socket del cliente que se une al juego.
  * @param {string} [gameId] - El ID del juego al que se une el cliente.
  */
-function handleJoinGame(socket: WebSocket, gameId?: string) {
+function handleJoinGame(socket: WebSocket, gameId?: string, playerName?: string, size?: number) {
     if (!gameId) {
         // Nótese que se envía al cliente un objeto JSON, pero que se debe serializar a texto antes de enviarlo por el
         // WebSocket, ya que sólo es posible enviar strings, ArrayBuffer y Blob vía WebSocket (en realidad hay otros
@@ -188,6 +226,11 @@ function handleJoinGame(socket: WebSocket, gameId?: string) {
         socket.send(JSON.stringify({ type: 'error', message: 'No se especificó ningún ID de juego...' }));
         return; // Este "return" es importante para evitar que se siga ejecutando el código...
     }
+
+    if (!playerName) { 
+        socket.send(JSON.stringify({ type: 'error', message: 'No se especificó ningún nombre de jugador...' })); 
+        return;
+     }
 
     // Se obtiene el juego correspondiente al ID especificado por el cliente...
     const game = games[gameId];
@@ -198,27 +241,31 @@ function handleJoinGame(socket: WebSocket, gameId?: string) {
         return; // Este "return" es importante para evitar que se siga ejecutando el código...
     }
 
-    if (game.players.length >= 4) {
+    if (!size) { 
+        socket.send(JSON.stringify({ type: 'error', message: 'No se especificó ningun tamano de partida...' })); 
+        return;
+     }
+
+
+    if (game.players.length >= size) {
         // Si el juego ya tiene 4 jugadores, se envía un mensaje de error al cliente
         socket.send(JSON.stringify({ type: 'error', message: 'El juego no admite más jugadores...' }));
         return; // Este "return" es importante para evitar que se siga ejecutando el código...
     }
 
     // Se agrega al cliente que se unió al juego a la lista de jugadores...
-    game.players.push(socket);
+    game.players.push({ socket, playerName });
 
     // Se notifica a todos los jugadores en el juego que un nuevo jugador se ha unido...
-    game.players.forEach((player) => {
-        if (player !== socket) {
-            sendMessage(player, { type: 'playerJoined', gameId, playerCount: game.players.length });
-        }
+    game.players.forEach((player) => { 
+        sendMessage(player.socket, { type: 'playerJoined', gameId, playerCount: game.players.length, playerName }); 
     });
 
     // Se dejó esta lógica por si se quiere enviar un mensaje especial solo al jugador que se unió al juego. Sin
     // embargo, en este caso, se envía el mismo mensaje a todos los jugadores en el juego, por lo que no es del todo
     // necesario. De acuerdo a lo que se hizo, es un tanto más eficiente eliminar el "if (player !== socket)" y enviar
     // el mensaje a todos los jugadores, incluido el que se unió...
-    sendMessage(socket, { type: 'playerJoined', gameId, playerCount: game.players.length });
+    sendMessage(socket, { type: 'playerJoined', gameId, playerCount: game.players.length, playerName  });
 }
 
 /**
@@ -254,8 +301,8 @@ function handleStartGame(socket: WebSocket, gameId?: string) {
 
     game.started = true;
     game.players.forEach((player) => {
-        if (player !== socket) {
-            sendMessage(player, { type: 'gameStarted', gameId });
+        if (player.socket !== socket) {
+            sendMessage(player.socket, { type: 'gameStarted', gameId });
         }
     });
 
@@ -286,7 +333,7 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string) {
         return;
     }
 
-    if (game.players[game.turn] !== socket) {
+    if (game.players[game.turn].socket !== socket) {
         sendMessage(socket, { type: 'error', message: 'No es tu turno :@' });
         return;
     }
@@ -297,8 +344,8 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string) {
     }
 
     game.players.forEach((player) => {
-        if (player !== socket) {
-            sendMessage(player, { type: 'move', gameId, move });
+        if (player.socket !== socket) {
+            sendMessage(player.socket, { type: 'move', gameId, move });
         }
     });
 
@@ -325,13 +372,13 @@ function handleLeaveGame(socket: WebSocket, gameId?: string) {
         return;
     }
 
-    game.players = game.players.filter((player) => player !== socket);
+    game.players = game.players.filter((player) => player.socket !== socket);
 
     if (game.players.length === 0) {
         delete games[gameId];
     } else {
         game.players.forEach((player) =>
-            sendMessage(player, { type: 'playerLeft', gameId, playerCount: game.players.length }),
+            sendMessage(player.socket, { type: 'playerLeft', gameId, playerCount: game.players.length }),
         );
     }
 
@@ -347,7 +394,7 @@ function handleDisconnect(socket: WebSocket) {
     for (const gameId in games) {
         const game = games[gameId];
 
-        if (game.players.includes(socket)) {
+        if (game.players.some((player) => player.socket === socket)) {
             handleLeaveGame(socket, gameId);
             break;
         }

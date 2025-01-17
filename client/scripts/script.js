@@ -239,7 +239,7 @@ function volverPagina() {
     window.history.back(); 
 }
 
-let jugadores = ['jugador1', 'jugador2'];
+let jugadores = ['jugador1-timer', 'jugador2-timer'];
 let turnoActual = 0;
 
 function iniciarContadores() {

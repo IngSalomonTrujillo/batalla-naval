@@ -37,7 +37,7 @@
 
         <div class="unirse-a-juego">
           <button id="join-game" class="server-operation">Unirse a un juego existente</button>
-          <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego"/>
+          <input type="text" id="id-juego" class="server-operation" placeholder="ID del juego"/>
           <h3>Nombre:</h3>
           <input type="text" id="jugador1-name" class="server-operation" placeholder="Ingrese su nombre"/>
         </div>
@@ -154,7 +154,7 @@
       //UNIRSE A JUEGO
       document.getElementById('join-game').addEventListener('click', () => {
         const playerName = document.getElementById('jugador1-name').value;
-        const gameId = document.getElementById('id-partida').value;
+        const gameId = document.getElementById('id-juego').value;
         const size = 2;
 
         if (playerName && gameId) { 

@@ -1,18 +1,24 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     const tableros = document.querySelectorAll(".tablero-propio, .tablero-enemigo");
     const letras = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
     const numeros = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     const barcos = [
-        { id: "ship1", href: "../images/ship1.png", width: 3 },
-        { id: "ship2", href: "../images/ship2.png", width: 4 },
-        { id: "ship3", href: "../images/ship3.png", width: 5 },
-        { id: "ship4", href: "../images/ship4.png", width: 3 },
-        { id: "ship5", href: "../images/ship5.png", width: 4 }
+        { id: "ship1", href: "../images/ship1.png", width: 5, posiciones: [] },
+        { id: "ship2", href: "../images/ship2.png", width: 4, posiciones: [] },
+        { id: "ship3", href: "../images/ship3.png", width: 5, posiciones: [] },
+        { id: "ship4", href: "../images/ship4.png", width: 4, posiciones: [] },
+        { id: "ship5", href: "../images/ship5.png", width: 3, posiciones: [] }
     ];
+    
 
     let barcosColocados = 0; // Contador de barcos colocados en el tablero
     let posicionesOcupadas = []; // Array para almacenar las posiciones ocupadas
-
+    let barcosEnemigos = [
+        { posiciones: ["A10"] },
+        { posiciones: ["B2", "B3", "B4"] },
+        { posiciones: ["C5", "C6", "C7", "C8"] }
+    ]; // Arreglo para almacenar los barcos enemigos
     const barcoContainer = document.querySelector(".barcos");
 
     // Crear los barcos arrastrables
@@ -33,11 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Eventos de dragstart para los barcos
         img.addEventListener("dragstart", (e) => {
-            // Si ya ha sido colocado, evitar arrastrarlo
-            if (e.target.getAttribute("data-colocado") === "true") {
-                e.preventDefault();
-                return;
-            }
             if (barcosColocados >= 5) { // Si ya hay 5 barcos en el tablero, no permitir arrastrar más
                 e.preventDefault();
                 alert("Ya has colocado el máximo de 5 barcos.");
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     div.textContent = numeros[i];
                 } else {
                     div.className = "posición";
-                    div.id = `p${numeros[i]}${letras[j - 1]}`;
+                    div.id = `${letras[j - 1]}${numeros[i]}`; // Ejemplo: A1, B2, etc.
                 }
                 tablero.appendChild(div);
             }
@@ -112,10 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const barco = barcos.find(b => b.id === barcoId);
             const posicionId = e.target.id;
 
-            const letra = posicionId.charAt(posicionId.length - 2);
-            const numero = parseInt(posicionId.charAt(posicionId.length - 3));
-
             // No permitir colocar el barco en la primera fila (A) ni en la primera columna (1)
+            const letra = posicionId.charAt(0); // Letra de la columna (A, B, C, ...)
+            const numero = parseInt(posicionId.substring(1)); // Número de la fila (1, 2, 3, ...)
+
             if (letra === "A" || numero === 1) {
                 alert("No puedes colocar el barco en la primera fila ni en la primera columna.");
                 return;
@@ -140,194 +141,155 @@ document.addEventListener("DOMContentLoaded", function () {
             let targetPositionX = e.target.offsetLeft;
             let targetPositionY = e.target.offsetTop;
 
+            // Validar si las posiciones en el tablero están ocupadas según la orientación
+            const posicionesBarco = calcularPosicionesOcupadas(posicionId, barco.width, rotation);
+
+            // Imprimir en consola las posiciones ocupadas por el barco
+            console.log(`El barco ${barco.id} ha sido colocado en las siguientes posiciones:`);
+            console.log(posicionesBarco);
+
+            // Verificar si las posiciones del barco están ocupadas
+            for (let posicion of posicionesBarco) {
+                if (verificarPosicionOcupada(posicion)) {
+                    alert("No puedes colocar el barco porque hay otro barco en las posiciones.");
+                    return;
+                }
+            }
+
             // Crear una nueva imagen de barco ajustada
             const imgClone = document.getElementById(barco.id).cloneNode(true);
             imgClone.style.position = "absolute"; // Necesario para posicionarlo libremente sobre el tablero
 
-            // Aquí ajustamos la imagen del barco para que se alinee con las celdas
             imgClone.style.left = `${targetPositionX}px`; // Ajustar la posición X
             imgClone.style.top = `${targetPositionY}px`; // Ajustar la posición Y
 
             // Colocar el barco sobre el tablero
             tableroPropio.appendChild(imgClone);
 
-            // Hacer que la imagen colocada sea arrastrable
             imgClone.draggable = false; // Deshabilitamos el arrastre después de colocar el barco
-            imgClone.setAttribute("data-colocado", "true"); // Marcar que este barco ya ha sido colocado
+            imgClone.setAttribute("data-colocado", "true");
 
             // Eliminar el barco del contenedor de barcos
             const imgOriginal = document.getElementById(barco.id);
             imgOriginal.remove(); // Eliminar del contenedor
 
-            // Permitir eliminar el barco al hacer clic sobre él
-            imgClone.addEventListener("click", function () {
-                imgClone.remove();
-                barcosColocados--; // Restar un barco cuando se elimine
-                // También eliminamos la posición ocupada
-                const posicionesBarco = calcularPosicionesOcupadas(posicionId, barco.width, rotation);
-                posicionesBarco.forEach(p => {
-                    const index = posicionesOcupadas.indexOf(p);
-                    if (index > -1) {
-                        posicionesOcupadas.splice(index, 1);
-                    }
-                });
-
-                // Restaurar el barco en el contenedor original
-                const imgCloneBack = imgOriginal.cloneNode(true);
-                imgCloneBack.style.transform = `rotate(${imgOriginal.getAttribute("data-rotation")}deg)`; // Restaurar la rotación
-                imgCloneBack.style.position = "relative";
-                imgCloneBack.draggable = true;
-                imgCloneBack.setAttribute("data-rotation", imgOriginal.getAttribute("data-rotation")); // Restaurar la rotación
-
-                // Reemplazamos la imagen en el contenedor de los barcos
-                barcoContainer.appendChild(imgCloneBack); // Se agrega al contenedor de los barcos
-
-                // Volver a habilitar la funcionalidad de arrastrar y voltear
-                imgCloneBack.addEventListener("dragstart", (e) => {
-                    // Si ya ha sido colocado, evitar arrastrarlo
-                    if (e.target.getAttribute("data-colocado") === "true") {
-                        e.preventDefault();
-                        return;
-                    }
-                    if (barcosColocados >= 5) { // Si ya hay 5 barcos en el tablero, no permitir arrastrar más
-                        e.preventDefault();
-                        alert("Ya has colocado el máximo de 5 barcos.");
-                        return;
-                    }
-                    e.dataTransfer.setData("text", barco.id); // Establece el id del barco al arrastrar
-                });
-
-                imgCloneBack.addEventListener("click", function () {
-                    const currentRotation = parseInt(imgCloneBack.getAttribute("data-rotation") || "0");
-                    const newRotation = (currentRotation + 90) % 360;
-                    imgCloneBack.style.transform = `rotate(${newRotation}deg)`;
-                    imgCloneBack.setAttribute("data-rotation", newRotation); // Guardamos la rotación actual
-                });
-            });
-
             // Aumentar el contador de barcos colocados
             barcosColocados++;
 
             // Marcar las posiciones ocupadas por el barco
-            const posicionesBarco = calcularPosicionesOcupadas(posicionId, barco.width, rotation);
             posicionesBarco.forEach(p => agregarPosicionOcupada(p));
+
+            // Hacer el barco eliminable al hacer clic
+            imgClone.addEventListener('click', function () {
+                imgClone.remove(); // Eliminar el barco del tablero
+                barcosColocados--; // Reducir el contador de barcos colocados
+                posicionesBarco.forEach(p => {
+                    const idx = posicionesOcupadas.indexOf(p);
+                    if (idx !== -1) posicionesOcupadas.splice(idx, 1); // Eliminar las posiciones del array de ocupadas
+                });
+
+                // Reagregar el barco al contenedor de barcos
+                const imgOriginal = document.createElement("img");
+                imgOriginal.src = barco.href;
+                imgOriginal.id = barco.id;
+                imgOriginal.className = "barco";
+                imgOriginal.draggable = true;
+                imgOriginal.setAttribute("data-width", barco.width);
+                imgOriginal.setAttribute("data-rotation", "0");
+
+                // Reagregar el barco al contenedor
+                barcoContainer.appendChild(imgOriginal);
+            });
+
+            // Guardar las posiciones del barco colocado en barcosEnemigos
+            barcosEnemigos.push({ id: barco.id, posiciones: posicionesBarco });
         }
     });
 
-    // Función para calcular las posiciones ocupadas por el barco
+    // Función para calcular las posiciones ocupadas por un barco
     function calcularPosicionesOcupadas(posicionId, width, rotation) {
-        const letra = posicionId.charAt(posicionId.length - 2);
-        const numero = parseInt(posicionId.charAt(posicionId.length - 3));
-
         const posiciones = [];
-        const startIdx = letras.indexOf(letra);
+        const letra = posicionId.charAt(0); // Fila, por ejemplo "C"
+        const numero = parseInt(posicionId.substring(1)); // Columna, por ejemplo 3
+        const filaIndex = letras.indexOf(letra);
 
         for (let i = 0; i < width; i++) {
-            let posicion;
-            if (rotation === 0 || rotation === 180) { // Horizontal
-                posicion = `p${numeros[numero - 1]}${letras[startIdx + i]}`;
-            } else { // Vertical
-                posicion = `p${numeros[numero - 1 + i]}${letras[startIdx]}`;
+            if (rotation === 0) { // Horizontal
+                const columna = numero + i;
+                if (columna > 10) break;
+                posiciones.push(`${letra}${columna}`);
+            } else if (rotation === 90) { // Vertical
+                const fila = letras[filaIndex + i];
+                if (!fila) break;
+                posiciones.push(`${fila}${numero}`);
             }
-            posiciones.push(posicion);
         }
+
         return posiciones;
     }
-});
 
+    // Lógica del ataque
+    const attackButton = document.getElementById('atacar-enemigo');
+    const moveInput = document.getElementById('move');
 
+    attackButton.style.display = 'block';
+    moveInput.style.display = 'block';
 
-function volverPagina() {
-    window.history.back(); 
-}
-
-let jugadores = ['jugador1', 'jugador2'];
-let turnoActual = 0;
-
-function iniciarContadores() {
-    iniciarContadorPartida();
-    iniciarContadorJugador();
-}
-
-function iniciarContadorPartida() {
-    let partida = document.getElementById('partida');
-    let tiempo = 180; // 3 minutos en segundos
-
-    let intervalo = setInterval(() => {
-        let minutos = Math.floor(tiempo / 60);
-        let segundos = tiempo % 60;
-        partida.textContent = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-
-        if (tiempo <= 0) {
-            clearInterval(intervalo);
-        } else {
-            tiempo--;
-        }
-    }, 1000);
-}
-
-function iniciarContadorJugador() {
-    let jugador = document.getElementById(jugadores[turnoActual]);
-    let tiempo = 10; // 60 segundos por jugador
-    document.getElementById('turno').textContent = `Turno de: Jugador ${turnoActual + 1}`;
-
-    let intervalo = setInterval(() => {
-        jugador.textContent = tiempo;
-
-        if (tiempo <= 0) {
-            clearInterval(intervalo);
-            turnoActual = (turnoActual + 1) % jugadores.length;
-            iniciarContadorJugador();
-        } else {
-            tiempo--;
-        }
-    }, 1000);
-}
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Obtener los elementos del DOM
-    var playButton = document.getElementById('iniciar-partida');
-    var attackButton = document.getElementById('atacar-enemigo');
-    var moveInput = document.getElementById('move');
-
-    // Inicialmente ocultar el botón "Atacar" y el input de movimiento
-    attackButton.style.display = 'none';
-    moveInput.style.display = 'none';
-
-    // Agregar evento click al botón "Jugar"
-    playButton.addEventListener('click', function() {
-        // Ocultar el botón "Jugar"
-        playButton.style.display = 'none';
-        
-        // Mostrar el botón "Atacar" y el input de movimiento
-        attackButton.style.display = 'block';
-        moveInput.style.display = 'block';
-    });
-
-    // Agregar evento click al botón "Atacar"
-    attackButton.addEventListener('click', function() {
+    attackButton.addEventListener('click', function () {
         // Obtener la posición ingresada
         var position = moveInput.value.toUpperCase();
-        
+
         // Verificar si la posición tiene el formato correcto
-        if (!/^\d+[A-Z]$/.test(position)) {
+        if (!/^[A-J]([1-9]|10)$/.test(position)) {
             alert('Formato de posición no válido');
             return;
         }
-        
-        // Obtener la casilla correspondiente
-        var cell = document.getElementById(`p${position}`);
-        
+
+        // Obtener la casilla correspondiente en el tablero enemigo (el segundo tablero)
+        var enemyBoard = document.getElementById('tablero-enemigo'); // Asegúrate de que el tablero enemigo tenga este ID
+        var cell = enemyBoard.querySelector(`#${position}`);
+
         // Verificar si la casilla existe
-        if (cell) {
-            // Mostrar una "X" en la casilla
-            cell.textContent = 'X';
-        } else {
+        if (!cell) {
             alert('Posición no válida');
+            return;
+        }
+
+        // Verificar si la casilla ya fue atacada
+        if (cell.textContent === 'X' || cell.textContent === 'O') {
+            alert('Ya has atacado esta posición.');
+            return;
+        }
+
+        // Comprobar si la posición corresponde a una ocupada por un barco enemigo
+        let atacado = false;
+        for (let barco of barcosEnemigos) {
+            if (barco.posiciones.includes(position)) {
+                atacado = true;
+                break;
+            }
+        }
+
+        if (atacado) {
+            console.log(`¡Un barco ha sido atacado en la posición ${position}!`);
+            const img = document.createElement('img');
+            img.src = "../images/flama.gif"; // GIF de la flama
+            img.style.width = "110%"; // Reducir el tamaño de la imagen al 10%
+
+            cell.innerHTML = ''; // Limpiar el contenido actual de la celda
+            cell.appendChild(img); // Mostrar la imagen en la celda atacada
+
+            cell.style.color = 'red'; // Resaltar en rojo para indicar un impacto
+        } else {
+            console.log(`No se ha atacado un barco en la posición ${position}.`);
+            cell.textContent = 'O'; // Mostrar "O" si no hay barco en la posición
+            cell.style.color = 'blue'; // Resaltar en azul para indicar un fallo
         }
     });
-    
-});
+
+
+
+}
+);
+
 

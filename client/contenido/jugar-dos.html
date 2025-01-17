@@ -11,6 +11,7 @@
     <link rel="icon" href="https://static3.depositphotos.com/1007664/237/v/450/depositphotos_2376836-stock-illustration-battle-ship.jpg" type="imag/png " sizes="16x16 32x32 64x64">
     <link rel="stylesheet" href="../estilos/style.css">
     <script src="../scripts/script.js"></script>
+    <script src="../scripts/contador.js"></script>
     <title>BatallaNaval | Juego con dos</title>
 </head>
 
@@ -37,6 +38,8 @@
         <div class="unirse-a-juego">
           <button id="join-game" class="server-operation">Unirse a un juego existente</button>
           <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego"/>
+          <h3>Nombre:</h3>
+          <input type="text" id="jugador1-name" class="server-operation" placeholder="Ingrese su nombre"/>
         </div>
       </div> 
 
@@ -45,19 +48,9 @@
             <h3>PUNTOS: 000</h3>
         </div>
 
-        <div class="jugadores">
-          <div class="jugador">
-              <h2>Jugador 1</h2>
-              <div id="jugador1">10</div>
-          </div>
-          <div class="jugador">
-              <h2>Jugador 2</h2>
-              <div id="jugador2">10</div>
-          </div>
-      </div>
       <div id="turno">Turno de: Jugador 1</div>
-      <button onclick="iniciarContadores()">Iniciar</button>
-
+      <!-- <button onclick="iniciarContador()">Iniciar</button> -->
+    
         <div class="contenedor-principal">
             <!-- Contenedor para los barcos -->
             <div class="contenedor-barcos">
@@ -66,10 +59,23 @@
 
             <!-- Contenedor para los tableros -->
             <div class="tableros">
+              <div class="contenedor-tablero">
+              <div class="jugador">
+                <h2 id="name-J1">Jugador 1</h2>
+                <div id="jugador1">60</div>
+              </div>
                 <div class="tablero-propio" id="tablero-propio-solo-1"></div>
-                <div class="tablero-enemigo" id="tablero-enemigo-solo-1"></div>
+              </div>
+
+              <div class="contenedor-tablero">
+                <div class="jugador">
+                  <h2 id="name-J2">Jugador 2</h2>
+                  <div id="jugador2">60</div>
+                </div>
+                <div class="tablero-enemigo" id="tablero-enemigo"></div>
             </div>
-        </div>
+          </div>
+            </div>
 
         <div class="powerup">
             <a href="#">Power-ups disponibles</a>
@@ -78,7 +84,7 @@
 
         <div class="conexion-ws">
             <div id="iniciarpartida">
-                <button id="iniciar-partida" class="server-operation" type="button">Jugar</button>
+                <button id="iniciar-partida" class="server-operation" type="button"  onclick="iniciarContador()">Jugar</button>
             </div>
             <div class="atacar-enemigo">
               <button id="atacar-enemigo" class="server-operation">Atacar</button>
@@ -101,7 +107,7 @@
 <script>
   const WEBSOCKET_SCHEME = 'ws';
   const WEBSOCKET_SERVER = 'localhost';
-  const WEBSOCKET_PORT = 8080;
+  const WEBSOCKET_PORT = 9092;
   const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
 
   const socket = new WebSocket(WEBSOCKET_URL);
@@ -113,23 +119,50 @@
   socket.addEventListener('message', (event) => {
     const message = JSON.parse(event.data);
     console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
-    if (message.type === 'gameCreated') {
+    if (message.type === 'gameCreated') { 
       const gameIdInput = document.getElementById('id-partida');
-       gameIdInput.value = message.gameId; // Muestra el ID del juego en el input
-        }
+      const playerNameElement = document.getElementById('name-J1'); 
+
+      gameIdInput.value = message.gameId;  
+      playerNameElement.innerText = `Jugador 1: ${message.playerName}`; 
+        } 
+
+    if (message.type === 'playerJoined') { 
+
+      const playerNameElement = document.getElementById('name-J2'); 
+      playerNameElement.innerText = `Jugador 2: ${message.playerName}`; 
+        } 
   });
 
   
   //CREAR JUEGO
   document.getElementById('crear-partida').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'create' }));
+    const PlayerNameElement = document.getElementById('jugador1-name');
+    const playerName = PlayerNameElement.value;
+    const size = 2;
+
+    if (playerName.trim()) {
+        const message = { type: 'create', playerName , size}
+        console.log('Enviando mensaje con', message);
+        socket.send(JSON.stringify(message));
+    } else { 
+        alert("Por favor ingresa tu nombre antes de crear un juego."); 
+    }
+
   });
 
       //UNIRSE A JUEGO
       document.getElementById('join-game').addEventListener('click', () => {
+        const playerName = document.getElementById('jugador1-name').value;
         const gameId = document.getElementById('id-partida').value;
+        const size = 2;
 
-        socket.send(JSON.stringify({ type: 'join', gameId }));
+        if (playerName && gameId) { 
+          socket.send(JSON.stringify({ type: 'join', gameId, playerName , size}));
+         }
+          else { 
+            alert("Por favor ingresa tu nombre y el ID del juego antes de unirte."); 
+          }
       });
 
   //EMPEZAR JUEGO

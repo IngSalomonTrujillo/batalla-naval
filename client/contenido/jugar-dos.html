@@ -2,13 +2,12 @@
 <html lang="es-VE">
 <head>
     <meta charset="UTF-8"/>
-    <!--<meta name="language" content="es-VE"/>-->
-    <meta name="viewport" content="width=device-width, initial-scala1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Salomon Trujillo" />
     <meta name="description" content="Este es el juego Batalla Naval"/>
     <meta name="keywords" content="Batalla Naval, juego, taller"/>
     <meta name="robots" content="noindex, nofollow" />
-    <link rel="icon" href="https://static3.depositphotos.com/1007664/237/v/450/depositphotos_2376836-stock-illustration-battle-ship.jpg" type="imag/png " sizes="16x16 32x32 64x64">
+    <link rel="icon" href="https://static3.depositphotos.com/1007664/237/v/450/depositphotos_2376836-stock-illustration-battle-ship.jpg" type="image/png" sizes="16x16 32x32 64x64">
     <link rel="stylesheet" href="../estilos/style.css">
     <script src="../scripts/script.js"></script>
     <script src="../scripts/contador.js"></script>
@@ -28,7 +27,6 @@
     </header>
 
     <main>
-
       <div class="contenedor-crear-unirse"></div>
         <div class="generar-codigo">
             <button id="crear-partida" class="server-operation">Crear Partida </button>
@@ -37,34 +35,30 @@
 
         <div class="unirse-a-juego">
           <button id="join-game" class="server-operation">Unirse a un juego existente</button>
-          <input type="text" id="id-partida" class="server-operation" placeholder="ID del juego"/>
+          <input type="text" id="id-juego" class="server-operation" placeholder="ID del juego"/>
           <h3>Nombre:</h3>
           <input type="text" id="jugador1-name" class="server-operation" placeholder="Ingrese su nombre"/>
         </div>
-      </div> 
-
+      
         <div class="informacion-partida">
           <h1>INFORMACION DE PARTIDA</h1>
-            <h3>PUNTOS: 000</h3>
+          <h3>PUNTOS: 000</h3>
         </div>
 
       <div id="turno">Turno de: Jugador 1</div>
-      <!-- <button onclick="iniciarContador()">Iniciar</button> -->
-    
+
         <div class="contenedor-principal">
-            <!-- Contenedor para los barcos -->
             <div class="contenedor-barcos">
-                <div class="barcos"></div> <!-- Contenedor donde se crearán los barcos arrastrables -->
+                <div class="barcos"></div> 
             </div>
 
-            <!-- Contenedor para los tableros -->
             <div class="tableros">
               <div class="contenedor-tablero">
               <div class="jugador">
                 <h2 id="name-J1">Jugador 1</h2>
                 <div id="jugador1">60</div>
               </div>
-                <div class="tablero-propio" id="tablero-propio-solo-1"></div>
+                <div class="tablero-propio" id="tablero-propio"></div>
               </div>
 
               <div class="contenedor-tablero">
@@ -75,7 +69,7 @@
                 <div class="tablero-enemigo" id="tablero-enemigo"></div>
             </div>
           </div>
-            </div>
+        </div>
 
         <div class="powerup">
             <a href="#">Power-ups disponibles</a>
@@ -105,96 +99,137 @@
 </div>
 
 <script>
-  const WEBSOCKET_SCHEME = 'ws';
-  const WEBSOCKET_SERVER = 'localhost';
-  const WEBSOCKET_PORT = 9092;
-  const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
+const WEBSOCKET_SCHEME = 'ws';
+const WEBSOCKET_SERVER = 'localhost';
+const WEBSOCKET_PORT = 9092;
+const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
+let modojuego = true; 
+let minombre = document.getElementById('jugador1-name');
 
-  const socket = new WebSocket(WEBSOCKET_URL);
+const socket = new WebSocket(WEBSOCKET_URL);
 
-  socket.addEventListener('open', () => {
-    console.log(`%cConecxion exitosa en ${WEBSOCKET_URL}`,  'color: #99ff00');
-  });
+socket.addEventListener('open', () => {
+  console.log(`%cConexión exitosa en ${WEBSOCKET_URL}`, 'color: #99ff00');
+});
 
-  socket.addEventListener('message', (event) => {
-    const message = JSON.parse(event.data);
-    console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
-    if (message.type === 'gameCreated') { 
-      const gameIdInput = document.getElementById('id-partida');
-      const playerNameElement = document.getElementById('name-J1'); 
+socket.addEventListener('message', (event) => {
+  const message = JSON.parse(event.data);
+  console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
 
-      gameIdInput.value = message.gameId;  
-      playerNameElement.innerText = `Jugador 1: ${message.playerName}`; 
-        } 
+  if (message.type === 'gameCreated') { 
+    const gameIdInput = document.getElementById('id-partida');
+    const playerNameElement = document.getElementById('name-J1'); 
 
-    if (message.type === 'playerJoined') { 
+    gameIdInput.value = message.gameId;  
+    playerNameElement.innerText = `Jugador 1: ${message.playerName}`; 
+  }
 
-      const playerNameElement = document.getElementById('name-J2'); 
-      playerNameElement.innerText = `Jugador 2: ${message.playerName}`; 
-        } 
-  });
+  if (message.type === 'playerJoined') { 
+    const playerNameElement = document.getElementById('name-J2'); 
+    playerNameElement.innerText = `Jugador 2: ${message.playerName}`; 
+  }
 
+  if (message.type === 'move') {
   
-  //CREAR JUEGO
-  document.getElementById('crear-partida').addEventListener('click', () => {
-    const PlayerNameElement = document.getElementById('jugador1-name');
-    const playerName = PlayerNameElement.value;
-    const size = 2;
+    let minombre = document.getElementById('jugador1-name').value;
+    let nombreEnemigo= message.playerName;
+    const myPlayerName = modojuego ? playerName1 : playerName1;
+    console.log(message.playerName)
 
-    if (playerName.trim()) {
-        const message = { type: 'create', playerName , size}
-        console.log('Enviando mensaje con', message);
-        socket.send(JSON.stringify(message));
-    } else { 
-        alert("Por favor ingresa tu nombre antes de crear un juego."); 
-    }
+    // Si el mensaje es de un jugador diferente al actual, actualiza el tablero correspondiente
 
-  });
+if(message.playerName !== minombre){
+  actualizarTableroJugador(message.move, 'tablero-propio', false);
+} 
 
-      //UNIRSE A JUEGO
-      document.getElementById('join-game').addEventListener('click', () => {
-        const playerName = document.getElementById('jugador1-name').value;
-        const gameId = document.getElementById('id-partida').value;
-        const size = 2;
+  }
+});
 
-        if (playerName && gameId) { 
-          socket.send(JSON.stringify({ type: 'join', gameId, playerName , size}));
-         }
-          else { 
-            alert("Por favor ingresa tu nombre y el ID del juego antes de unirte."); 
-          }
-      });
+document.getElementById('crear-partida').addEventListener('click', () => {
+  const playerName = document.getElementById('jugador1-name').value;
+  const size = 2;
+  modojuego = true;
 
-  //EMPEZAR JUEGO
-  document.getElementById('iniciar-partida').addEventListener('click', () => {
-    const gameId = document.getElementById('id-partida').value;
+  if (playerName.trim()) {
+    const message = { type: 'create', playerName, size };
+    socket.send(JSON.stringify(message));
+  } else { 
+    alert("Por favor ingresa tu nombre antes de crear un juego.");
+  }
+});
+
+document.getElementById('join-game').addEventListener('click', () => {
+  const playerName = document.getElementById('jugador1-name').value;
+  const gameId = document.getElementById('id-juego').value;
+  const size = 2;
+  modojuego = false;
+
+  if (playerName && gameId) { 
+    socket.send(JSON.stringify({ type: 'join', gameId, playerName, size }));
+  } else { 
+    alert("Por favor ingresa tu nombre y el ID del juego antes de unirte.");
+  }
+});
+
+let playerName1 = '';
+let playerName2 = '';
+
+document.getElementById('iniciar-partida').addEventListener('click', () => {
+  const gameId = modojuego ? document.getElementById('id-partida').value : document.getElementById('id-juego').value;
+  if (modojuego) {
     socket.send(JSON.stringify({ type: 'start', gameId }));
     console.log('Empezó el juego');
-  });
+    playerName1 = document.getElementById('jugador1-name').value; 
+  } else {
+    socket.send(JSON.stringify({ type: 'start', gameId }));
+    console.log('Empezó el juego');
+    playerName2 = document.getElementById('jugador1-name').value; 
+  }
+});
 
-  //ATACAR
-  document.getElementById('atacar-enemigo').addEventListener('click', () => {
-  
-  const gameId = document.getElementById('id-partida').value;
-  const move = document.getElementById('move').value;
+// Manejar ataques: Cuando un jugador hace clic en "atacar-enemigo"
+document.getElementById('atacar-enemigo').addEventListener('click', () => {
+  const gameId = modojuego ? document.getElementById('id-partida').value : document.getElementById('id-juego').value;
+  const move = document.getElementById('move').value.toUpperCase();
 
-  socket.send(JSON.stringify({ type: 'move', gameId, move }));
-  });
+  const playerName = document.getElementById('jugador1-name').value;
 
-  //SALIR DEL JUEGO
-  document.getElementById('dejar-partida').addEventListener('click', () => {
-    const gameId = document.getElementById('id-partida').value;
-    socket.send(JSON.stringify({ type: 'leave', gameId }));
-  });
+  if (/^[A-J]([1-9]|10)$/.test(move)) {
+    socket.send(JSON.stringify({ type: 'move', gameId, move, playerName }));
 
-  //CERRAR CONEXION
-  document.getElementById('cerrar-conexion').addEventListener('click', () => {
-    const response = confirm('¿Estás seguro de que deseas cerrar la conexión con el servidor de WebSocket?\n\nSi la cierras, no podrás enviar ni recibir más mensajes y, de acuerdo a esta implementación, tendrás que recargar la página.');
+    // Actualiza inmediatamente el tablero del enemigo con la jugada del jugador
+    actualizarTableroJugador(move,'tablero-enemigo', true )
+  } else {
+    alert('Posición no válida');
+  }
+});
 
-    if (response) {
-      socket.close();
+function actualizarTableroJugador(move, tableroId, isHit) {
+  const playerBoard = document.getElementById(tableroId);
+  const cell = playerBoard.querySelector(`#${move}`);
+
+  if (isHit !== undefined) {
+    // Si es un "hit", actualizar la celda con el impacto (flama)
+    if (isHit) {
+      const img = document.createElement('img');
+      img.src = "../images/flama.gif";
+      img.style.width = "110%";
+      cell.innerHTML = '';
+      cell.appendChild(img);
+      cell.style.color = 'red';
+    } else {
+      // Si no es un "hit", mostrar "O" en la celda
+      cell.textContent = 'O';
+      cell.style.color = 'blue';
     }
-  });
+  } else {
+    // Si no es un hit ni un fallo, marca la celda con un "X" para indicar que el jugador ha hecho un movimiento
+    cell.textContent = 'X';
+    cell.style.color = 'grey'; // Color temporal para diferenciar los ataques enviados
+  }
+}
+
+
 </script>
 
 </body>

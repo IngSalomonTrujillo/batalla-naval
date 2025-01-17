@@ -165,7 +165,7 @@ function handleMessage(socket: WebSocket, message: Message) {
         case 'move':
             // Para manejar los movimientos de los jugadores, se necesita la conexión WebSocket del jugador, el ID del
             // juego y el movimiento del jugador. El movimiento se reenvía a todos los jugadores en el juego.
-            handleMove(socket, message.gameId, message.move);
+            handleMove(socket, message.gameId, message.move , message.playerName);
             break;
         case 'leave':
             // Para manejar el abandono de un juego, se necesita la conexión WebSocket del jugador y el ID del juego.
@@ -315,9 +315,14 @@ function handleStartGame(socket: WebSocket, gameId?: string) {
  * @param {string} [gameId] - El ID del juego en el que se ha realizado el movimiento.
  * @param {string} [move] - El movimiento realizado por el jugador.
  */
-function handleMove(socket: WebSocket, gameId?: string, move?: string) {
+function handleMove(socket: WebSocket, gameId?: string, move?: string , playerName?: string) {
     if (!gameId) {
         sendMessage(socket, { type: 'error', message: 'No se especificó ningún ID de juego...' });
+        return;
+    }
+
+    if (!playerName) {
+        sendMessage(socket, { type: 'error', message: 'No se especificó ningún nombre de juego...' });
         return;
     }
 
@@ -345,11 +350,11 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string) {
 
     game.players.forEach((player) => {
         if (player.socket !== socket) {
-            sendMessage(player.socket, { type: 'move', gameId, move });
+            sendMessage(player.socket, { type: 'move', gameId, move, playerName});
         }
     });
 
-    sendMessage(socket, { type: 'move', gameId, move });
+    sendMessage(socket, { type: 'move', gameId, move, playerName });
     game.turn = (game.turn + 1) % game.players.length;
 }
 

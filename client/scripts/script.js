@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const tableros = document.querySelectorAll(".tablero-propio, .tablero-enemigo");
     const letras = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
@@ -247,6 +246,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Obtener la casilla correspondiente en el tablero enemigo (el segundo tablero)
         var enemyBoard = document.getElementById('tablero-enemigo'); // Asegúrate de que el tablero enemigo tenga este ID
+        if (!enemyBoard) {
+            alert('No se encontró el tablero enemigo.');
+            return;
+        }
         var cell = enemyBoard.querySelector(`#${position}`);
 
         // Verificar si la casilla existe

@@ -51,17 +51,17 @@ Jugar 3
 
             <div class="jugadores">
               <div class="Jugador1">
-                 <h2 id="name-J1"></h2>
-              <div id="jugador1-timer">10</div>
+                <h2 id="name-J1"></h2>
+              <div id="jugador1-timer">60</div>
               </div>
               <div class="Jugador2">
                   <h2 id="name-J2"></h2>
-                  <div id="jugador2-timer"timer>10</div>
+                  <div id="jugador2-timer"timer>60</div>
               </div>
 
               <div class="Jugador3">
                 <h2 id="name-J3"></h2>
-                <div id="jugador3-timer"timer>10</div>
+                <div id="jugador3-timer"timer>60</div>
               </div>
 
             <div class="contenedor-principal">
@@ -80,7 +80,7 @@ Jugar 3
                 
             </div>
         </div>
-            <div class="power-ups">
+            <div class="powerup">
                 <a href="#">power ups disponibles</a>
                 <a href="power-ups.html">POWER UPS</a><!--aqui va un popup mostarndo la información de powerups-->
             </div>
@@ -137,8 +137,8 @@ Jugar 3
           const playerNameElement3 = document.getElementById('name-J3'); 
           contador++;
 
-               if(contador === 1){ playerNameElement2.innerText = `Jugador 2: ${message.playerName}`; }
-               if(contador === 4){ playerNameElement3.innerText = `Jugador 3: ${message.playerName}`; }
+              if(contador === 1){ playerNameElement2.innerText = `Jugador 2: ${message.playerName}`; }
+              if(contador === 4){ playerNameElement3.innerText = `Jugador 3: ${message.playerName}`; }
           
             } 
       });
@@ -168,7 +168,7 @@ Jugar 3
     
             if (playerName && gameId) { 
               socket.send(JSON.stringify({ type: 'join', gameId, playerName , size}));
-             }
+            }
               else { 
                 alert("Por favor ingresa tu nombre y el ID del juego antes de unirte."); 
               }

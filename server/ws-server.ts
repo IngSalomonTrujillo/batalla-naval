@@ -26,12 +26,12 @@ const games: Record<string, Game> = {};
 /**
  * Tipos de mensajes que se reciben a través de la conexión WebSocket.
  */
-type InboundMessage = 'create' | 'join' | 'start' | 'move' |'hit' | 'leave' ;
+type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'hit' | 'leave' ;
 
 /**
  * Tipos de mensajes que se envían a través de la conexión WebSocket.
  */
-type OutboundMessage = 'gameCreated' | 'playerJoined' | 'gameStarted' | 'move' | 'playerLeft' | 'leftGame' | 'defeatship' | 'error';
+type OutboundMessage = 'gameCreated' | 'playerJoined' | 'gameStarted' | 'move' | 'playerLeft' | 'leftGame' | 'defeatship' | 'estadoHit' | 'error';
 
 /**
  * Interfaz de mensaje que se envía y se recibe a través de la conexión WebSocket.
@@ -168,6 +168,11 @@ function handleMessage(socket: WebSocket, message: Message) {
             // juego y el movimiento del jugador. El movimiento se reenvía a todos los jugadores en el juego.
             handleMove(socket, message.gameId, message.move , message.playerName);
             break;
+            
+        case 'hit':
+            handleHit(socket, message.move, message.hit)  ;
+            break;
+              
         case 'leave':
             // Para manejar el abandono de un juego, se necesita la conexión WebSocket del jugador y el ID del juego.
             handleLeaveGame(socket, message.gameId);
@@ -360,9 +365,23 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
 }
 
 
-//
+/**Maneja e indica si le ha dado a un barco o no
+ @param {WebSocket} socket - El socket del cliente que ha realizado el movimiento.
+ @param {string} [move] - El movimiento realizado por el jugador.
+ @param {boolean}[hit] -Si le dio al barco o no
+ */
 
+ function handleHit(socket: WebSocket, move?: string, hit?: boolean) {
+    if ( !move || hit === undefined) {
+        sendMessage(socket, { type: 'error', message: 'Movimiento o estado de acierto no especificado.' });
+        return;
+    }
 
+   
+ 
+        sendMessage(socket, { type: 'estadoHit', move, hit });
+    
+}
 
 
 

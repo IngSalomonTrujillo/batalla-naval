@@ -282,146 +282,168 @@
       //TABLEROS Y BARCOS --------------------------------------------------------------------------------------------------------
 
 
-      //CONEXION/SERVIDOR-----------------------------------------------------------------------------------------------------------------
-        const WEBSOCKET_SCHEME = 'ws';
-        const WEBSOCKET_SERVER = 'localhost';
-        const WEBSOCKET_PORT = 9092;
-        const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
-        let modojuego = true;
-        let minombre = document.getElementById('jugador1-name');
+    //CONEXION/SERVIDOR-----------------------------------------------------------------------------------------------------------------
+const WEBSOCKET_SCHEME = 'ws';
+const WEBSOCKET_SERVER = 'localhost';
+const WEBSOCKET_PORT = 9092;
+const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
+let modojuego = true;
+let minombre = document.getElementById('jugador1-name');
+let hit = false;
+let disparo = false;
+let aux= false;
+const socket = new WebSocket(WEBSOCKET_URL);
+console.log('Posiciones de los barcos: ', posicionesBarcosGlobal);
+
+socket.addEventListener('open', () => {
+    console.log(`%cConexión exitosa en ${WEBSOCKET_URL}`, 'color: #99ff00');
+});
+
+// Manejo de la creación de partida
+document.getElementById('crear-partida').addEventListener('click', () => {
+    const playerName = document.getElementById('jugador1-name').value;
+    const size = 2;
+    modojuego = true;
+
+    if (playerName.trim()) {
+        const message = { type: 'create', playerName, size };
+        socket.send(JSON.stringify(message));
+    } else {
+        alert("Por favor ingresa tu nombre antes de crear un juego.");
+    }
+});
+
+// Manejo de unirse a una partida
+document.getElementById('join-game').addEventListener('click', () => {
+    const playerName = document.getElementById('jugador1-name').value;
+    const gameId = document.getElementById('id-juego').value;
+    const size = 2;
+    modojuego = false;
+
+    if (playerName && gameId) {
+        socket.send(JSON.stringify({ type: 'join', gameId, playerName, size }));
+    } else {
+        alert("Por favor ingresa tu nombre y el ID del juego antes de unirte.");
+    }
+});
+
+let playerName1 = '';
+let playerName2 = '';
+
+document.getElementById('iniciar-partida').addEventListener('click', () => {
+    const gameId = modojuego ? document.getElementById('id-partida').value : document.getElementById('id-juego').value;
+    if (modojuego) {
+        socket.send(JSON.stringify({ type: 'start', gameId }));
+        console.log('Empezó el juego');
+        playerName1 = document.getElementById('jugador1-name').value;
+    } else {
+        socket.send(JSON.stringify({ type: 'start', gameId }));
+        console.log('Empezó el juego');
+        playerName2 = document.getElementById('jugador1-name').value;
+    }
+});
+
+// Manejar ataques: Cuando un jugador hace clic en "atacar-enemigo"
+document.getElementById('atacar-enemigo').addEventListener('click', () => {
+    const gameId = modojuego ? document.getElementById('id-partida').value : document.getElementById('id-juego').value;
+    const move = document.getElementById('move').value.toUpperCase();
+
+    const playerName = document.getElementById('jugador1-name').value;
+
+    if (/^[A-J]([1-9]|10)$/.test(move)) {
+        socket.send(JSON.stringify({ type: 'move', gameId, move, playerName }));
+       
+    } else {
+        alert('Posición no válida');
+    }
+});
+
+socket.addEventListener('message', (event) => {
+    const message = JSON.parse(event.data);
+    console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
+
+    if (message.type === 'gameCreated') {
+        const gameIdInput = document.getElementById('id-partida');
+        const playerNameElement = document.getElementById('name-J1');
+
+        gameIdInput.value = message.gameId;
+        playerNameElement.innerText = `Jugador 1: ${message.playerName}`;
+    }
+
+    if (message.type === 'playerJoined') {
+        const playerNameElement = document.getElementById('name-J2');
+        playerNameElement.innerText = `Jugador 2: ${message.playerName}`;
+    }
+
+    if (message.type === 'estadoHit') {
+            let minombre = document.getElementById('jugador1-name').value;
+            hit = message.hit;
+            const move = message.move;
+            console.log(`Resultado del hit en la posición ${move}: ${hit ? 'hit' : 'miss'}`);
+            if(minombre === message.playerName){
+                actualizarTableroJugador(move, 'tablero-enemigo', hit);}
+        }
+
+    if (message.type === 'move') {
+        let minombre = document.getElementById('jugador1-name').value;
+        let move = message.move;
+        let playerName = message.playerName;
+        let gameId = message.gameId;
+        console.log(' 1. El movimiento es:', move);
+        console.log('2. Lenth posiciones:', posicionesBarcosGlobal.length);
+        console.log('3. Posiciones:', posicionesBarcosGlobal);
+        // Verifica si el ataque fue un "hit"
         let hit = false;
-        const socket = new WebSocket(WEBSOCKET_URL);
-        console.log('Posiciones de los barcos: ', posicionesBarcosGlobal);
-
-        socket.addEventListener('open', () => {
-            console.log(`%cConexión exitosa en ${WEBSOCKET_URL}`, 'color: #99ff00');
-        });
-
-        socket.addEventListener('message', (event) => {
-            const message = JSON.parse(event.data);
-            console.log('%c<- %cMensaje recibido desde el servidor:', 'color: #99ff00', 'color: inherit', message);
-
-            if (message.type === 'gameCreated') {
-                const gameIdInput = document.getElementById('id-partida');
-                const playerNameElement = document.getElementById('name-J1');
-
-                gameIdInput.value = message.gameId;
-                playerNameElement.innerText = `Jugador 1: ${message.playerName}`;
-            }
-
-            if (message.type === 'playerJoined') {
-                const playerNameElement = document.getElementById('name-J2');
-                playerNameElement.innerText = `Jugador 2: ${message.playerName}`;
-            }
-
-            if (message.type === 'move') {
-                let minombre = document.getElementById('jugador1-name').value;
-                let nombreEnemigo = message.playerName;
-                const myPlayerName = modojuego ? playerName1 : playerName1;
-                
-                // Si el mensaje es de un jugador diferente al actual, actualiza el tablero correspondiente
-                if (message.playerName !== minombre) {
-                  for (let i = 0; i < posicionesBarcosGlobal.length; i++) {
-                    if (posicionesBarcosGlobal[i] === message.move) {
-                      message.type = 'estadoHit';
-                      hit = true;
-                      break;
-                    } else {
-                      message.type = 'estadoHit';
-                      hit = false;
-                    }
-                  }
-                    const message = { type: 'hit', move: message.move, hit };
-                    socket.send(JSON.stringify(message));
-                    actualizarTableroJugador(message.move, 'tablero-propio', hit);
-                }
-            }
-
-        });
-
-        document.getElementById('crear-partida').addEventListener('click', () => {
-            const playerName = document.getElementById('jugador1-name').value;
-            const size = 2;
-            modojuego = true;
-
-            if (playerName.trim()) {
-                const message = { type: 'create', playerName, size };
-                socket.send(JSON.stringify(message));
-            } else {
-                alert("Por favor ingresa tu nombre antes de crear un juego.");
-            }
-        });
-
-        document.getElementById('join-game').addEventListener('click', () => {
-            const playerName = document.getElementById('jugador1-name').value;
-            const gameId = document.getElementById('id-juego').value;
-            const size = 2;
-            modojuego = false;
-
-            if (playerName && gameId) {
-                socket.send(JSON.stringify({ type: 'join', gameId, playerName, size }));
-            } else {
-                alert("Por favor ingresa tu nombre y el ID del juego antes de unirte.");
-            }
-        });
-
-        let playerName1 = '';
-        let playerName2 = '';
-
-        document.getElementById('iniciar-partida').addEventListener('click', () => {
-            const gameId = modojuego ? document.getElementById('id-partida').value : document.getElementById('id-juego').value;
-            if (modojuego) {
-                socket.send(JSON.stringify({ type: 'start', gameId }));
-                console.log('Empezó el juego');
-                playerName1 = document.getElementById('jugador1-name').value;
-            } else {
-                socket.send(JSON.stringify({ type: 'start', gameId }));
-                console.log('Empezó el juego');
-                playerName2 = document.getElementById('jugador1-name').value;
-            }
-        });
-
-        // Manejar ataques: Cuando un jugador hace clic en "atacar-enemigo"
-        document.getElementById('atacar-enemigo').addEventListener('click', () => {
-            const gameId = modojuego ? document.getElementById('id-partida').value : document.getElementById('id-juego').value;
-            const move = document.getElementById('move').value.toUpperCase();
-
-            const playerName = document.getElementById('jugador1-name').value;
-
-            if (/^[A-J]([1-9]|10)$/.test(move)) {
-                socket.send(JSON.stringify({ type: 'move', gameId, move, playerName }));
-
-                // Actualiza inmediatamente el tablero del enemigo con la jugada del jugador
-                actualizarTableroJugador(move, 'tablero-enemigo', true);
-            } else {
-                alert('Posición no válida');
-            }
-        });
-
-        function actualizarTableroJugador(move, tableroId, isHit) {
-            const playerBoard = document.getElementById(tableroId);
-            const cell = playerBoard.querySelector(`#${move}`);
-
-            if (isHit !== undefined) {
-                // Si es un "hit", actualizar la celda con el impacto (flama)
-                if (isHit) {
-                    const img = document.createElement('img');
-                    img.src = "../images/flama.gif";
-                    img.style.width = "110%";
-                    cell.innerHTML = '';
-                    cell.appendChild(img);
-                    cell.style.color = 'red';
-                } else {
-                    // Si no es un "hit", mostrar "O" en la celda
-                    cell.textContent = 'O';
-                    cell.style.color = 'blue';
-                }
-            } else {
-                // Si no es un hit ni un fallo, marca la celda con un "X" para indicar que el jugador ha hecho un movimiento
-                cell.textContent = 'X';
-                cell.style.color = 'grey'; // Color temporal para diferenciar los ataques enviados
+        for (let i = 0; i < posicionesBarcosGlobal.length; i++) {
+            if (posicionesBarcosGlobal[i] === move) {
+                hit = true;
+                break;
             }
         }
+    
+        // Si el mensaje es del jugador contrario, actualiza el tablero correspondiente
+        if (message.playerName !== minombre) {
+            console.log( '4. Nombre del jugador:', message.playerName);
+            console.log( '5. Mi nombre:', minombre);
+            console.log(`El ataque de ${message.playerName} a la posición ${move} es un ${hit ? 'hit' : 'miss'}`);
+            socket.send(JSON.stringify({ type: 'hit', move, hit, playerName, gameId }));
+            aux = hit;
+            console.log('6. Hit:', hit);
+            console.log('7. Move:', move);
+            // Actualiza los tableros dependiendo si fue un hit o miss
+            actualizarTableroJugador(move, 'tablero-propio', hit);
+        } 
+    }
+
+
+});
+function actualizarTableroJugador(move, tableroId, isHit) {
+    const playerBoard = document.getElementById(tableroId);
+    const cell = playerBoard.querySelector(`#${move}`);
+
+    if (isHit !== undefined) {
+        // Si es un "hit", actualizar la celda con el impacto (flama)
+        if (isHit) {
+            const img = document.createElement('img');
+            img.src = "../images/flama.gif";
+            img.style.width = "110%";
+            cell.innerHTML = '';
+            cell.appendChild(img);
+            cell.style.color = 'red';
+        } else {
+            // Si no es un "hit", mostrar "O" en la celda
+            cell.textContent = 'O';
+            cell.style.color = 'blue';
+        }
+    } else {
+        // Si no es un hit ni un fallo, marca la celda con un "X" para indicar que el jugador ha hecho un movimiento
+        cell.textContent = 'X';
+        cell.style.color = 'grey'; // Color temporal para diferenciar los ataques enviados
+    }
+}
+
+
+
     </script>
 </body>
 </html>

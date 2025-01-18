@@ -31,7 +31,7 @@ type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'hit' | 'leave' ;
 /**
  * Tipos de mensajes que se envían a través de la conexión WebSocket.
  */
-type OutboundMessage = 'gameCreated' | 'playerJoined' | 'gameStarted' | 'move' | 'playerLeft' | 'leftGame' | 'defeatship' | 'estadoHit' | 'error';
+type OutboundMessage = 'gameCreated' | 'playerJoined' | 'gameStarted' | 'move' | 'playerLeft' | 'leftGame' | 'defeatship' | 'estadoHit' | 'error' | 'info';
 
 /**
  * Interfaz de mensaje que se envía y se recibe a través de la conexión WebSocket.
@@ -170,7 +170,7 @@ function handleMessage(socket: WebSocket, message: Message) {
             break;
             
         case 'hit':
-            handleHit(socket, message.move, message.hit)  ;
+            handleHit(socket, message.move, message.hit, message.playerName, message.gameId)  ;
             break;
               
         case 'leave':
@@ -371,15 +371,37 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
  @param {boolean}[hit] -Si le dio al barco o no
  */
 
- function handleHit(socket: WebSocket, move?: string, hit?: boolean) {
-    if ( !move || hit === undefined) {
-        sendMessage(socket, { type: 'error', message: 'Movimiento o estado de acierto no especificado.' });
+ function handleHit(socket: WebSocket, move?: string, hit?: boolean, playerName?:string, gameId?: string) {
+
+    if (move === undefined || move === null || move === '') {
+        sendMessage(socket, { type: 'error', message: '¡Debe especificarse un movimiento!' });
+        return;
+    }
+    if (!gameId) {
+        sendMessage(socket, { type: 'error', message: 'No se especificó ningún ID de juego...' });
         return;
     }
 
-   
- 
-        sendMessage(socket, { type: 'estadoHit', move, hit });
+    if (!playerName) {
+        sendMessage(socket, { type: 'error', message: 'No se especificó ningún nombre de juego...' });
+        return;
+    }
+
+    const game = games[gameId];
+
+    if (!game) {
+        sendMessage(socket, { type: 'error', message: `No se encontró ningún juego bajo el ID "${gameId}"` });
+        return;
+    }
+
+    game.players.forEach((player) => {
+       
+            sendMessage(player.socket, { type: 'estadoHit', move, hit, playerName, gameId});
+        
+    });
+
+    sendMessage(socket, { type: 'estadoHit', move, hit, playerName, gameId});
+        
     
 }
 

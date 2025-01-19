@@ -26,7 +26,7 @@ const games: Record<string, Game> = {};
 /**
  * Tipos de mensajes que se reciben a través de la conexión WebSocket.
  */
-type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'hit' | 'leave' ;
+type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'hit' | 'leave' | 'estadoHundido';
 
 /**
  * Tipos de mensajes que se envían a través de la conexión WebSocket.
@@ -47,6 +47,7 @@ interface Message {
     playerCount?: number;
     size?: number;
     hit?: boolean;
+    hundido?: number;
 }
 
 /**
@@ -170,12 +171,17 @@ function handleMessage(socket: WebSocket, message: Message) {
             break;
             
         case 'hit':
-            handleHit(socket, message.move, message.hit, message.playerName, message.gameId)  ;
+            handleHit(socket, message.move, message.hit, message.playerName, message.gameId);  ;
             break;
               
         case 'leave':
             // Para manejar el abandono de un juego, se necesita la conexión WebSocket del jugador y el ID del juego.
             handleLeaveGame(socket, message.gameId);
+            break;
+
+        case 'estadoHundido':
+            // Para manejar el abandono de un juego, se necesita la conexión WebSocket del jugador y el ID del juego.
+            handleHundido(socket, message.hundido, message.playerName, message.gameId);
             break;
         default:
             // Si el tipo de mensaje no es reconocido, se envía un mensaje de error al jugador.
@@ -202,6 +208,41 @@ function handleCreateGame(socket: WebSocket, playerName: string, size: number) {
     games[gameId] = { id: gameId, players: [{ socket, playerName }], started: false, turn: 0, size };
     sendMessage(socket, { type: 'gameCreated', gameId, playerName, size });
 }
+
+/**
+ * Maneja el evento de hundimiento de un barco.
+ *
+ * @param {WebSocket} socket - El socket del cliente que ha enviado el mensaje.
+ * @param {number} [hundido] - El número de barcos hundidos.
+ */
+
+function handleHundido(socket: WebSocket, hundido?: number, playerName?: string, gameId?: string) {
+    if (!playerName) {
+        sendMessage(socket, { type: 'error', message: 'No se especificó ningún nombre de jugador...' });
+        return;
+    }
+    if (hundido ===0) {
+        sendMessage(socket, { type: 'error', message: 'No se ha hundido ningun barco' });
+        return;
+    }
+else {
+    if (!gameId) {
+        sendMessage(socket, { type: 'error', message: 'No se especificó ningún ID de juego...' });
+        return;
+    }
+
+    const game = games[gameId];
+
+    if (!game) {
+        sendMessage(socket, { type: 'error', message: `No se encontró ningún juego bajo el ID "${gameId}"` });
+        return;
+    }
+    game.players.forEach((player) => {
+       
+        sendMessage(player.socket, { type: 'defeatship', hundido, playerName }); }
+    );
+};
+}   
 
 
 /**
@@ -369,9 +410,11 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
  @param {WebSocket} socket - El socket del cliente que ha realizado el movimiento.
  @param {string} [move] - El movimiento realizado por el jugador.
  @param {boolean}[hit] -Si le dio al barco o no
+ @param {number}[hundido] -Si le dio al barco o no
  */
 
  function handleHit(socket: WebSocket, move?: string, hit?: boolean, playerName?:string, gameId?: string) {
+
 
     if (move === undefined || move === null || move === '') {
         sendMessage(socket, { type: 'error', message: '¡Debe especificarse un movimiento!' });
@@ -382,10 +425,12 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
         return;
     }
 
+    
     if (!playerName) {
         sendMessage(socket, { type: 'error', message: 'No se especificó ningún nombre de juego...' });
         return;
     }
+
 
     const game = games[gameId];
 
@@ -396,11 +441,11 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
 
     game.players.forEach((player) => {
        
-            sendMessage(player.socket, { type: 'estadoHit', move, hit, playerName, gameId});
+            sendMessage(player.socket, { type: 'estadoHit', move, hit, playerName, gameId });
         
     });
 
-    sendMessage(socket, { type: 'estadoHit', move, hit, playerName, gameId});
+    sendMessage(socket, { type: 'estadoHit', move, hit, playerName, gameId });
         
     
 }

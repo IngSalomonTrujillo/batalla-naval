@@ -297,9 +297,24 @@ main h2 {
     border-radius: 10px;
     background-image: url('../images/table.jpg'); 
 }
+.atacar-enemigo-solo input{
+    display: block;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #8B4513;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+    border:#8B4513;
+}
 
-
-
+.barcoshundidos {
+    text-align: center;
+    font-size: 2rem;
+    color: green;
+}
+.barcoshundidos{}
 .informacion-partida {
     text-align: center;
 }

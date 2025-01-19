@@ -73,27 +73,31 @@
             </ol>
           </section>
           <div id="botón-jugar">
-            <a href="#">Jugar</a>
+            <a href="jugar-solo.html">Jugar</a>
           </div>
           <div class="top-10">
             <h2>Top 10 Capitanes</h2>
               <ol>
-                <li>Capitan 1</li>
-                <li>Capitan 2</li>
-                <li>Capitan 3</li>
-                <li>Capitan 4</li>
-                <li>Capitan 5</li>
-                <li>Capitan 6</li>
-                <li>Capitan 7</li>
-                <li>Capitan 8</li>
-                <li>Capitan 9</li>
-                <li>Capitan 10</li>
+                <li id="ganador"></li>
+                <li id="segundoLugar"></li>
+                <li id="tercerLugar"></li>
               </ol>
           </div>
       </main>
       <footer>
-        <h3>by: Ing.Salomón Trujillo | Program Web | Ucab</h3>
+        <h4>Daniel Perez, Salomon Trujillo, Jose Oropeza</h4>
       </footer>
     </div>
+    
+    <script>
+      // Recuperar los nombres del ganador y del segundo lugar
+      const ganador = localStorage.getItem('ganador');
+      const segundoLugar = localStorage.getItem('segundoLugar');
+
+      // Mostrar los nombres en la lista
+      document.getElementById('ganador').textContent = `1. ${ganador}`;
+      document.getElementById('segundoLugar').textContent = `2. ${segundoLugar}`;
+  </script>
+
   </body>
   </html>

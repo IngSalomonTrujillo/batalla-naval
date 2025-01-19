@@ -31,9 +31,6 @@
                 <div class="contenedor-barcos">
                     <div class="barcos"></div> <!-- Contenedor donde se crearán los barcos arrastrables -->
                 </div>
-
-                
-                <div id="mensaje-victoria"></div>
                 
                 <div class="tableros">
                     <div class="contenedor-tablero">
@@ -70,12 +67,12 @@
             </div>
         </main>
         <footer>
-            <h3>by: Ing.Salomón Trujillo | Program Web | Ucab</h3>
+            <h4>Daniel Perez, Salomon Trujillo, Jose Oropeza</h4>
         </footer>
         
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
     const tableros = document.querySelectorAll(".tablero-propio, .tablero-enemigo");
     const letras = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
     const numeros = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -204,6 +201,7 @@ function agregarPosicionAtacadaComputadora(posicionId) {
     function colocarBarcosEnemigos() {
     let contadorCasillasOcupadas = 0;  // Contador para las casillas ocupadas
     const maxCasillasOcupadas = 18;    // Máximo número de casillas ocupadas
+    const mensajeAviso = document.getElementById('mensaje-ataque');
 
     barcos.forEach(barco => {
         let colocado = false;
@@ -225,6 +223,7 @@ function agregarPosicionAtacadaComputadora(posicionId) {
     // Verificar si se han colocado exactamente 18 casillas ocupadas
     if (contadorCasillasOcupadas !== maxCasillasOcupadas) {
         console.log(`Se han colocado ${contadorCasillasOcupadas} casillas ocupadas en lugar de 18.`);
+        mensajeAviso.textContent = `Recarga la página por favor`;
     } else {
         console.log("Se han colocado exactamente 18 casillas ocupadas.");
     }
@@ -232,9 +231,7 @@ function agregarPosicionAtacadaComputadora(posicionId) {
     mostrarPosicionesEnemigos(); // Mostrar las posiciones de los barcos enemigos en la consola
 }
 
-
-
-    let contadorAtaquesExitososComputadora = 0;  // Variable global para el contador
+let contadorAtaquesExitososComputadora = 0;  // Variable global para el contador
 
 function ataqueComputadora() {
     let fila = Math.floor(Math.random() * 10);
@@ -255,11 +252,11 @@ function ataqueComputadora() {
     if (posicionElemento) {
         if (verificarPosicionOcupada(idPosicion)) {
             const img = document.createElement('img');
-                    img.src = "../images/flama.gif";
-                    img.style.width = "110%";
-                    posicionElemento.innerHTML = '';
-                    posicionElemento.appendChild(img);
-                    posicionElemento.style.color = 'red';
+            img.src = "../images/flama.gif";
+            img.style.width = "110%";
+            posicionElemento.innerHTML = '';
+            posicionElemento.appendChild(img);
+            posicionElemento.style.color = 'red';
             console.log(`¡La computadora ha atacado (${idPosicion}) y ha acertado!`);
             mensajeAviso.textContent = `¡La computadora ha atacado (${idPosicion}) y ha acertado!`;
             agregarPosicionOcupadaEnemigo(idPosicion);  // Solo agregar si el ataque es exitoso
@@ -271,6 +268,8 @@ function ataqueComputadora() {
             if (contadorAtaquesExitososComputadora === 18) {
                 mensajeAviso.textContent = "¡La computadora ha ganado!";
                 console.log("¡La computadora ha ganado!");
+                localStorage.setItem('ganador', 'Computadora');
+                localStorage.setItem('segundoLugar', 'Jugador');
                 return;  // Detener el juego
             }
         } else {
@@ -286,7 +285,6 @@ function ataqueComputadora() {
     }
 }
 
-
 let contadorAtaquesExitososJugador = 0;  // Variable global para el contador
 
 function atacarEnemigo() {
@@ -298,9 +296,9 @@ function atacarEnemigo() {
             const img = document.createElement('img');
             img.src = "../images/flama.gif";
             img.style.width = "110%";
-            posicion.innerHTML = '';
-            posicion.appendChild(img);
-            posicion.style.color = 'red';
+            posicionElemento.innerHTML = '';
+            posicionElemento.appendChild(img);
+            posicionElemento.style.color = 'red';
             console.log(`¡Impacto en ${movimiento}!`);
             mensajeAviso.textContent = `¡Impacto en ${movimiento}!`;
             
@@ -311,6 +309,8 @@ function atacarEnemigo() {
             if (contadorAtaquesExitososJugador === 18) {
                 mensajeAviso.textContent = "¡El jugador ha ganado!";
                 console.log("¡El jugador ha ganado!");
+                localStorage.setItem('ganador', 'Jugador');
+                localStorage.setItem('segundoLugar', 'Computadora');
                 return;  // Detener el juego
             }
         } else {
@@ -327,8 +327,6 @@ function atacarEnemigo() {
     // Ejecutar el ataque de la computadora después del ataque del jugador
     ataqueComputadora();
 }
-
-
 
     document.addEventListener('dragover', function (e) {
         e.preventDefault();

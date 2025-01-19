@@ -9,6 +9,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="https://static3.depositphotos.com/1007664/237/v/450/depositphotos_2376836-stock-illustration-battle-ship.jpg" type="image/png" sizes="16x16 32x32 64x64">
     <link rel="stylesheet" href="../estilos/style.css">
+    <script src="../scripts/contador.js"></script>
     <title>BatallaNaval | Juego con dos</title>
 </head>
 
@@ -21,6 +22,7 @@
             </hgroup>
             <nav class="opciones-navegación">
                 <a href="reglas.html">REGLAS</a>
+                <a class="volver-btn" onclick="volverPagina()">VOLVER</a>
             </nav>
         </header>
 
@@ -38,14 +40,8 @@
                 <input type="text" id="jugador1-name" class="server-operation" placeholder="Ingrese su nombre"/>
             </div>
 
-            <div class="informacion-partida">
-                <h1>INFORMACION DE PARTIDA</h1>
-                <h3>PUNTOS: 000</h3>
-            </div>
-
             <div id="turno">Turno de: Jugador 1</div>
-            <div id="mensaje" class="barcoshundidos"></div> <!-- Aquí aparecerá el mensaje -->
-
+            <div id="mensaje" class="barcoshundidos"></div>
 
             <div class="contenedor-principal">
                 <div class="contenedor-barcos">
@@ -56,7 +52,6 @@
                     <div class="contenedor-tablero">
                         <div class="jugador">
                             <h2 id="name-J1">Jugador 1</h2>
-                            <div id="jugador1">60</div>
                         </div>
                         <div class="tablero-propio" id="tablero-propio"></div>
                     </div>
@@ -64,7 +59,6 @@
                     <div class="contenedor-tablero">
                         <div class="jugador">
                             <h2 id="name-J2">Jugador 2</h2>
-                            <div id="jugador2">60</div>
                         </div>
                         <div class="tablero-enemigo" id="tablero-enemigo"></div>
                     </div>
@@ -78,7 +72,7 @@
 
             <div class="conexion-ws">
                 <div id="iniciarpartida">
-                    <button id="iniciar-partida" class="server-operation" type="button" onclick="iniciarContador()">Jugar</button>
+                    <button id="iniciar-partida" class="server-operation" type="button">Jugar</button>
                 </div>
                 <div class="atacar-enemigo">
                     <button id="atacar-enemigo" class="server-operation">Atacar</button>
@@ -94,14 +88,14 @@
         </main>
 
         <footer>
-            <h3>by: Ing. Salomón Trujillo | Program Web | Ucab</h3>
+            <h4>Daniel Perez, Salomon Trujillo, Jose Oropeza</h4>
         </footer>
     </div>
 
     <script>
           let posicionesBarcosGlobal = []; // Aquí se almacenarán todas las posiciones de los barcos
           let posicionesAtacadas = []; // Aquí se almacenarán todas las posiciones atacadas
-          const barcos = [
+        const barcos = [
         { id: "ship1", href: "../images/ship1.png", width: 5, posiciones: [] },
         { id: "ship2", href: "../images/ship2.png", width: 4, posiciones: [] },
         { id: "ship3", href: "../images/ship3.png", width: 5, posiciones: [] },
@@ -109,7 +103,6 @@
         { id: "ship5", href: "../images/ship5.png", width: 3, posiciones: [] }
     ];
 
-      
       //TABLEROS Y BARCOS --------------------------------------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -282,11 +275,7 @@ function agregarPosicionOcupada(posicionId) {
     }
 });
 
-
-
-
       //TABLEROS Y BARCOS --------------------------------------------------------------------------------------------------------
-
 
     //CONEXION/SERVIDOR-----------------------------------------------------------------------------------------------------------------
 const WEBSOCKET_SCHEME = 'ws';
@@ -440,12 +429,8 @@ socket.addEventListener('message', (event) => {
             // Actualiza los tableros dependiendo si fue un hit o miss
             actualizarTableroJugador(move, 'tablero-propio', hit);
         }
-
-
-        
         
     }
-
 
 });
 function actualizarTableroJugador(move, tableroId, isHit) {
@@ -478,7 +463,6 @@ function actualizarTableroJugador(move, tableroId, isHit) {
         cell.style.color = 'grey'; // Color temporal para diferenciar los ataques enviados
     }
 
-
     let barcosHundidos = 0;
 
 barcos.forEach(barco => {
@@ -505,18 +489,9 @@ if (barcosHundidos > 0) {
     const playerName = document.getElementById('jugador1-name').value;
     socket.send(JSON.stringify({ type: 'estadoHundido', hundido , playerName, gameId }));
 
-      
-
 }
 
-
-
-
-
-
 }
-
-
 
     </script>
 </body>

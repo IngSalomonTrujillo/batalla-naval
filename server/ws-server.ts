@@ -26,12 +26,12 @@ const games: Record<string, Game> = {};
 /**
  * Tipos de mensajes que se reciben a través de la conexión WebSocket.
  */
-type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'hit' | 'leave' | 'estadoHundido';
+type InboundMessage = 'create' | 'join' | 'start' | 'move' | 'hit' | 'leave' | 'estadoHundido' | 'shipPositions';
 
 /**
  * Tipos de mensajes que se envían a través de la conexión WebSocket.
  */
-type OutboundMessage = 'gameCreated' | 'playerJoined' | 'gameStarted' | 'move' | 'playerLeft' | 'leftGame' | 'defeatship' | 'estadoHit' | 'error' | 'info';
+type OutboundMessage = 'gameCreated' | 'playerJoined' | 'gameStarted' | 'move' | 'playerLeft' | 'leftGame' | 'defeatship' | 'estadoHit' | 'error' | 'info' | 'shipPositions';
 
 /**
  * Interfaz de mensaje que se envía y se recibe a través de la conexión WebSocket.
@@ -48,6 +48,7 @@ interface Message {
     size?: number;
     hit?: boolean;
     hundido?: number;
+    posicionesBarcos?: [];
 }
 
 /**
@@ -164,6 +165,12 @@ function handleMessage(socket: WebSocket, message: Message) {
             // iniciar.
             handleStartGame(socket, message.gameId);
             break;
+
+
+        case 'shipPositions':
+            handleShipPositions(socket, message.gameId, message.playerName, message.posicionesBarcos);
+            break;
+
         case 'move':
             // Para manejar los movimientos de los jugadores, se necesita la conexión WebSocket del jugador, el ID del
             // juego y el movimiento del jugador. El movimiento se reenvía a todos los jugadores en el juego.
@@ -246,20 +253,7 @@ else {
 
 
 /**
- * Maneja el evento de unión a un juego (tipo de mensaje recibido desde el cliente: join). Agrega al cliente que se une
- * al juego como un jugador adicional en el juego existente.
- * Si el juego no existe o ya está en curso, se envía un mensaje de error al cliente.
- * Si el juego ya tiene 4 jugadores, se envía un mensaje de error al cliente.
- * Si el cliente se une con éxito al juego, se notifica a todos los jugadores en el juego.
- * Si el cliente no especifica un ID de juego, se envía un mensaje de error al cliente.
- * Si el cliente especifica un ID de juego que no existe, se envía un mensaje de error al cliente.
- * Si el cliente especifica un ID de juego válido pero no se une con éxito, se envía un mensaje de error al cliente.
- * Si el cliente especifica un ID de juego válido y se une con éxito, se notifica a todos los jugadores en el juego.
- * Si el cliente especifica un ID de juego válido y se une con éxito, pero el juego ya ha comenzado, se envía un mensaje
- * de error al cliente.
- * Si el cliente especifica un ID de juego válido y se une con éxito, pero el juego ya tiene 4 jugadores, se envía un
- * mensaje de error al cliente.
- * Si el cliente especifica un ID de juego válido y se une con éxito, se notifica a todos los jugadores en el juego.
+ *
  *
  * @param {WebSocket} socket - El socket del cliente que se une al juego.
  * @param {string} [gameId] - El ID del juego al que se une el cliente.
@@ -308,10 +302,6 @@ function handleJoinGame(socket: WebSocket, gameId?: string, playerName?: string,
         sendMessage(player.socket, { type: 'playerJoined', gameId, playerCount: game.players.length, playerName }); 
     });
 
-    // Se dejó esta lógica por si se quiere enviar un mensaje especial solo al jugador que se unió al juego. Sin
-    // embargo, en este caso, se envía el mismo mensaje a todos los jugadores en el juego, por lo que no es del todo
-    // necesario. De acuerdo a lo que se hizo, es un tanto más eficiente eliminar el "if (player !== socket)" y enviar
-    // el mensaje a todos los jugadores, incluido el que se unió...
     sendMessage(socket, { type: 'playerJoined', gameId, playerCount: game.players.length, playerName  });
 }
 
@@ -355,6 +345,45 @@ function handleStartGame(socket: WebSocket, gameId?: string) {
 
     sendMessage(socket, { type: 'gameStarted', gameId });
 }
+
+
+/**
+ * Maneja el evento de mandar las posiciones de los barcos
+ 
+ */
+function handleShipPositions(socket: WebSocket, gameId?:string, playerName?:string, posicionesBarcos?:[])
+{
+    if (!gameId) {
+        sendMessage(socket, { type: 'error', message: 'No se especificó ningún ID de juego...' });
+        return;
+    }
+
+    if (!playerName) {
+        sendMessage(socket, { type: 'error', message: 'No se especificó ningún nombre de jugador error player name...' });
+        return;
+    }
+
+    if(posicionesBarcos === undefined || !Array.isArray(posicionesBarcos)){
+        sendMessage(socket, { type: 'error', message: 'No llegan las posiciones' });
+    }
+
+    const game = games[gameId];
+
+    if (!game) {
+        sendMessage(socket, { type: 'error', message: `No se encontró ningún juego bajo el ID "${gameId}"` });
+        return;
+    }
+
+    game.players.forEach((player) => {
+        
+            sendMessage(player.socket, { type: 'shipPositions', gameId, playerName , posicionesBarcos});
+        
+    });
+
+    sendMessage(socket, { type: 'shipPositions', gameId, playerName , posicionesBarcos});
+
+}
+
 /**
  * Maneja el evento de movimiento de un jugador (tipo de mensaje recibido desde el cliente: move).
  *
@@ -415,7 +444,6 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
 
  function handleHit(socket: WebSocket, move?: string, hit?: boolean, playerName?:string, gameId?: string) {
 
-
     if (move === undefined || move === null || move === '') {
         sendMessage(socket, { type: 'error', message: '¡Debe especificarse un movimiento!' });
         return;
@@ -424,13 +452,11 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
         sendMessage(socket, { type: 'error', message: 'No se especificó ningún ID de juego...' });
         return;
     }
-
-    
+ 
     if (!playerName) {
         sendMessage(socket, { type: 'error', message: 'No se especificó ningún nombre de juego...' });
         return;
     }
-
 
     const game = games[gameId];
 
@@ -449,8 +475,6 @@ function handleMove(socket: WebSocket, gameId?: string, move?: string , playerNa
         
     
 }
-
-
 
 /**
  * Maneja el evento de abandono de un jugador (tipo de mensaje recibido desde el cliente: leave).
@@ -483,7 +507,6 @@ function handleLeaveGame(socket: WebSocket, gameId?: string) {
 
     sendMessage(socket, { type: 'leftGame', gameId });
 }
-
 /**
  * Maneja el evento de desconexión de un jugador (evento de cierre de la conexión WebSocket).
  *

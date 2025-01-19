@@ -111,178 +111,175 @@
 
       
       //TABLEROS Y BARCOS --------------------------------------------------------------------------------------------------------
-    document.addEventListener("DOMContentLoaded", function () {
-    const tableros = document.querySelectorAll(".tablero-propio, .tablero-enemigo");
-    const letras = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-    const numeros = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
-    let barcosColocados = 0;
-    let posicionesOcupadas = [];
-    let barcosEnemigos = [];
+document.addEventListener("DOMContentLoaded", function () {
+const tableros = document.querySelectorAll(".tablero-propio, .tablero-enemigo");
+const letras = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+const numeros = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
-    const barcoContainer = document.querySelector(".barcos");
-    barcos.forEach(barco => {
-        const img = document.createElement("img");
-        img.src = barco.href;
-        img.id = barco.id;
-        img.className = "barco";
-        img.draggable = true;
-        img.setAttribute("data-width", barco.width);
-        img.setAttribute("data-rotation", "0");
-        img.onerror = function () {
-            console.error("No se pudo cargar la imagen: " + barco.href);
-        };
-        barcoContainer.appendChild(img);
-        img.addEventListener("dragstart", (e) => {
-            if (barcosColocados >= 5) {
-                e.preventDefault();
-                alert("Ya has colocado el máximo de 5 barcos.");
-                return;
-            }
-            e.dataTransfer.setData("text", barco.id);
-        });
-        img.addEventListener("click", function () {
-            const currentRotation = parseInt(img.getAttribute("data-rotation") || "0");
-            const newRotation = (currentRotation + 90) % 360;
-            img.style.transform = `rotate(${newRotation}deg)`;
-            img.setAttribute("data-rotation", newRotation);
-        });
-    });
+let barcosColocados = 0;
+let posicionesOcupadas = [];
+const barcoContainer = document.querySelector(".barcos");
 
-    tableros.forEach(tablero => {
-        for (let i = 0; i <= letras.length; i++) {
-            const div = document.createElement("div");
-            div.className = "posición header";
-            if (i > 0) {
-                div.textContent = letras[i - 1];
-            }
-            tablero.appendChild(div);
-        }
-        for (let i = 0; i < numeros.length; i++) {
-            for (let j = 0; j <= letras.length; j++) {
-                const div = document.createElement("div");
-                if (j === 0) {
-                    div.className = "posición header";
-                    div.textContent = numeros[i];
-                } else {
-                    div.className = "posición";
-                    div.id = `${letras[j - 1]}${numeros[i]}`;
-                }
-                tablero.appendChild(div);
-            }
-        }
-    });
+barcos.forEach(barco => {
+  const img = document.createElement("img");
+  img.src = barco.href;
+  img.id = barco.id;
+  img.className = "barco";
+  img.draggable = true;
+  img.setAttribute("data-width", barco.width);
+  img.setAttribute("data-rotation", "0");
+  barcoContainer.appendChild(img);
 
-    function verificarPosicionOcupada(posicionId) {
-        return posicionesOcupadas.includes(posicionId);
-    }
+  // Drag and drop setup
+  img.addEventListener("dragstart", (e) => {
+      if (barcosColocados >= 5) {
+          e.preventDefault();
+          alert("Ya has colocado el máximo de 5 barcos.");
+          return;
+      }
+      e.dataTransfer.setData("text", barco.id);
+  });
 
-    function agregarPosicionOcupada(posicionId) {
-        if (!posicionesOcupadas.includes(posicionId)) {
-            posicionesOcupadas.push(posicionId);
-        }
-    }
+  img.addEventListener("click", function () {
+      const currentRotation = parseInt(img.getAttribute("data-rotation") || "0");
+      const newRotation = (currentRotation + 90) % 360;
+      img.style.transform = `rotate(${newRotation}deg)`;
+      img.setAttribute("data-rotation", newRotation);
+  });
+});
 
-    document.addEventListener('dragover', function (e) {
-        e.preventDefault();
-    });
+// Crear el tablero
+tableros.forEach(tablero => {
+  for (let i = 0; i <= letras.length; i++) {
+      const div = document.createElement("div");
+      div.className = "posición header";
+      if (i > 0) div.textContent = letras[i - 1];
+      tablero.appendChild(div);
+  }
 
-    document.addEventListener('drop', function (e) {
-        const tableroPropio = document.querySelector(".tablero-propio");
-        if (tableroPropio.contains(e.target) && e.target.classList.contains('posición')) {
-            if (barcosColocados >= 5) {
-                alert("Ya has colocado el máximo de 5 barcos.");
-                return;
-            }
-            const barcoId = e.dataTransfer.getData("text");
-            const barco = barcos.find(b => b.id === barcoId);
-            const posicionId = e.target.id;
-            const letra = posicionId.charAt(0);
-            const numero = parseInt(posicionId.substring(1));
-            if (letra === "A" || numero === 1) {
-                alert("No puedes colocar el barco en la primera fila ni en la primera columna.");
-                return;
-            }
-            if (verificarPosicionOcupada(posicionId)) {
-                alert("Esta posición ya está ocupada.");
-                return;
-            }
-            const startIdx = letras.indexOf(letra);
-            if (startIdx + barco.width > letras.length) {
-                alert("El barco no cabe en esta posición.");
-                return;
-            }
-            const rotation = parseInt(document.getElementById(barco.id).getAttribute("data-rotation") || "0");
-            let targetPositionX = e.target.offsetLeft;
-            let targetPositionY = e.target.offsetTop;
-            const posicionesBarco = calcularPosicionesOcupadas(posicionId, barco.width, rotation);
-            console.log(`El barco ${barco.id} ha sido colocado en las siguientes posiciones:`);
-            barco.posiciones = posicionesBarco;
-            console.log(posicionesBarco);
-            barcos.forEach(barco => {
-            console.log(`Barco ${barco.id} con ancho ${barco.width} tiene posiciones: ${barco.posiciones}`);});
-            for (let posicion of posicionesBarco) {
-                if (verificarPosicionOcupada(posicion)) {
-                    alert("No puedes colocar el barco porque hay otro barco en las posiciones.");
-                    return;
-                }
-            }
-            const imgClone = document.getElementById(barco.id).cloneNode(true);
-            imgClone.style.position = "absolute";
-            imgClone.style.left = `${targetPositionX}px`;
-            imgClone.style.top = `${targetPositionY}px`;
-            tableroPropio.appendChild(imgClone);
-            imgClone.draggable = false;
-            imgClone.setAttribute("data-colocado", "true");
-            const imgOriginal = document.getElementById(barco.id);
-            imgOriginal.remove();
-            barcosColocados++;
-            posicionesBarco.forEach(p => agregarPosicionOcupada(p));
-            imgClone.addEventListener('click', function () {
-                imgClone.remove();
-                barcosColocados--;
-                posicionesBarco.forEach(p => {
-                    const idx = posicionesOcupadas.indexOf(p);
-                    if (idx !== -1) posicionesOcupadas.splice(idx, 1);
-                });
-                const imgOriginal = document.createElement("img");
-                imgOriginal.src = barco.href;
-                imgOriginal.id = barco.id;
-                imgOriginal.className = "barco";
-                imgOriginal.draggable = true;
-                imgOriginal.setAttribute("data-width", barco.width);
-                imgOriginal.setAttribute("data-rotation", "0");
-                barcoContainer.appendChild(imgOriginal);
-            });
-            barcosEnemigos.push({ id: barco.id, posiciones: posicionesBarco });
+  for (let i = 0; i < numeros.length; i++) {
+      for (let j = 0; j <= letras.length; j++) {
+          const div = document.createElement("div");
+          if (j === 0) {
+              div.className = "posición header";
+              div.textContent = numeros[i];
+          } else {
+              div.className = "posición";
+              div.id = `${letras[j - 1]}${numeros[i]}`;
+          }
+          tablero.appendChild(div);
+      }
+  }
+});
 
-            // Guardamos las posiciones en el array global
-            posicionesBarcosGlobal.push(...posicionesBarco); 
+document.addEventListener('dragover', function (e) {
+  e.preventDefault();
+});
 
-        }
-    });
+document.addEventListener('drop', function (e) {
+  const tableroPropio = document.querySelector(".tablero-propio");
+  if (tableroPropio.contains(e.target) && e.target.classList.contains('posición')) {
+      if (barcosColocados >= 5) {
+          alert("Ya has colocado el máximo de 5 barcos.");
+          return;
+      }
 
-    function calcularPosicionesOcupadas(posicionId, width, rotation) {
-        const posiciones = [];
-        const letra = posicionId.charAt(0);
-        const numero = parseInt(posicionId.substring(1));
-        const filaIndex = letras.indexOf(letra);
-        for (let i = 0; i < width; i++) {
-            if (rotation === 0) {
-                const columna = numero + i;
-                if (columna > 10) break;
-                posiciones.push(`${letra}${columna}`);
-            } else if (rotation === 90) {
-                const fila = letras[filaIndex + i];
-                if (!fila) break;
-                posiciones.push(`${fila}${numero}`);
-            }
-        }
-        return posiciones;
-    }
+      const barcoId = e.dataTransfer.getData("text");
+      const barco = barcos.find(b => b.id === barcoId);
+      const posicionId = e.target.id;
 
+      const rotation = parseInt(document.getElementById(barco.id).getAttribute("data-rotation") || "0");
+      const posicionesBarco = calcularPosicionesOcupadas(posicionId, barco.width, rotation);
 
-   
+      // Validar si todas las posiciones del barco están disponibles
+      if (!posicionesBarco.every(pos => letras.includes(pos.charAt(0)) && !verificarPosicionOcupada(pos))) {
+          alert("El barco no cabe o interfiere con otro barco.");
+          return;
+      }
+
+      // Colocar el barco en el tablero
+      const imgClone = document.getElementById(barco.id).cloneNode(true);
+      imgClone.style.position = "absolute";
+      imgClone.style.left = `${e.target.offsetLeft}px`;
+      imgClone.style.top = `${e.target.offsetTop}px`;
+      tableroPropio.appendChild(imgClone);
+      imgClone.draggable = false;
+
+      // Configurar restauración del barco al contenedor
+      imgClone.addEventListener("click", function () {
+          imgClone.remove();
+          barcosColocados--;
+
+          // Liberar posiciones ocupadas
+          posicionesBarco.forEach(pos => {
+              const idx = posicionesOcupadas.indexOf(pos);
+              if (idx !== -1) posicionesOcupadas.splice(idx, 1);
+          });
+
+          // Restaurar el barco al contenedor
+          const imgOriginal = document.createElement("img");
+          imgOriginal.src = barco.href;
+          imgOriginal.id = barco.id;
+          imgOriginal.className = "barco";
+          imgOriginal.draggable = true;
+          imgOriginal.setAttribute("data-width", barco.width);
+          imgOriginal.setAttribute("data-rotation", "0");
+          barcoContainer.appendChild(imgOriginal);
+
+          // Configurar nuevamente sus eventos
+          imgOriginal.addEventListener("dragstart", (e) => {
+              if (barcosColocados >= 5) {
+                  e.preventDefault();
+                  alert("Ya has colocado el máximo de 5 barcos.");
+                  return;
+              }
+              e.dataTransfer.setData("text", barco.id);
+          });
+
+          imgOriginal.addEventListener("click", function () {
+              const currentRotation = parseInt(imgOriginal.getAttribute("data-rotation") || "0");
+              const newRotation = (currentRotation + 90) % 360;
+              imgOriginal.style.transform = `rotate(${newRotation}deg)`;
+              imgOriginal.setAttribute("data-rotation", newRotation);
+          });
+      });
+
+      barcosColocados++;
+      posicionesBarco.forEach(pos => agregarPosicionOcupada(pos));
+      document.getElementById(barco.id).remove();
+  }
+});
+
+function calcularPosicionesOcupadas(posicionId, width, rotation) {
+  const posiciones = [];
+  const letra = posicionId.charAt(0);
+  const numero = parseInt(posicionId.substring(1));
+  const filaIndex = letras.indexOf(letra);
+
+  for (let i = 0; i < width; i++) {
+      if (rotation === 0) { // Horizontal
+          const nuevaColumna = numero + i;
+          if (nuevaColumna > 10) break;
+          posiciones.push(letra + nuevaColumna);
+      } else if (rotation === 90) { // Vertical
+          const nuevaFila = letras[filaIndex + i];
+          if (!nuevaFila) break;
+          posiciones.push(nuevaFila + numero);
+      }
+  }
+  return posiciones;
+}
+
+function verificarPosicionOcupada(posicionId) {
+  return posicionesOcupadas.includes(posicionId);
+}
+
+function agregarPosicionOcupada(posicionId) {
+  if (!posicionesOcupadas.includes(posicionId)) {
+      posicionesOcupadas.push(posicionId);
+     }
+    }
 });
 
 

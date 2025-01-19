@@ -82,7 +82,7 @@
                           <h2 id="name-J4">Jugador 4</h2>
                           <div id="jugador4">60</div>
                       </div>
-                      <div class="tablero-propio" id="tablero-propio-solo-5"></div>
+                      <div class="tablero-enemigo" id="tablero-enemigo-solo-5"></div>
                   </div>
                 </div>
             </div>
@@ -318,8 +318,10 @@ let disparo = false;
 let aux= false;
 let posBarcosJ2 = [];
 let posBarcosJ3 = [];
+let posBarcosJ4 = [];
 let j2name = '';
 let j3name = '';
+let j4name = '';
 let auxenemigo = '';
 const socket = new WebSocket(WEBSOCKET_URL);
 console.log('Posiciones de los barcos: ', posicionesBarcosGlobal);
@@ -331,7 +333,7 @@ socket.addEventListener('open', () => {
 // Manejo de la creación de partida
 document.getElementById('crear-partida').addEventListener('click', () => {
     const playerName = document.getElementById('jugador1-name').value;
-    const size = 3;
+    const size = 4;
     modojuego = true;
 
 
@@ -348,7 +350,7 @@ document.getElementById('crear-partida').addEventListener('click', () => {
 document.getElementById('join-game').addEventListener('click', () => {
     const playerName = document.getElementById('jugador1-name').value;
     const gameId = document.getElementById('id-juego').value ? document.getElementById('id-juego').value : document.getElementById('id-partida').value;
-    const size = 3;
+    const size = 4;
     modojuego = false;
 
     if (playerName && gameId) {
@@ -431,6 +433,11 @@ socket.addEventListener('message', (event) => {
             console.log("Posiciones del Jugador 3:", posBarcosJ3);
             j3name = message.playerName;
         }
+        else if (posBarcosJ4.length === 0 && j4name !== message.playerName) {
+            posBarcosJ4 = message.posicionesBarcos;
+            console.log("Posiciones del Jugador 4:", posBarcosJ4);
+            j4name = message.playerName;
+        }
     }
 }
 
@@ -468,6 +475,7 @@ document.getElementById('atacar-enemigo').addEventListener('click', () => {
     const playerName = document.getElementById('jugador1-name').value;
     let hitj2=false;
     let hitj3=false;
+    let hitj4=false;
 
 
     if (/^[A-J]([1-9]|10)$/.test(move)) {
@@ -493,6 +501,17 @@ document.getElementById('atacar-enemigo').addEventListener('click', () => {
          }
         if(hitj3===false){
             actualizarTableroJugador(move, 'tablero-enemigo-solo-4', hitj3);
+        } 
+
+        for (let i = 0; i < posBarcosJ4.length; i++) {
+            if (posBarcosJ4[i] === move) {
+               hitj4=true;
+               actualizarTableroJugador(move, 'tablero-enemigo-solo-5', hitj4);
+               break; // Opcional: detener el ciclo una vez que se encuentra el valor
+           }
+         }
+        if(hitj4===false){
+            actualizarTableroJugador(move, 'tablero-enemigo-solo-5', hitj4);
         } 
        
     } else {

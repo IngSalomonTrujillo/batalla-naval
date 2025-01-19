@@ -310,14 +310,19 @@ main h2 {
 }
 
 .barcoshundidos {
-    text-align: center;
-    font-size: 2rem;
-    color: green;
+    color: #FFFFFF; /* Blanco puro para el texto */
+    font-size: 28px; /* Tamaño de fuente más grande */
+    font-weight: bold; /* Texto en negrita */
+    text-align: center; /* Centrar el texto */
+    margin-top: 10px; /* Espaciado superior */
+    text-shadow: 2px 2px 4px #000000; /* Sombra negra para destacar el texto */
+    background: none; /* Fondo completamente transparente */
+    border: none; /* Sin bordes */
+    padding: 10px; /* Espaciado interno */
+    width: 100%; /* Usar todo el ancho disponible */
 }
-.barcoshundidos{}
-.informacion-partida {
-    text-align: center;
-}
+
+
 
 .principal-jugar-solo a {
     color: #fff;
